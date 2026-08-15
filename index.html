@@ -111,7 +111,10 @@
 
   .model-stack{position:absolute; left:50%; bottom:36px; transform:translateX(-50%); width:210px;}
   .model-stack img{width:100%; height:auto; display:block;}
-  .model-ghost{opacity:.16; filter:grayscale(1) brightness(2.6);}
+.model-ghost{
+  opacity:0;
+  pointer-events:none;
+}
   .model-built{
     position:absolute; inset:0 0 0 0;
     animation:build-reveal 6s cubic-bezier(.65,0,.35,1) infinite;
@@ -326,6 +329,10 @@
         <div class="bed-plate"></div>
 
         <div class="model-stack">
+            <div class="model-ghost">
+    <img src="kimo.logo.png" alt="">
+  </div>
+
           <div class="model-built">
             <img src="kimo.logo.png" alt="Hyper Print Labs">
           </div>
