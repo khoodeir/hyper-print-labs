@@ -21,6 +21,7 @@
     --petrol-2:#0a4448;
     --tan:#a9764f;
     --tan-2:#7d5738;
+    --wa:#25D366;
     --r-1:14px;
     --r-2:22px;
   }
@@ -109,24 +110,25 @@
   .print-rig .bed{position:absolute; left:0; right:0; bottom:26px; height:3px; border-radius:2px; background:linear-gradient(90deg, transparent, var(--cyan), transparent); box-shadow:0 0 18px 2px rgba(46,197,214,.55);}
   .print-rig .bed-plate{position:absolute; left:14px; right:14px; bottom:14px; height:10px; border-radius:6px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);}
 
-.model-stack{
-  position:absolute;
-  left:50%;
-  bottom:36px;
-  transform:translateX(-50%);
-  width:300px;
-  height:260px;
-}
- .model-stack img{
-  width:140%;
-  height:auto;
-  display:block;
-  margin-left:-20%;
-}
-.model-ghost{
-  opacity:0;
-  pointer-events:none;
-}
+  .model-stack{
+    position:absolute;
+    left:50%;
+    bottom:36px;
+    transform:translateX(-50%);
+    width:220px;
+    height:240px;
+    overflow:hidden;
+  }
+  .model-stack img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+  }
+  .model-ghost{
+    opacity:0;
+    pointer-events:none;
+  }
   .model-built{
     position:absolute; inset:0 0 0 0;
     animation:build-reveal 6s cubic-bezier(.65,0,.35,1) infinite;
@@ -269,6 +271,15 @@
   .waitlist-form button:hover{transform:scale(1.035);}
   .form-note{font-family:'JetBrains Mono',monospace; direction:ltr; font-size:11px; color:#89a0a7; margin-top:12px;}
 
+  .wa-inline{
+    display:inline-flex; align-items:center; gap:10px;
+    margin-top:16px; color:#e8f5ee; font-family:'JetBrains Mono',monospace; direction:ltr; font-size:13px;
+    background:rgba(37,211,102,.14); border:1px solid rgba(37,211,102,.4);
+    padding:10px 16px; border-radius:999px; transition:background .2s ease, transform .2s ease;
+  }
+  .wa-inline:hover{background:rgba(37,211,102,.24); transform:translateY(-1px);}
+  .wa-inline svg{width:17px; height:17px; flex-shrink:0;}
+
   /* ===== FOOTER ===== */
   footer{padding:60px 0 32px; border-top:1px solid var(--fog-2); margin-top:96px;}
   .footer-grid{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px; margin-bottom:40px;}
@@ -277,6 +288,31 @@
   .foot-col a{display:block; color:var(--navy); font-size:14.5px; font-weight:600; margin-bottom:10px; opacity:.8;}
   .foot-col a:hover{opacity:1; color:var(--petrol);}
   .foot-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:24px; border-top:1px solid var(--fog-2); font-size:12.5px; color:var(--slate-2); font-family:'JetBrains Mono',monospace; direction:ltr;}
+
+  /* ===== FLOATING WHATSAPP BUTTON ===== */
+  .wa-float{
+    position:fixed; bottom:26px; left:26px; z-index:60;
+    width:58px; height:58px; border-radius:50%;
+    background:var(--wa); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px -6px rgba(37,211,102,.6);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .wa-float:hover{transform:translateY(-3px) scale(1.05); box-shadow:0 14px 30px -6px rgba(37,211,102,.7);}
+  .wa-float svg{width:30px; height:30px;}
+  .wa-float::before{
+    content:""; position:absolute; inset:0; border-radius:50%;
+    background:var(--wa); opacity:.55;
+    animation:wa-pulse 2.2s ease-out infinite;
+    z-index:-1;
+  }
+  @keyframes wa-pulse{
+    0%{transform:scale(1); opacity:.55;}
+    100%{transform:scale(1.7); opacity:0;}
+  }
+  @media (max-width:920px){
+    .wa-float{bottom:18px; left:18px; width:52px; height:52px;}
+    .wa-float svg{width:26px; height:26px;}
+  }
 
   /* reveal on scroll */
   .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
@@ -300,6 +336,10 @@
 </style>
 </head>
 <body>
+
+<a class="wa-float" href="https://wa.me/201021226608" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">
+  <svg viewBox="0 0 24 24" fill="#fff"><path d="M12.02 2C6.5 2 2.03 6.47 2.03 12c0 1.77.46 3.44 1.27 4.89L2 22l5.25-1.28A9.94 9.94 0 0 0 12.02 22C17.55 22 22 17.53 22 12S17.55 2 12.02 2Zm0 18.13c-1.6 0-3.09-.44-4.36-1.21l-.31-.18-3.12.76.79-3.04-.2-.32a8.13 8.13 0 0 1-1.26-4.34c0-4.5 3.66-8.16 8.17-8.16 4.5 0 8.16 3.66 8.16 8.16 0 4.51-3.66 8.33-8.16 8.33Zm4.48-6.12c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.28.18-.53.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.44-1.35-1.68-.14-.24-.02-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42-.14 0-.3-.02-.46-.02-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.13 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg>
+</a>
 
 <header>
   <div class="wrap navbar">
@@ -340,10 +380,10 @@
         <div class="bed"></div>
         <div class="bed-plate"></div>
 
-       <div class="model-stack">
-  <img class="model-built" src="h_logo.png" alt="Hyper H Logo">
+        <div class="model-stack">
+          <img class="model-built" src="h_logo.png" alt="Hyper H Logo">
 
-  <div class="scanline"></div>
+          <div class="scanline"></div>
           <div class="nozzle-wrap">
             <div class="nozzle-jit">
               <svg viewBox="0 0 26 30" fill="none">
@@ -456,6 +496,10 @@
         <div>
           <h2>عايز قطعة مخصصة دلوقتي؟</h2>
           <p>ابعتلنا فكرتك أو الملف، وهنرد عليك بسعر ومدة التنفيذ خلال يوم عمل. أو اشترك عشان توصلك أول إشعار لما المنتجات تفتح.</p>
+          <a class="wa-inline" href="https://wa.me/201021226608" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="#25D366"><path d="M12.02 2C6.5 2 2.03 6.47 2.03 12c0 1.77.46 3.44 1.27 4.89L2 22l5.25-1.28A9.94 9.94 0 0 0 12.02 22C17.55 22 22 17.53 22 12S17.55 2 12.02 2Zm0 18.13c-1.6 0-3.09-.44-4.36-1.21l-.31-.18-3.12.76.79-3.04-.2-.32a8.13 8.13 0 0 1-1.26-4.34c0-4.5 3.66-8.16 8.17-8.16 4.5 0 8.16 3.66 8.16 8.16 0 4.51-3.66 8.33-8.16 8.33Zm4.48-6.12c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.28.18-.53.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.44-1.35-1.68-.14-.24-.02-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42-.14 0-.3-.02-.46-.02-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.13 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg>
+            +20 10 21226608
+          </a>
         </div>
         <div>
           <form class="waitlist-form" onsubmit="return handleSubmit(event)">
@@ -485,6 +529,7 @@
         <div class="foot-col">
           <h4>CONTACT</h4>
           <a href="#waitlist">اطلب طباعة مخصصة</a>
+          <a href="https://wa.me/201021226608" target="_blank" rel="noopener">واتساب: 01021226608+</a>
         </div>
       </div>
     </div>
