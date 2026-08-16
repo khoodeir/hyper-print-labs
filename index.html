@@ -249,8 +249,16 @@
 <div id="app"></div>
 <div id="toast" class="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ⚠️ حطي بيانات مشروعك من Supabase هنا (Project Settings → API)
+  const SUPABASE_URL = 'https://myvxroegtectghbalnom.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15dnhyb2VndGVjdGdoYmFsbm9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4OTk5MjcsImV4cCI6MjEwMjQ3NTkyN30.hAJ2nt8ib_oQHmEBHxshH03OkSs1E-iqxt5dkNLNFFA';
+</script>
 <script>
 (function(){
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
   const state = {
     view: 'store', // store | admin
     adminTab: 'products', // products | orders | settings
@@ -265,8 +273,6 @@
     editingProduct: null,
   };
 
-  const PASSCODE = '2026';
-
   function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
   function money(n){ return Number(n||0).toLocaleString('ar-EG') + ' ج.م'; }
   function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -278,41 +284,45 @@
     setTimeout(()=>t.classList.remove('show'), 2200);
   }
 
-  async function safeGet(key, shared){
-    try{
-      const res = await window.storage.get(key, shared);
-      return res ? res.value : null;
-    }catch(e){ return null; }
+  function loadCart(){
+    try{ return JSON.parse(localStorage.getItem('cart')||'{}'); }catch(e){ return {}; }
   }
-  async function safeSet(key, value, shared){
-    try{
-      await window.storage.set(key, value, shared);
-      return true;
-    }catch(e){ return false; }
+  function persistCart(){ localStorage.setItem('cart', JSON.stringify(state.cart)); }
+
+  async function refreshProducts(){
+    const { data, error } = await supabase.from('products').select('*').order('created_at',{ascending:true});
+    if(!error && data) state.products = data;
+  }
+  async function refreshOrders(){
+    const { data, error } = await supabase.from('orders').select('*').order('created_at',{ascending:false});
+    if(!error && data) state.orders = data;
+  }
+  async function refreshSettings(){
+    const { data, error } = await supabase.from('store_settings').select('*').eq('id',1).single();
+    if(!error && data) state.settings = { name: data.name, tagline: data.tagline };
   }
 
   async function loadAll(){
-    const [productsRaw, ordersRaw, settingsRaw, cartRaw, adminAuthRaw] = await Promise.all([
-      safeGet('products', true),
-      safeGet('orders', true),
-      safeGet('settings', true),
-      safeGet('cart', false),
-      safeGet('admin_auth', false),
-    ]);
-    if(productsRaw){ try{ state.products = JSON.parse(productsRaw); }catch(e){ state.products = []; } }
-    if(ordersRaw){ try{ state.orders = JSON.parse(ordersRaw); }catch(e){ state.orders = []; } }
-    if(settingsRaw){ try{ state.settings = JSON.parse(settingsRaw); }catch(e){} }
-    if(cartRaw){ try{ state.cart = JSON.parse(cartRaw); }catch(e){ state.cart = {}; } }
-    if(adminAuthRaw === 'true'){ state.adminAuthed = true; }
-    if(location.hash === '#admin'){ state.view = 'admin'; }
-    state.loading = false;
-    render();
+    try{
+      const { data: { session } } = await supabase.auth.getSession();
+      state.adminAuthed = !!session;
+      await Promise.all([refreshProducts(), refreshSettings()]);
+      state.cart = loadCart();
+      if(location.hash === '#admin'){ state.view = 'admin'; }
+      if(state.adminAuthed && state.view === 'admin'){ await refreshOrders(); }
+      state.loading = false;
+      render();
+    }catch(err){
+      state.loading = false;
+      state.loadError = (err && err.message) ? err.message : 'حصل خطأ في الاتصال بقاعدة البيانات';
+      render();
+    }
   }
 
-  async function persistProducts(){ await safeSet('products', JSON.stringify(state.products), true); }
-  async function persistOrders(){ await safeSet('orders', JSON.stringify(state.orders), true); }
-  async function persistSettings(){ await safeSet('settings', JSON.stringify(state.settings), true); }
-  async function persistCart(){ await safeSet('cart', JSON.stringify(state.cart), false); }
+  supabase.auth.onAuthStateChange((_event, session) => {
+    state.adminAuthed = !!session;
+    render();
+  });
 
   function cartCount(){ return Object.values(state.cart).reduce((a,b)=>a+b,0); }
   function cartItems(){
@@ -350,19 +360,17 @@
       ev.preventDefault();
       const f = ev.target;
       const order = {
-        id: uid(),
-        date: new Date().toISOString(),
-        name: f.name.value.trim(),
+        customer_name: f.name.value.trim(),
         phone: f.phone.value.trim(),
         address: f.address.value.trim(),
         note: f.note.value.trim(),
         items: cartItems().map(it=>({id:it.id,name:it.name,price:it.price,qty:it.qty})),
         total: cartTotal(),
       };
-      state.orders.unshift(order);
-      await persistOrders();
+      const { error } = await supabase.from('orders').insert(order);
+      if(error){ showToast('حصل خطأ، جربي تاني'); return; }
       state.cart = {};
-      await persistCart();
+      persistCart();
       state.checkoutStep = 'success';
       render();
     },
@@ -370,15 +378,26 @@
     goStore(){ state.view='store'; history.replaceState(null,'',location.pathname+location.search); render(); },
     async tryAuth(ev){
       ev.preventDefault();
-      const val = ev.target.pass.value;
-      if(val === PASSCODE){
-        state.adminAuthed = true;
-        await safeSet('admin_auth', 'true', false);
-        render();
-      }
-      else { showToast('الرمز غلط، جربي تاني'); }
+      const f = ev.target;
+      const { error } = await supabase.auth.signInWithPassword({
+        email: f.email.value.trim(),
+        password: f.password.value,
+      });
+      if(error){ showToast('بيانات الدخول غلط'); return; }
+      await refreshOrders();
+      render();
     },
-    setAdminTab(tab){ state.adminTab = tab; state.editingProduct=null; render(); },
+    async signOut(){
+      await supabase.auth.signOut();
+      state.view = 'store';
+      history.replaceState(null,'',location.pathname+location.search);
+      render();
+    },
+    async setAdminTab(tab){
+      state.adminTab = tab; state.editingProduct=null;
+      if(tab==='orders') await refreshOrders();
+      render();
+    },
     editProduct(id){
       state.editingProduct = state.products.find(p=>p.id===id) || null;
       state.adminTab = 'products';
@@ -388,8 +407,9 @@
     cancelEdit(){ state.editingProduct = null; render(); },
     async deleteProduct(id){
       if(!confirm('متأكدة إنك عايزة تمسحي المنتج ده؟')) return;
-      state.products = state.products.filter(p=>p.id!==id);
-      await persistProducts();
+      const { error } = await supabase.from('products').delete().eq('id', id);
+      if(error){ showToast('حصل خطأ في الحذف'); return; }
+      await refreshProducts();
       showToast('اتمسح المنتج');
       render();
     },
@@ -404,24 +424,27 @@
         badge: f.badge.value.trim(),
       };
       if(!data.name || !data.price){ showToast('لازم اسم وسعر للمنتج'); return; }
+      let error;
       if(state.editingProduct){
-        const idx = state.products.findIndex(p=>p.id===state.editingProduct.id);
-        state.products[idx] = {...state.editingProduct, ...data};
+        ({ error } = await supabase.from('products').update(data).eq('id', state.editingProduct.id));
+        if(!error) showToast('اتحدث المنتج ✨');
         state.editingProduct = null;
-        showToast('اتحدث المنتج ✨');
       } else {
-        state.products.push({ id: uid(), ...data });
-        showToast('اتضاف المنتج ✨');
+        ({ error } = await supabase.from('products').insert(data));
+        if(!error) showToast('اتضاف المنتج ✨');
       }
-      await persistProducts();
+      if(error){ showToast('حصل خطأ، جربي تاني'); return; }
+      await refreshProducts();
       f.reset();
       render();
     },
     async saveSettings(ev){
       ev.preventDefault();
       const f = ev.target;
-      state.settings = { name: f.sname.value.trim() || 'متجري ✨', tagline: f.tagline.value.trim() };
-      await persistSettings();
+      const data = { name: f.sname.value.trim() || 'متجري ✨', tagline: f.tagline.value.trim() };
+      const { error } = await supabase.from('store_settings').update(data).eq('id',1);
+      if(error){ showToast('حصل خطأ، جربي تاني'); return; }
+      state.settings = data;
       showToast('اتحفظت الإعدادات');
       render();
     },
@@ -567,9 +590,10 @@
         <div class="admin-gate">
           <span class="emoji">🔐</span>
           <h3>دخول لوحة التحكم</h3>
-          <p style="color:var(--ink-soft);font-size:13px;">ده رمز بسيط للحماية من الزوار العاديين، مش نظام حماية حقيقي.</p>
+          <p style="color:var(--ink-soft);font-size:13px;">بحساب الأدمن بتاعك في Supabase، إنتي بس اللي تقدري تدخلي بيه.</p>
           <form onsubmit="__actions.tryAuth(event)">
-            <div class="field"><input name="pass" type="password" placeholder="اكتبي الرمز" required></div>
+            <div class="field"><input name="email" type="email" placeholder="الإيميل" required></div>
+            <div class="field"><input name="password" type="password" placeholder="كلمة السر" required></div>
             <button type="submit" class="save-btn" style="width:100%;">دخول</button>
           </form>
         </div>
@@ -579,7 +603,10 @@
     return `
       <header class="topbar">
         <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">لوحة التحكم</div></div>
-        <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ رجوع للمتجر</a>
+        <div class="topbar-actions">
+          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ رجوع للمتجر</a>
+          <a href="#" class="admin-link" onclick="__actions.signOut();return false;">🚪 خروج</a>
+        </div>
       </header>
       <div class="admin-wrap">
         <div class="tabs">
@@ -636,12 +663,12 @@
         <h3>الطلبات</h3>
         ${state.orders.length===0 ? `<p style="color:var(--ink-soft);">لسه مفيش طلبات.</p>` : state.orders.map(o=>`
           <div class="order-card">
-            <div class="top"><span>${esc(o.name)}</span><span>${money(o.total)}</span></div>
+            <div class="top"><span>${esc(o.customer_name)}</span><span>${money(o.total)}</span></div>
             <div class="meta">
               📱 ${esc(o.phone)}<br>
               📍 ${esc(o.address)}<br>
               ${o.note ? `📝 ${esc(o.note)}<br>` : ''}
-              🕒 ${new Date(o.date).toLocaleString('ar-EG')}
+              🕒 ${new Date(o.created_at).toLocaleString('ar-EG')}
             </div>
             <ul>${o.items.map(it=>`<li>${esc(it.name)} × ${it.qty} — ${money(it.price*it.qty)}</li>`).join('')}</ul>
           </div>
@@ -655,7 +682,7 @@
     return `
       <div class="panel">
         <h3>إعدادات المتجر</h3>
-        <div class="muted-note">ملاحظة: المنتجات والطلبات والإعدادات مشتركة بين كل زوار الرابط ده — أي حد يفتح الرابط هيشوف نفس المتجر. سلة كل زائر شخصية بس.</div>
+        <div class="muted-note">المنتجات والطلبات والإعدادات محفوظة دائمًا في قاعدة بيانات Supabase — متاحة لأي زائر يفتح رابط المتجر، ومتضيعش أبدًا بالريفريش. سلة كل زائر شخصية بس (محفوظة على متصفحه هو).</div>
         <form onsubmit="__actions.saveSettings(event)">
           <div class="field"><label>اسم المتجر</label><input name="sname" required value="${esc(s.name)}"></div>
           <div class="field"><label>الجملة الترحيبية</label><textarea name="tagline" rows="2">${esc(s.tagline)}</textarea></div>
