@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>متجري ✨</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Cairo:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#FFF6FA;
+    --card:#FFFFFF;
+    --pink:#FF8FB1;
+    --pink-deep:#FF6B9E;
+    --lavender:#B9A6FF;
+    --gold:#FFD469;
+    --mint:#8FE3C7;
+    --ink:#3A2E3F;
+    --ink-soft:#83707F;
+    --radius:20px;
+    --shadow:0 10px 30px rgba(255,110,158,0.16);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Cairo',sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Baloo Bhaijaan 2','Cairo',sans-serif;
+    font-weight:700;
+  }
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  input,textarea,select{font-family:inherit;}
+  a{color:inherit;text-decoration:none;}
+  :focus-visible{outline:3px solid var(--pink-deep);outline-offset:2px;border-radius:6px;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(255,246,250,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid #FFE1EC;
+    padding:14px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .logo-badge{
+    width:38px;height:38px;border-radius:50%;
+    background:linear-gradient(135deg,var(--pink),var(--lavender));
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+    box-shadow:var(--shadow);
+  }
+  .brand-name{font-size:22px;color:var(--ink);}
+  .topbar-actions{display:flex;align-items:center;gap:10px;}
+  .icon-btn{
+    position:relative;
+    width:42px;height:42px;border-radius:50%;
+    background:#fff;box-shadow:var(--shadow);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;transition:transform .15s ease;
+  }
+  .icon-btn:hover{transform:translateY(-2px);}
+  .cart-count{
+    position:absolute;top:-4px;left:-4px;
+    background:var(--pink-deep);color:#fff;
+    font-size:11px;font-weight:700;
+    min-width:18px;height:18px;border-radius:9px;
+    display:flex;align-items:center;justify-content:center;padding:0 4px;
+  }
+  .admin-link{
+    font-size:13px;color:var(--ink-soft);
+    display:flex;align-items:center;gap:6px;
+    padding:8px 12px;border-radius:12px;background:#fff;box-shadow:var(--shadow);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    background:linear-gradient(135deg,var(--pink) 0%,var(--lavender) 100%);
+    color:#fff;
+    padding:64px 24px 90px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:radial-gradient(circle,rgba(255,255,255,0.35) 2px,transparent 2px);
+    background-size:38px 38px;opacity:.5;
+  }
+  .hero-inner{position:relative;max-width:640px;margin:0 auto;}
+  .hero h1{font-size:clamp(30px,5vw,46px);margin:0 0 12px;line-height:1.2;}
+  .hero p{font-size:17px;opacity:.95;margin:0 auto 26px;max-width:480px;}
+  .hero .settings-hint{font-size:13px;opacity:.8;margin-top:18px;}
+  .cta-btn{
+    display:inline-block;background:#fff;color:var(--pink-deep);
+    font-weight:700;font-family:'Baloo Bhaijaan 2',sans-serif;
+    padding:14px 30px;border-radius:999px;font-size:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+    transition:transform .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px) scale(1.02);}
+
+  .scallop{
+    position:absolute;left:0;right:0;bottom:-1px;height:34px;
+    background:radial-gradient(circle at 17px 0, var(--bg) 17px, transparent 18px) 0 0/34px 34px repeat-x;
+  }
+
+  /* ---------- Products ---------- */
+  main{max-width:1180px;margin:0 auto;padding:56px 24px 90px;}
+  .section-head{text-align:center;margin-bottom:36px;}
+  .section-head .eyebrow{
+    color:var(--pink-deep);font-weight:700;font-size:13px;letter-spacing:.5px;
+  }
+  .section-head h2{font-size:30px;margin:6px 0 0;}
+
+  .empty-state{
+    text-align:center;padding:70px 20px;background:#fff;border-radius:28px;
+    box-shadow:var(--shadow);max-width:520px;margin:0 auto;
+  }
+  .empty-state .emoji{font-size:44px;display:block;margin-bottom:14px;}
+  .empty-state h3{margin:0 0 8px;font-size:22px;}
+  .empty-state p{color:var(--ink-soft);margin:0 0 22px;line-height:1.7;}
+
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px;
+  }
+  .product-card{
+    background:var(--card);border-radius:var(--radius);overflow:hidden;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;
+    transition:transform .18s ease;position:relative;
+  }
+  .product-card:hover{transform:translateY(-4px);}
+  .product-media{
+    aspect-ratio:1/1;background:linear-gradient(135deg,#FFE9F1,#F1ECFF);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .product-media img{width:100%;height:100%;object-fit:cover;}
+  .product-media .placeholder{font-size:40px;opacity:.5;}
+  .badge{
+    position:absolute;top:12px;right:12px;background:var(--gold);
+    color:var(--ink);font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;
+  }
+  .product-body{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1;}
+  .product-body h3{font-size:17px;margin:0;}
+  .product-desc{font-size:13px;color:var(--ink-soft);line-height:1.6;margin:0;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .price-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+  .price{font-family:'Baloo Bhaijaan 2',sans-serif;font-size:18px;color:var(--pink-deep);}
+  .add-btn{
+    background:var(--ink);color:#fff;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:700;
+    transition:background .15s ease;
+  }
+  .add-btn:hover{background:var(--pink-deep);}
+
+  /* ---------- Cart drawer ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(58,46,63,0.35);z-index:50;
+    opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  .overlay.open{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;top:0;bottom:0;left:0;width:min(380px,92vw);
+    background:#fff;z-index:51;transform:translateX(-100%);
+    transition:transform .25s ease;display:flex;flex-direction:column;
+    box-shadow:10px 0 30px rgba(0,0,0,0.12);
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{padding:20px;border-bottom:1px solid #FBE4EC;display:flex;justify-content:space-between;align-items:center;}
+  .drawer-head h3{margin:0;font-size:19px;}
+  .drawer-body{flex:1;overflow-y:auto;padding:16px 20px;}
+  .cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #FBEFF3;}
+  .cart-item img,.cart-item .ph{width:60px;height:60px;border-radius:14px;object-fit:cover;background:#F6EEFA;
+    display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .cart-item-info{flex:1;display:flex;flex-direction:column;gap:4px;}
+  .cart-item-info .name{font-weight:600;font-size:14px;}
+  .qty-row{display:flex;align-items:center;gap:10px;}
+  .qty-btn{width:26px;height:26px;border-radius:8px;background:var(--bg);font-weight:700;}
+  .remove-link{font-size:12px;color:var(--ink-soft);text-decoration:underline;margin-inline-start:auto;}
+  .drawer-foot{padding:18px 20px;border-top:1px solid #FBE4EC;}
+  .total-row{display:flex;justify-content:space-between;font-family:'Baloo Bhaijaan 2';font-size:19px;margin-bottom:14px;}
+  .checkout-btn{
+    width:100%;background:linear-gradient(135deg,var(--pink),var(--pink-deep));
+    color:#fff;padding:14px;border-radius:14px;font-weight:700;font-size:15px;
+  }
+  .close-x{font-size:20px;color:var(--ink-soft);}
+
+  /* ---------- Checkout form ---------- */
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--ink-soft);}
+  .field input,.field textarea{
+    width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid #F3D9E4;background:var(--bg);
+    font-size:14px;
+  }
+  .field input:focus,.field textarea:focus{border-color:var(--pink-deep);outline:none;}
+
+  .success-box{text-align:center;padding:20px 6px;}
+  .success-box .emoji{font-size:48px;display:block;margin-bottom:10px;}
+
+  /* ---------- Admin ---------- */
+  .admin-wrap{max-width:900px;margin:0 auto;padding:40px 20px 90px;}
+  .admin-gate{max-width:360px;margin:80px auto;background:#fff;padding:32px;border-radius:24px;box-shadow:var(--shadow);text-align:center;}
+  .admin-gate .emoji{font-size:38px;}
+  .tabs{display:flex;gap:8px;margin-bottom:26px;background:#fff;padding:6px;border-radius:14px;box-shadow:var(--shadow);width:fit-content;}
+  .tab-btn{padding:9px 18px;border-radius:10px;font-weight:700;font-size:14px;color:var(--ink-soft);}
+  .tab-btn.active{background:var(--ink);color:#fff;}
+  .panel{background:#fff;border-radius:22px;padding:26px;box-shadow:var(--shadow);}
+  .panel h3{margin-top:0;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-grid .full{grid-column:1/-1;}
+  @media(max-width:560px){.form-grid{grid-template-columns:1fr;}}
+  .save-btn{
+    background:var(--pink-deep);color:#fff;padding:12px 26px;border-radius:12px;font-weight:700;margin-top:6px;
+  }
+  .admin-product-row{
+    display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #F6EEF2;
+  }
+  .admin-product-row img,.admin-product-row .ph{width:52px;height:52px;border-radius:12px;object-fit:cover;background:var(--bg);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .admin-product-row .info{flex:1;}
+  .admin-product-row .info .n{font-weight:700;font-size:14px;}
+  .admin-product-row .info .p{font-size:13px;color:var(--ink-soft);}
+  .row-actions{display:flex;gap:8px;}
+  .mini-btn{background:var(--bg);padding:7px 12px;border-radius:9px;font-size:12px;font-weight:700;}
+  .mini-btn.danger{color:#D64545;}
+  .order-card{border:1px solid #F6EEF2;border-radius:16px;padding:16px;margin-bottom:14px;}
+  .order-card .top{display:flex;justify-content:space-between;font-weight:700;margin-bottom:6px;}
+  .order-card .meta{font-size:13px;color:var(--ink-soft);margin-bottom:8px;line-height:1.7;}
+  .order-card ul{margin:0;padding-inline-start:18px;font-size:13px;}
+  .muted-note{font-size:12px;color:var(--ink-soft);background:var(--bg);padding:10px 14px;border-radius:12px;margin-bottom:18px;line-height:1.7;}
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font-size:14px;
+    z-index:80;transition:transform .25s ease;box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);}
+  .loading-box{text-align:center;padding:100px 20px;color:var(--ink-soft);}
+  footer{text-align:center;padding:30px;color:var(--ink-soft);font-size:13px;}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+(function(){
+  const state = {
+    view: 'store', // store | admin
+    adminTab: 'products', // products | orders | settings
+    adminAuthed: false,
+    loading: true,
+    products: [],
+    orders: [],
+    settings: { name: 'متجري ✨', tagline: 'حاجات حلوة ومخصوصة، ضيفيها إنتي بنفسك.' },
+    cart: {}, // id -> qty
+    drawerOpen: false,
+    checkoutStep: 'cart', // cart | form | success
+    editingProduct: null,
+  };
+
+  const PASSCODE = 'wanddo2026';
+
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+  function money(n){ return Number(n||0).toLocaleString('ar-EG') + ' ج.م'; }
+  function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 2200);
+  }
+
+  async function safeGet(key, shared){
+    try{
+      const res = await window.storage.get(key, shared);
+      return res ? res.value : null;
+    }catch(e){ return null; }
+  }
+  async function safeSet(key, value, shared){
+    try{
+      await window.storage.set(key, value, shared);
+      return true;
+    }catch(e){ return false; }
+  }
+
+  async function loadAll(){
+    const [productsRaw, ordersRaw, settingsRaw, cartRaw] = await Promise.all([
+      safeGet('products', true),
+      safeGet('orders', true),
+      safeGet('settings', true),
+      safeGet('cart', false),
+    ]);
+    if(productsRaw){ try{ state.products = JSON.parse(productsRaw); }catch(e){ state.products = []; } }
+    if(ordersRaw){ try{ state.orders = JSON.parse(ordersRaw); }catch(e){ state.orders = []; } }
+    if(settingsRaw){ try{ state.settings = JSON.parse(settingsRaw); }catch(e){} }
+    if(cartRaw){ try{ state.cart = JSON.parse(cartRaw); }catch(e){ state.cart = {}; } }
+    state.loading = false;
+    render();
+  }
+
+  async function persistProducts(){ await safeSet('products', JSON.stringify(state.products), true); }
+  async function persistOrders(){ await safeSet('orders', JSON.stringify(state.orders), true); }
+  async function persistSettings(){ await safeSet('settings', JSON.stringify(state.settings), true); }
+  async function persistCart(){ await safeSet('cart', JSON.stringify(state.cart), false); }
+
+  function cartCount(){ return Object.values(state.cart).reduce((a,b)=>a+b,0); }
+  function cartItems(){
+    return Object.entries(state.cart).map(([id,qty])=>{
+      const p = state.products.find(x=>x.id===id);
+      return p ? {...p, qty} : null;
+    }).filter(Boolean);
+  }
+  function cartTotal(){ return cartItems().reduce((sum,it)=>sum+it.price*it.qty,0); }
+
+  // ---------- actions ----------
+  window.__actions = {
+    addToCart(id){
+      state.cart[id] = (state.cart[id]||0)+1;
+      persistCart();
+      showToast('اتضافت للسلة ✨');
+      render();
+    },
+    changeQty(id, delta){
+      const next = (state.cart[id]||0)+delta;
+      if(next<=0) delete state.cart[id]; else state.cart[id]=next;
+      persistCart();
+      render();
+    },
+    removeFromCart(id){
+      delete state.cart[id];
+      persistCart();
+      render();
+    },
+    openDrawer(){ state.drawerOpen = true; state.checkoutStep='cart'; render(); },
+    closeDrawer(){ state.drawerOpen = false; render(); },
+    goToForm(){ if(cartItems().length===0) return; state.checkoutStep='form'; render(); },
+    backToCart(){ state.checkoutStep='cart'; render(); },
+    async submitOrder(ev){
+      ev.preventDefault();
+      const f = ev.target;
+      const order = {
+        id: uid(),
+        date: new Date().toISOString(),
+        name: f.name.value.trim(),
+        phone: f.phone.value.trim(),
+        address: f.address.value.trim(),
+        note: f.note.value.trim(),
+        items: cartItems().map(it=>({id:it.id,name:it.name,price:it.price,qty:it.qty})),
+        total: cartTotal(),
+      };
+      state.orders.unshift(order);
+      await persistOrders();
+      state.cart = {};
+      await persistCart();
+      state.checkoutStep = 'success';
+      render();
+    },
+    goAdmin(){ state.view='admin'; render(); },
+    goStore(){ state.view='store'; render(); },
+    async tryAuth(ev){
+      ev.preventDefault();
+      const val = ev.target.pass.value;
+      if(val === PASSCODE){ state.adminAuthed = true; render(); }
+      else { showToast('الرمز غلط، جربي تاني'); }
+    },
+    setAdminTab(tab){ state.adminTab = tab; state.editingProduct=null; render(); },
+    editProduct(id){
+      state.editingProduct = state.products.find(p=>p.id===id) || null;
+      state.adminTab = 'products';
+      render();
+      document.getElementById('product-form')?.scrollIntoView({behavior:'smooth'});
+    },
+    cancelEdit(){ state.editingProduct = null; render(); },
+    async deleteProduct(id){
+      if(!confirm('متأكدة إنك عايزة تمسحي المنتج ده؟')) return;
+      state.products = state.products.filter(p=>p.id!==id);
+      await persistProducts();
+      showToast('اتمسح المنتج');
+      render();
+    },
+    async saveProduct(ev){
+      ev.preventDefault();
+      const f = ev.target;
+      const data = {
+        name: f.name.value.trim(),
+        price: parseFloat(f.price.value) || 0,
+        image: f.image.value.trim(),
+        description: f.description.value.trim(),
+        badge: f.badge.value.trim(),
+      };
+      if(!data.name || !data.price){ showToast('لازم اسم وسعر للمنتج'); return; }
+      if(state.editingProduct){
+        const idx = state.products.findIndex(p=>p.id===state.editingProduct.id);
+        state.products[idx] = {...state.editingProduct, ...data};
+        state.editingProduct = null;
+        showToast('اتحدث المنتج ✨');
+      } else {
+        state.products.push({ id: uid(), ...data });
+        showToast('اتضاف المنتج ✨');
+      }
+      await persistProducts();
+      f.reset();
+      render();
+    },
+    async saveSettings(ev){
+      ev.preventDefault();
+      const f = ev.target;
+      state.settings = { name: f.sname.value.trim() || 'متجري ✨', tagline: f.tagline.value.trim() };
+      await persistSettings();
+      showToast('اتحفظت الإعدادات');
+      render();
+    },
+  };
+  const A = window.__actions;
+
+  // ---------- render pieces ----------
+  function productMedia(p, big){
+    if(p.image){
+      return `<div class="product-media"><img src="${esc(p.image)}" alt="${esc(p.name)}" onerror="this.parentElement.innerHTML='<span class=placeholder>🪄</span>'"></div>`;
+    }
+    return `<div class="product-media"><span class="placeholder">🪄</span></div>`;
+  }
+
+  function renderStore(){
+    const s = state.settings;
+    return `
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo-badge">🪄</div>
+          <div class="brand-name">${esc(s.name)}</div>
+        </div>
+        <div class="topbar-actions">
+          <a href="#" class="admin-link" onclick="__actions.goAdmin();return false;">🔧 لوحة التحكم</a>
+          <button class="icon-btn" onclick="__actions.openDrawer()" aria-label="السلة">
+            🛍️
+            ${cartCount()>0 ? `<span class="cart-count">${cartCount()}</span>` : ''}
+          </button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-inner">
+          <h1>${esc(s.name)}</h1>
+          <p>${esc(s.tagline)}</p>
+          <a href="#products" class="cta-btn">تسوقي دلوقتي</a>
+        </div>
+        <div class="scallop"></div>
+      </section>
+
+      <main id="products">
+        <div class="section-head">
+          <div class="eyebrow">المنتجات</div>
+          <h2>كل حاجة هنا مختارة بحب</h2>
+        </div>
+        ${state.products.length === 0 ? `
+          <div class="empty-state">
+            <span class="emoji">✨</span>
+            <h3>لسه مفيش منتجات</h3>
+            <p>ضيفي أول منتج من لوحة التحكم وهيظهر هنا فورًا للزوار.</p>
+            <a href="#" class="cta-btn" style="background:var(--ink);color:#fff;" onclick="__actions.goAdmin();return false;">افتحي لوحة التحكم</a>
+          </div>
+        ` : `
+          <div class="grid">
+            ${state.products.map(p=>`
+              <div class="product-card">
+                ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}
+                ${productMedia(p)}
+                <div class="product-body">
+                  <h3>${esc(p.name)}</h3>
+                  ${p.description ? `<p class="product-desc">${esc(p.description)}</p>` : ''}
+                  <div class="price-row">
+                    <span class="price">${money(p.price)}</span>
+                    <button class="add-btn" onclick="__actions.addToCart('${p.id}')">أضيفي للسلة</button>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `}
+      </main>
+
+      <footer>صُنع بحب 💌 — الدفع الحقيقي لسه مش متفعل، الطلبات بتتسجل وتقدري تتواصلي مع العميل بنفسك.</footer>
+
+      ${renderDrawer()}
+    `;
+  }
+
+  function renderDrawer(){
+    const items = cartItems();
+    let body;
+    if(state.checkoutStep === 'success'){
+      body = `
+        <div class="success-box">
+          <span class="emoji">🎉</span>
+          <h3>اتسجل طلبك!</h3>
+          <p style="color:var(--ink-soft);line-height:1.7;">هنتواصل معاكي على الرقم اللي كتبتيه لتأكيد الطلب والدفع.</p>
+          <button class="checkout-btn" style="margin-top:16px;" onclick="__actions.closeDrawer()">تمام</button>
+        </div>`;
+    } else if(state.checkoutStep === 'form'){
+      body = `
+        <form onsubmit="__actions.submitOrder(event)">
+          <div class="field"><label>الاسم</label><input name="name" required placeholder="اسمك"></div>
+          <div class="field"><label>رقم الموبايل</label><input name="phone" required placeholder="01xxxxxxxxx"></div>
+          <div class="field"><label>العنوان</label><textarea name="address" rows="2" required placeholder="المحافظة، المنطقة، تفاصيل العنوان"></textarea></div>
+          <div class="field"><label>ملاحظات (اختياري)</label><textarea name="note" rows="2" placeholder="أي تفاصيل حابة تقوليها"></textarea></div>
+          <button type="button" class="mini-btn" style="margin-bottom:10px;" onclick="__actions.backToCart()">⟵ رجوع للسلة</button>
+          <button type="submit" class="checkout-btn">تأكيد الطلب</button>
+        </form>`;
+    } else {
+      body = items.length === 0
+        ? `<p style="text-align:center;color:var(--ink-soft);padding:40px 0;">السلة فاضية دلوقتي 🛍️</p>`
+        : items.map(it=>`
+            <div class="cart-item">
+              ${it.image ? `<img src="${esc(it.image)}" alt="">` : `<div class="ph">🪄</div>`}
+              <div class="cart-item-info">
+                <span class="name">${esc(it.name)}</span>
+                <span style="font-size:13px;color:var(--ink-soft);">${money(it.price)}</span>
+                <div class="qty-row">
+                  <button class="qty-btn" onclick="__actions.changeQty('${it.id}',-1)">−</button>
+                  <span>${it.qty}</span>
+                  <button class="qty-btn" onclick="__actions.changeQty('${it.id}',1)">+</button>
+                  <a href="#" class="remove-link" onclick="__actions.removeFromCart('${it.id}');return false;">حذف</a>
+                </div>
+              </div>
+            </div>
+          `).join('');
+    }
+
+    return `
+      <div class="overlay ${state.drawerOpen?'open':''}" onclick="__actions.closeDrawer()"></div>
+      <aside class="drawer ${state.drawerOpen?'open':''}">
+        <div class="drawer-head">
+          <h3>السلة</h3>
+          <button class="close-x" onclick="__actions.closeDrawer()">✕</button>
+        </div>
+        <div class="drawer-body">${body}</div>
+        ${state.checkoutStep==='cart' ? `
+          <div class="drawer-foot">
+            <div class="total-row"><span>الإجمالي</span><span>${money(cartTotal())}</span></div>
+            <button class="checkout-btn" ${items.length===0?'disabled style="opacity:.5;"':''} onclick="__actions.goToForm()">إتمام الطلب</button>
+          </div>
+        ` : ''}
+      </aside>
+    `;
+  }
+
+  function renderAdmin(){
+    if(!state.adminAuthed){
+      return `
+        <header class="topbar">
+          <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">لوحة التحكم</div></div>
+          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ رجوع للمتجر</a>
+        </header>
+        <div class="admin-gate">
+          <span class="emoji">🔐</span>
+          <h3>دخول لوحة التحكم</h3>
+          <p style="color:var(--ink-soft);font-size:13px;">ده رمز بسيط للحماية من الزوار العاديين، مش نظام حماية حقيقي.</p>
+          <form onsubmit="__actions.tryAuth(event)">
+            <div class="field"><input name="pass" type="password" placeholder="اكتبي الرمز" required></div>
+            <button type="submit" class="save-btn" style="width:100%;">دخول</button>
+          </form>
+        </div>
+      `;
+    }
+
+    return `
+      <header class="topbar">
+        <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">لوحة التحكم</div></div>
+        <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ رجوع للمتجر</a>
+      </header>
+      <div class="admin-wrap">
+        <div class="tabs">
+          <button class="tab-btn ${state.adminTab==='products'?'active':''}" onclick="__actions.setAdminTab('products')">المنتجات</button>
+          <button class="tab-btn ${state.adminTab==='orders'?'active':''}" onclick="__actions.setAdminTab('orders')">الطلبات (${state.orders.length})</button>
+          <button class="tab-btn ${state.adminTab==='settings'?'active':''}" onclick="__actions.setAdminTab('settings')">إعدادات المتجر</button>
+        </div>
+        ${state.adminTab==='products' ? renderAdminProducts() : ''}
+        ${state.adminTab==='orders' ? renderAdminOrders() : ''}
+        ${state.adminTab==='settings' ? renderAdminSettings() : ''}
+      </div>
+    `;
+  }
+
+  function renderAdminProducts(){
+    const ep = state.editingProduct;
+    return `
+      <div class="panel" id="product-form" style="margin-bottom:24px;">
+        <h3>${ep ? 'تعديل المنتج' : 'إضافة منتج جديد'}</h3>
+        <form onsubmit="__actions.saveProduct(event)">
+          <div class="form-grid">
+            <div class="field"><label>اسم المنتج</label><input name="name" required value="${esc(ep?.name||'')}"></div>
+            <div class="field"><label>السعر (ج.م)</label><input name="price" type="number" step="0.01" required value="${ep?.price??''}"></div>
+            <div class="field full"><label>رابط الصورة (اختياري)</label><input name="image" placeholder="https://..." value="${esc(ep?.image||'')}"></div>
+            <div class="field full"><label>الوصف</label><textarea name="description" rows="2">${esc(ep?.description||'')}</textarea></div>
+            <div class="field"><label>شارة (اختياري، زي "الأكثر مبيعًا")</label><input name="badge" value="${esc(ep?.badge||'')}"></div>
+          </div>
+          <button type="submit" class="save-btn">${ep ? 'حفظ التعديلات' : 'إضافة المنتج'}</button>
+          ${ep ? `<button type="button" class="mini-btn" style="margin-inline-start:10px;" onclick="__actions.cancelEdit()">إلغاء</button>` : ''}
+        </form>
+      </div>
+      <div class="panel">
+        <h3>المنتجات الحالية (${state.products.length})</h3>
+        ${state.products.length===0 ? `<p style="color:var(--ink-soft);">لسه مفيش منتجات مضافة.</p>` : state.products.map(p=>`
+          <div class="admin-product-row">
+            ${p.image ? `<img src="${esc(p.image)}" alt="" onerror="this.outerHTML='<div class=ph>🪄</div>'">` : `<div class="ph">🪄</div>`}
+            <div class="info">
+              <div class="n">${esc(p.name)}</div>
+              <div class="p">${money(p.price)}</div>
+            </div>
+            <div class="row-actions">
+              <button class="mini-btn" onclick="__actions.editProduct('${p.id}')">تعديل</button>
+              <button class="mini-btn danger" onclick="__actions.deleteProduct('${p.id}')">حذف</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderAdminOrders(){
+    return `
+      <div class="panel">
+        <h3>الطلبات</h3>
+        ${state.orders.length===0 ? `<p style="color:var(--ink-soft);">لسه مفيش طلبات.</p>` : state.orders.map(o=>`
+          <div class="order-card">
+            <div class="top"><span>${esc(o.name)}</span><span>${money(o.total)}</span></div>
+            <div class="meta">
+              📱 ${esc(o.phone)}<br>
+              📍 ${esc(o.address)}<br>
+              ${o.note ? `📝 ${esc(o.note)}<br>` : ''}
+              🕒 ${new Date(o.date).toLocaleString('ar-EG')}
+            </div>
+            <ul>${o.items.map(it=>`<li>${esc(it.name)} × ${it.qty} — ${money(it.price*it.qty)}</li>`).join('')}</ul>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderAdminSettings(){
+    const s = state.settings;
+    return `
+      <div class="panel">
+        <h3>إعدادات المتجر</h3>
+        <div class="muted-note">ملاحظة: المنتجات والطلبات والإعدادات مشتركة بين كل زوار الرابط ده — أي حد يفتح الرابط هيشوف نفس المتجر. سلة كل زائر شخصية بس.</div>
+        <form onsubmit="__actions.saveSettings(event)">
+          <div class="field"><label>اسم المتجر</label><input name="sname" required value="${esc(s.name)}"></div>
+          <div class="field"><label>الجملة الترحيبية</label><textarea name="tagline" rows="2">${esc(s.tagline)}</textarea></div>
+          <button type="submit" class="save-btn">حفظ</button>
+        </form>
+      </div>
+    `;
+  }
+
+  function render(){
+    const app = document.getElementById('app');
+    if(state.loading){
+      app.innerHTML = `<div class="loading-box">✨ بنجهز متجرك...</div>`;
+      return;
+    }
+    app.innerHTML = state.view === 'admin' ? renderAdmin() : renderStore();
+  }
+
+  loadAll();
+})();
+</script>
+</body>
+</html>
