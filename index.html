@@ -479,7 +479,13 @@
     selectedProductId: null,
     pdQty: 1,
     pdGalleryIndex: 0,
+    productFormDraft: null, // keeps unsaved product-form text safe across tab switches / re-renders
   };
+
+  try{
+    const savedDraft = JSON.parse(localStorage.getItem('productFormDraft')||'null');
+    if(savedDraft && typeof savedDraft === 'object') state.productFormDraft = savedDraft;
+  }catch(e){}
 
   function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
   function money(n){ return Number(n||0).toLocaleString('en-US') + ' EGP'; }
@@ -563,7 +569,7 @@
   function cartCount(){ return Object.values(state.cart).reduce((a,b)=>a+b,0); }
   function cartItems(){
     return Object.entries(state.cart).map(([id,qty])=>{
-      const p = state.products.find(x=>x.id===id);
+      const p = state.products.find(x=>String(x.id)===String(id));
       return p ? {...p, qty} : null;
     }).filter(Boolean);
   }
@@ -685,14 +691,14 @@
       window.scrollTo(0,0);
     },
     pdPrev(){
-      const p = state.products.find(x=>x.id===state.selectedProductId);
+      const p = state.products.find(x=>String(x.id)===String(state.selectedProductId));
       const imgs = p ? productImages(p) : [];
       if(imgs.length<2) return;
       state.pdGalleryIndex = (state.pdGalleryIndex - 1 + imgs.length) % imgs.length;
       render();
     },
     pdNext(){
-      const p = state.products.find(x=>x.id===state.selectedProductId);
+      const p = state.products.find(x=>String(x.id)===String(state.selectedProductId));
       const imgs = p ? productImages(p) : [];
       if(imgs.length<2) return;
       state.pdGalleryIndex = (state.pdGalleryIndex + 1) % imgs.length;
@@ -721,17 +727,38 @@
       render();
     },
     async setAdminTab(tab){
-      state.adminTab = tab; state.editingProduct=null;
+      state.adminTab = tab;
       if(tab==='orders') await refreshOrders();
       render();
     },
     editProduct(id){
-      state.editingProduct = state.products.find(p=>p.id===id) || null;
+      state.editingProduct = state.products.find(p=>String(p.id)===String(id)) || null;
       state.adminTab = 'products';
       render();
       document.getElementById('product-form')?.scrollIntoView({behavior:'smooth'});
     },
-    cancelEdit(){ state.editingProduct = null; render(); },
+    updateProductDraft(form){
+      const draft = {
+        _key: state.editingProduct ? String(state.editingProduct.id) : 'new',
+        name: form.name.value,
+        price: form.price.value,
+        image: form.image.value,
+        images: form.images.value,
+        description: form.description.value,
+        badge: form.badge.value,
+      };
+      state.productFormDraft = draft;
+      try{ localStorage.setItem('productFormDraft', JSON.stringify(draft)); }catch(e){}
+    },
+    clearProductDraft(){
+      state.productFormDraft = null;
+      try{ localStorage.removeItem('productFormDraft'); }catch(e){}
+    },
+    cancelEdit(){
+      state.editingProduct = null;
+      this.clearProductDraft();
+      render();
+    },
     async deleteProduct(id){
       if(!confirm('Are you sure you want to delete this product?')) return;
       const { error } = await supabase.from('products').delete().eq('id', id);
@@ -762,6 +789,7 @@
         if(!error) showToast('Product added ✨');
       }
       if(error){ showToast('Something went wrong, please try again'); return; }
+      this.clearProductDraft();
       await refreshProducts();
       f.reset();
       render();
@@ -860,7 +888,7 @@
   }
 
   function renderProduct(){
-    const p = state.products.find(x=>x.id===state.selectedProductId);
+    const p = state.products.find(x=>String(x.id)===String(state.selectedProductId));
     if(!p){
       return `
         ${topbar()}
@@ -1022,17 +1050,28 @@
 
   function renderAdminProducts(){
     const ep = state.editingProduct;
+    const draftKey = ep ? String(ep.id) : 'new';
+    let vals;
+    if(state.productFormDraft && state.productFormDraft._key === draftKey){
+      vals = state.productFormDraft;
+    } else {
+      vals = {
+        name: ep?.name || '', price: ep?.price ?? '', image: ep?.image || '',
+        images: ep?.images || '', description: ep?.description || '', badge: ep?.badge || '',
+      };
+      state.productFormDraft = { _key: draftKey, ...vals };
+    }
     return `
       <div class="panel" id="product-form" style="margin-bottom:24px;">
         <h3>${ep ? 'Edit product' : 'Add a new product'}</h3>
-        <form onsubmit="__actions.saveProduct(event)">
+        <form onsubmit="__actions.saveProduct(event)" oninput="__actions.updateProductDraft(this)">
           <div class="form-grid">
-            <div class="field"><label>Product name</label><input name="name" required value="${esc(ep?.name||'')}"></div>
-            <div class="field"><label>Price (EGP)</label><input name="price" type="number" step="0.01" required value="${ep?.price??''}"></div>
-            <div class="field full"><label>Main image URL (optional)</label><input name="image" placeholder="https://..." value="${esc(ep?.image||'')}"></div>
-            <div class="field full"><label>Extra gallery images (optional, comma-separated URLs)</label><input name="images" placeholder="https://..., https://..." value="${esc(ep?.images||'')}"></div>
-            <div class="field full"><label>Description</label><textarea name="description" rows="2">${esc(ep?.description||'')}</textarea></div>
-            <div class="field"><label>Badge (optional, e.g. "Best seller")</label><input name="badge" value="${esc(ep?.badge||'')}"></div>
+            <div class="field"><label>Product name</label><input name="name" required value="${esc(vals.name)}"></div>
+            <div class="field"><label>Price (EGP)</label><input name="price" type="number" step="0.01" required value="${esc(String(vals.price ?? ''))}"></div>
+            <div class="field full"><label>Main image URL (optional)</label><input name="image" placeholder="https://..." value="${esc(vals.image)}"></div>
+            <div class="field full"><label>Extra gallery images (optional, comma-separated URLs)</label><input name="images" placeholder="https://..., https://..." value="${esc(vals.images)}"></div>
+            <div class="field full"><label>Description</label><textarea name="description" rows="2">${esc(vals.description)}</textarea></div>
+            <div class="field"><label>Badge (optional, e.g. "Best seller")</label><input name="badge" value="${esc(vals.badge)}"></div>
           </div>
           <button type="submit" class="save-btn">${ep ? 'Save changes' : 'Add product'}</button>
           ${ep ? `<button type="button" class="mini-btn" style="margin-inline-start:10px;" onclick="__actions.cancelEdit()">Cancel</button>` : ''}
