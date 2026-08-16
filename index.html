@@ -370,7 +370,8 @@
 
   .badge{ animation:popIn .4s ease both, pulseRing 2.4s ease-in-out .4s infinite; }
 
-  .ppage-main-img img,.pmodal-main-img img{ animation:fadeIn .5s ease both; }
+  .ppage-main-img,.pmodal-main-img{ perspective:1000px; }
+  .ppage-main-img img,.pmodal-main-img img{ animation:flipIn3d .55s cubic-bezier(.2,.8,.2,1) both; transform-style:preserve-3d; }
   .ppage-thumb,.pmodal-thumb{ transition:transform .2s ease, opacity .2s ease, border-color .2s ease; }
   .ppage-thumb:hover,.pmodal-thumb:hover{ transform:translateY(-3px) scale(1.05); opacity:1; }
   .ppage-thumb.active,.pmodal-thumb.active{ animation:popIn .3s ease both; }
@@ -411,6 +412,76 @@
     .product-card,.ppage-main-img,.empty-state,.panel,.order-card,.admin-product-row,.success-box,.drawer-body .cart-item,
     .logo-badge,.hero,.hero::before,.hero h1,.hero p,.hero .cta-btn,.badge,.cart-count,.toast,.loading-box,
     .empty-state .emoji,.success-box .emoji,.admin-gate,.admin-gate .emoji,.section-head h2{ animation:none !important; }
+  }
+
+  /* ================= 3D LAYER ================= */
+  @keyframes flipIn3d{ from{transform:rotateY(90deg);opacity:0;} to{transform:rotateY(0deg);opacity:1;} }
+  @keyframes float3d{ 0%,100%{transform:translateY(0) rotateY(0deg);} 50%{transform:translateY(-8px) rotateY(18deg);} }
+  @keyframes tilt3dIn{ from{opacity:0;transform:perspective(900px) rotateX(14deg) translateY(24px);} to{opacity:1;transform:perspective(900px) rotateX(0deg) translateY(0);} }
+
+  body{ perspective:none; }
+  #app{ perspective:1600px; }
+  main, .admin-wrap, .ppage-wrap{ transform-style:preserve-3d; }
+
+  /* Product cards: real 3D — tilt follows the cursor (see JS), CSS handles depth + fallback */
+  .grid{ perspective:1400px; }
+  .product-card{
+    transform-style:preserve-3d;
+    will-change:transform;
+    box-shadow:0 2px 4px rgba(10,17,34,.08), 0 14px 26px rgba(10,17,34,.12);
+  }
+  .product-card:hover{
+    box-shadow:0 4px 8px rgba(10,17,34,.12), 0 26px 46px rgba(10,17,34,.24);
+  }
+  .product-media{ transform:translateZ(0); }
+  .product-body{ transform:translateZ(18px); transform-style:preserve-3d; }
+  .add-btn{ transform:translateZ(24px); }
+
+  /* Logo: floats and rotates in 3D space */
+  .logo-badge{ animation:float3d 3.6s ease-in-out infinite; transform-style:preserve-3d; }
+
+  /* 3D "pressed" buttons: layered depth shadow that compresses on click */
+  .cta-btn,.add-btn,.checkout-btn,.save-btn{
+    box-shadow:0 5px 0 rgba(0,0,0,.28), 0 10px 22px rgba(10,17,34,.28);
+    transform:translateY(0) translateZ(0);
+  }
+  .cta-btn:hover,.add-btn:hover{ box-shadow:0 7px 0 rgba(0,0,0,.28), 0 16px 30px rgba(10,17,34,.32); }
+  .checkout-btn:hover{ box-shadow:0 7px 0 rgba(0,0,0,.28), 0 16px 30px rgba(10,17,34,.32); }
+  .save-btn:hover{ box-shadow:0 7px 0 rgba(0,0,0,.28), 0 16px 30px rgba(10,17,34,.28); }
+  .cta-btn:active,.add-btn:active,.checkout-btn:active,.save-btn:active{
+    transform:translateY(5px);
+    box-shadow:0 1px 0 rgba(0,0,0,.28), 0 4px 10px rgba(10,17,34,.22);
+  }
+  .qty-btn,.mini-btn,.icon-btn,.tab-btn{
+    box-shadow:0 2px 0 rgba(10,17,34,.15), 0 4px 8px rgba(10,17,34,.1);
+  }
+  .qty-btn:active,.mini-btn:active,.icon-btn:active,.tab-btn:active{
+    transform:translateY(2px);
+    box-shadow:0 0 0 rgba(10,17,34,.15), 0 1px 2px rgba(10,17,34,.1);
+  }
+
+  /* Cart drawer slides in with a slight 3D swing */
+  .drawer{
+    transform-origin:right center;
+    transform:translateX(100%) rotateY(-10deg);
+  }
+  .drawer.open{ transform:translateX(0) rotateY(0deg); }
+
+  /* Product detail page: gentle 3D tilt-in on open */
+  .ppage-grid{ animation:tilt3dIn .5s cubic-bezier(.2,.8,.2,1) both; }
+
+  /* Thumbnails pop toward the viewer on hover */
+  .ppage-thumb:hover,.pmodal-thumb:hover{ transform:translateY(-3px) scale(1.08) translateZ(10px); }
+
+  /* Admin panels get subtle depth cards */
+  .panel,.admin-gate,.empty-state{
+    box-shadow:0 2px 4px rgba(10,17,34,.06), 0 18px 34px rgba(10,17,34,.1);
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .product-card,.logo-badge,.drawer,.ppage-grid,.ppage-main-img img,.pmodal-main-img img{
+      animation:none !important; transform:none !important;
+    }
   }
 </style>
 </head>
@@ -614,13 +685,17 @@
       let error;
       if(state.editingProduct){
         ({ error } = await supabase.from('products').update(data).eq('id', state.editingProduct.id));
-        if(!error) showToast('Product updated ✨');
-        state.editingProduct = null;
       } else {
         ({ error } = await supabase.from('products').insert(data));
-        if(!error) showToast('Product added ✨');
       }
-      if(error){ showToast('Something went wrong, please try again'); return; }
+      // Nothing gets cleared or cancelled on error — the form keeps exactly what you typed.
+      if(error){ showToast('Something went wrong, please try again — nothing was lost'); return; }
+      if(state.editingProduct){
+        showToast('Product updated ✨');
+        state.editingProduct = null;
+      } else {
+        showToast('Product added ✨');
+      }
       await refreshProducts();
       f.reset();
       render();
@@ -994,6 +1069,22 @@
     `;
   }
 
+  function attach3DTilt(){
+    // real, cursor-tracked 3D tilt for product cards — reduced-motion users get plain hover instead
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if(window.matchMedia('(pointer: coarse)').matches) return; // skip on touch devices
+    document.querySelectorAll('.product-card').forEach(card=>{
+      card.addEventListener('mousemove', (e)=>{
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        const rotateY = ((x - r.width/2) / (r.width/2)) * 8;
+        const rotateX = -((y - r.height/2) / (r.height/2)) * 8;
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
+      });
+      card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
+    });
+  }
+
   function render(){
     const app = document.getElementById('app');
     if(state.loading){
@@ -1003,6 +1094,7 @@
     if(state.view === 'admin') app.innerHTML = renderAdmin();
     else if(state.view === 'product') app.innerHTML = renderProductPage();
     else app.innerHTML = renderStore();
+    attach3DTilt();
   }
 
   loadAll();
