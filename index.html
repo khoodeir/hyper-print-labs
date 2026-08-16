@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>متجري ✨</title>
+<title>My Store ✨</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Cairo:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
   :root{
     --bg:#FFFFFF;
@@ -26,12 +26,12 @@
   body{
     background:var(--bg);
     color:var(--ink);
-    font-family:'Cairo',sans-serif;
+    font-family:'Inter',sans-serif;
     min-height:100vh;
     overflow-x:hidden;
   }
   h1,h2,h3,.display{
-    font-family:'Cairo',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:800;
     letter-spacing:-0.3px;
   }
@@ -57,7 +57,7 @@
     display:flex;align-items:center;justify-content:center;font-size:18px;
     box-shadow:var(--shadow);
   }
-  .brand-name{font-size:22px;color:var(--ink);}
+  .brand-name{font-size:22px;color:var(--ink);font-family:'Poppins',sans-serif;font-weight:800;}
   .topbar-actions{display:flex;align-items:center;gap:10px;}
   .icon-btn{
     position:relative;
@@ -68,7 +68,7 @@
   }
   .icon-btn:hover{transform:translateY(-2px);}
   .cart-count{
-    position:absolute;top:-4px;left:-4px;
+    position:absolute;top:-4px;right:-4px;
     background:var(--pink-deep);color:#fff;
     font-size:11px;font-weight:700;
     min-width:18px;height:18px;border-radius:9px;
@@ -100,7 +100,7 @@
   .hero .settings-hint{font-size:13px;opacity:.8;margin-top:18px;}
   .cta-btn{
     display:inline-block;background:#fff;color:var(--pink-deep);
-    font-weight:800;font-family:'Cairo',sans-serif;
+    font-weight:800;font-family:'Poppins',sans-serif;
     padding:14px 30px;border-radius:999px;font-size:16px;
     box-shadow:0 8px 20px rgba(0,0,0,0.12);
     transition:transform .15s ease;
@@ -116,7 +116,7 @@
   main{max-width:1180px;margin:0 auto;padding:56px 24px 90px;}
   .section-head{text-align:center;margin-bottom:36px;}
   .section-head .eyebrow{
-    color:var(--pink-deep);font-weight:700;font-size:13px;letter-spacing:.5px;
+    color:var(--pink-deep);font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;
   }
   .section-head h2{font-size:30px;margin:6px 0 0;}
 
@@ -145,61 +145,57 @@
   .product-media img{width:100%;height:100%;object-fit:cover;}
   .product-media .placeholder{font-size:40px;opacity:.5;}
   .media-count{
-    position:absolute;bottom:8px;left:8px;background:rgba(17,17,17,0.65);color:#fff;
+    position:absolute;bottom:8px;right:8px;background:rgba(17,17,17,0.65);color:#fff;
     font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;
   }
   .badge{
-    position:absolute;top:12px;right:12px;background:var(--gold);
+    position:absolute;top:12px;left:12px;background:var(--gold);
     color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;
   }
   .product-body{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1;}
-  .product-body h3{font-size:17px;margin:0;}
+  .product-body h3{font-size:17px;margin:0;font-family:'Poppins',sans-serif;font-weight:700;}
   .product-desc{font-size:13px;color:var(--ink-soft);line-height:1.6;margin:0;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
   .price-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
-  .price{font-family:'Cairo',sans-serif;font-weight:800;font-size:18px;color:var(--pink-deep);}
+  .price{font-family:'Poppins',sans-serif;font-weight:800;font-size:18px;color:var(--pink-deep);}
   .add-btn{
     background:var(--ink);color:#fff;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:700;
     transition:background .15s ease;
   }
   .add-btn:hover{background:var(--pink-deep);}
 
-  /* ---------- Product detail modal ---------- */
-  .pmodal-overlay{
-    position:fixed;inset:0;background:rgba(17,17,17,0.5);z-index:60;
-    opacity:0;pointer-events:none;transition:opacity .2s ease;
-    display:flex;align-items:center;justify-content:center;padding:20px;
+  /* ---------- Product detail full page ---------- */
+  .ppage{min-height:100vh;background:var(--bg);}
+  .ppage-back{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:14px;font-weight:700;color:var(--ink-soft);
+    padding:8px 14px;border-radius:12px;background:#fff;box-shadow:var(--shadow);
   }
-  .pmodal-overlay.open{opacity:1;pointer-events:auto;}
-  .pmodal{
-    background:#fff;border-radius:22px;max-width:760px;width:100%;max-height:88vh;overflow-y:auto;
-    box-shadow:0 20px 50px rgba(0,0,0,0.25);position:relative;
-    transform:translateY(16px);transition:transform .2s ease;
+  .ppage-wrap{max-width:1000px;margin:0 auto;padding:32px 24px 90px;}
+  .ppage-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;}
+  @media(max-width:720px){.ppage-grid{grid-template-columns:1fr;gap:24px;}}
+  .ppage-gallery{display:flex;flex-direction:column;gap:12px;}
+  .ppage-main-img{
+    aspect-ratio:1/1;border-radius:22px;overflow:hidden;background:#F5F5F5;
+    display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);
   }
-  .pmodal-overlay.open .pmodal{transform:translateY(0);}
-  .pmodal-close{
-    position:absolute;top:14px;left:14px;z-index:2;
-    width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:var(--shadow);
-    display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--ink-soft);
+  .ppage-main-img img{width:100%;height:100%;object-fit:cover;}
+  .ppage-main-img .placeholder{font-size:64px;opacity:.5;}
+  .ppage-thumbs{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;}
+  .ppage-thumb{
+    width:66px;height:66px;border-radius:12px;overflow:hidden;flex-shrink:0;cursor:pointer;
+    border:2px solid transparent;opacity:.6;transition:opacity .15s ease,border-color .15s ease;
   }
-  .pmodal-grid{display:grid;grid-template-columns:1fr 1fr;}
-  @media(max-width:620px){.pmodal-grid{grid-template-columns:1fr;}}
-  .pmodal-gallery{background:#F5F5F5;}
-  .pmodal-main-img{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-  .pmodal-main-img img{width:100%;height:100%;object-fit:cover;}
-  .pmodal-main-img .placeholder{font-size:56px;opacity:.5;}
-  .pmodal-thumbs{display:flex;gap:8px;padding:12px;overflow-x:auto;}
-  .pmodal-thumb{
-    width:54px;height:54px;border-radius:10px;overflow:hidden;flex-shrink:0;cursor:pointer;
-    border:2px solid transparent;opacity:.65;
-  }
-  .pmodal-thumb.active{border-color:var(--pink-deep);opacity:1;}
-  .pmodal-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
-  .pmodal-info{padding:26px;display:flex;flex-direction:column;gap:10px;}
-  .pmodal-info h3{font-size:22px;margin:0;}
-  .pmodal-info .price{font-size:22px;}
-  .pmodal-info .product-desc{-webkit-line-clamp:unset;font-size:14px;}
-  .pmodal-info .add-btn{padding:13px 18px;font-size:14px;margin-top:10px;}
+  .ppage-thumb.active{border-color:var(--pink-deep);opacity:1;}
+  .ppage-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .ppage-info{display:flex;flex-direction:column;gap:14px;padding-top:6px;}
+  .ppage-info .badge{position:static;align-self:flex-start;}
+  .ppage-info h1{font-size:28px;margin:0;line-height:1.3;font-family:'Poppins',sans-serif;font-weight:800;}
+  .ppage-info .price{font-size:26px;}
+  .ppage-info .product-desc{-webkit-line-clamp:unset;font-size:15px;line-height:1.8;}
+  .ppage-info .add-btn{padding:15px 20px;font-size:15px;margin-top:8px;border-radius:999px;}
+  .ppage-info .qty-row{margin-top:4px;}
+  .ppage-info .qty-row .qty-btn{width:36px;height:36px;font-size:16px;background:var(--mint);}
 
   /* ---------- Cart drawer ---------- */
   .overlay{
@@ -208,14 +204,14 @@
   }
   .overlay.open{opacity:1;pointer-events:auto;}
   .drawer{
-    position:fixed;top:0;bottom:0;left:0;width:min(380px,92vw);
-    background:#fff;z-index:51;transform:translateX(-100%);
+    position:fixed;top:0;bottom:0;right:0;width:min(380px,92vw);
+    background:#fff;z-index:51;transform:translateX(100%);
     transition:transform .25s ease;display:flex;flex-direction:column;
-    box-shadow:10px 0 30px rgba(0,0,0,0.12);
+    box-shadow:-10px 0 30px rgba(0,0,0,0.12);
   }
   .drawer.open{transform:translateX(0);}
   .drawer-head{padding:20px;border-bottom:1px solid #EAEAEA;display:flex;justify-content:space-between;align-items:center;}
-  .drawer-head h3{margin:0;font-size:19px;}
+  .drawer-head h3{margin:0;font-size:19px;font-family:'Poppins',sans-serif;}
   .drawer-body{flex:1;overflow-y:auto;padding:16px 20px;}
   .cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #EEEEEE;}
   .cart-item img,.cart-item .ph{width:60px;height:60px;border-radius:14px;object-fit:cover;background:#F2F2F2;
@@ -226,7 +222,7 @@
   .qty-btn{width:26px;height:26px;border-radius:8px;background:var(--bg);font-weight:700;}
   .remove-link{font-size:12px;color:var(--ink-soft);text-decoration:underline;margin-inline-start:auto;}
   .drawer-foot{padding:18px 20px;border-top:1px solid #EAEAEA;}
-  .total-row{display:flex;justify-content:space-between;font-family:'Cairo',sans-serif;font-weight:800;font-size:19px;margin-bottom:14px;}
+  .total-row{display:flex;justify-content:space-between;font-family:'Poppins',sans-serif;font-weight:800;font-size:19px;margin-bottom:14px;}
   .checkout-btn{
     width:100%;background:linear-gradient(135deg,var(--pink),var(--pink-deep));
     color:#fff;padding:14px;border-radius:14px;font-weight:700;font-size:15px;
@@ -253,7 +249,7 @@
   .tab-btn{padding:9px 18px;border-radius:10px;font-weight:700;font-size:14px;color:var(--ink-soft);}
   .tab-btn.active{background:var(--ink);color:#fff;}
   .panel{background:#fff;border-radius:22px;padding:26px;box-shadow:var(--shadow);}
-  .panel h3{margin-top:0;}
+  .panel h3{margin-top:0;font-family:'Poppins',sans-serif;}
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .form-grid .full{grid-column:1/-1;}
   @media(max-width:560px){.form-grid{grid-template-columns:1fr;}}
@@ -297,6 +293,125 @@
     background:var(--mint);color:var(--ink);padding:8px 14px;border-radius:9px;font-size:13px;font-weight:700;
     margin-bottom:14px;
   }
+
+  /* ================= THEME OVERRIDE: Black / White / Gray / Dark Navy ================= */
+  :root{
+    --pink:#16233F;        /* dark navy — primary accent */
+    --pink-deep:#0A1122;   /* near-black navy — hover/active */
+    --lavender:#000000;    /* black */
+    --gold:#111827;        /* near-black slate */
+    --mint:#EEF1F5;        /* light gray */
+    --ink:#0A0A0A;         /* black text */
+    --ink-soft:#6B7280;    /* gray text */
+    --shadow:0 6px 20px rgba(10,17,34,0.12);
+  }
+  body{ background:#FAFAFA; }
+  ::selection{ background:var(--pink); color:#fff; }
+
+  /* ---- keyframes ---- */
+  @keyframes fadeInUp{ from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:translateY(0);} }
+  @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+  @keyframes popIn{ 0%{transform:scale(.6);opacity:0;} 70%{transform:scale(1.08);opacity:1;} 100%{transform:scale(1);} }
+  @keyframes floatSlow{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+  @keyframes gradientShift{ 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+  @keyframes drift{ from{background-position:0 0;} to{background-position:76px 76px;} }
+  @keyframes pulseRing{ 0%{box-shadow:0 0 0 0 rgba(10,17,34,.35);} 70%{box-shadow:0 0 0 10px rgba(10,17,34,0);} 100%{box-shadow:0 0 0 0 rgba(10,17,34,0);} }
+  @keyframes spin{ to{transform:rotate(360deg);} }
+  @keyframes shimmerText{ 0%,100%{opacity:.55;} 50%{opacity:1;} }
+
+  /* ---- entrance animations (replay every render since nodes are freshly created) ---- */
+  .product-card,.ppage-main-img,.empty-state,.panel,.order-card,.admin-product-row,.success-box,.drawer-body .cart-item{
+    animation:fadeInUp .55s cubic-bezier(.2,.7,.3,1) both;
+  }
+  .grid .product-card:nth-child(1){animation-delay:.03s;}
+  .grid .product-card:nth-child(2){animation-delay:.08s;}
+  .grid .product-card:nth-child(3){animation-delay:.13s;}
+  .grid .product-card:nth-child(4){animation-delay:.18s;}
+  .grid .product-card:nth-child(5){animation-delay:.23s;}
+  .grid .product-card:nth-child(6){animation-delay:.28s;}
+  .grid .product-card:nth-child(7){animation-delay:.33s;}
+  .grid .product-card:nth-child(8){animation-delay:.38s;}
+  .grid .product-card:nth-child(n+9){animation-delay:.42s;}
+
+  /* ---- hover / interaction motion ---- */
+  .product-card{ transition:transform .25s cubic-bezier(.2,.8,.3,1), box-shadow .25s ease; }
+  .product-card:hover{ transform:translateY(-8px) scale(1.015); box-shadow:0 16px 34px rgba(10,17,34,.18); }
+  .product-media img{ transition:transform .5s cubic-bezier(.2,.8,.3,1), filter .3s ease; }
+  .product-card:hover .product-media img{ transform:scale(1.08); filter:saturate(1.05); }
+
+  .logo-badge{ background:linear-gradient(135deg,var(--pink),#000000); animation:floatSlow 3.4s ease-in-out infinite; }
+  .icon-btn{ transition:transform .2s ease, box-shadow .2s ease; }
+  .icon-btn:hover{ transform:translateY(-3px) rotate(-4deg); box-shadow:0 10px 22px rgba(10,17,34,.2); }
+  .icon-btn:active{ transform:scale(.92); }
+  .cart-count{ animation:popIn .35s ease both; }
+
+  .hero{
+    background:linear-gradient(120deg, var(--pink) 0%, #000000 50%, var(--pink-deep) 100%);
+    background-size:220% 220%;
+    animation:gradientShift 9s ease-in-out infinite;
+  }
+  .hero::before{ animation:drift 6s linear infinite; }
+  .hero h1{ animation:fadeInUp .7s ease both; }
+  .hero p{ animation:fadeInUp .8s ease .08s both; }
+  .hero .cta-btn{ animation:fadeInUp .9s ease .16s both; }
+
+  .cta-btn,.add-btn,.checkout-btn,.save-btn,.tab-btn,.mini-btn,.ppage-back,.admin-link{
+    transition:transform .18s cubic-bezier(.34,1.4,.64,1), box-shadow .18s ease, background .2s ease, color .2s ease;
+  }
+  .cta-btn:hover{ transform:translateY(-3px) scale(1.04); box-shadow:0 12px 26px rgba(0,0,0,.25); }
+  .cta-btn:active,.add-btn:active,.checkout-btn:active,.save-btn:active{ transform:scale(.95); }
+  .add-btn:hover{ background:var(--pink-deep); transform:translateY(-2px) scale(1.04); box-shadow:0 8px 18px rgba(10,17,34,.3); }
+  .checkout-btn{ background:linear-gradient(135deg,var(--pink),#000000); background-size:180% 180%; }
+  .checkout-btn:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(10,17,34,.3); animation:gradientShift 3s ease infinite; }
+  .save-btn:hover{ background:var(--pink-deep); transform:translateY(-2px); box-shadow:0 8px 18px rgba(10,17,34,.28); }
+  .tab-btn.active{ animation:popIn .3s ease both; }
+  .mini-btn:hover{ background:#E5E7EB; transform:translateY(-1px); }
+  .ppage-back:hover,.admin-link:hover{ transform:translateY(-2px); box-shadow:0 8px 18px rgba(10,17,34,.15); }
+
+  .badge{ animation:popIn .4s ease both, pulseRing 2.4s ease-in-out .4s infinite; }
+
+  .ppage-main-img img,.pmodal-main-img img{ animation:fadeIn .5s ease both; }
+  .ppage-thumb,.pmodal-thumb{ transition:transform .2s ease, opacity .2s ease, border-color .2s ease; }
+  .ppage-thumb:hover,.pmodal-thumb:hover{ transform:translateY(-3px) scale(1.05); opacity:1; }
+  .ppage-thumb.active,.pmodal-thumb.active{ animation:popIn .3s ease both; }
+
+  .overlay{ transition:opacity .3s ease; }
+  .drawer{ transition:transform .35s cubic-bezier(.2,.8,.2,1); }
+  .cart-item{ transition:background .2s ease; }
+  .cart-item:hover{ background:#FAFAFA; }
+  .qty-btn{ transition:transform .15s ease, background .2s ease; }
+  .qty-btn:hover{ background:var(--mint); transform:scale(1.1); }
+  .qty-btn:active{ transform:scale(.85); }
+  .remove-link{ transition:color .2s ease; }
+  .remove-link:hover{ color:var(--pink-deep); }
+
+  .toast{ animation:popIn .3s ease both; }
+
+  .loading-box{ position:relative; animation:shimmerText 1.6s ease-in-out infinite; }
+  .loading-box::before{
+    content:"";display:block;width:34px;height:34px;margin:0 auto 14px;
+    border:3px solid #E5E7EB;border-top-color:var(--pink);border-radius:50%;
+    animation:spin .8s linear infinite;
+  }
+
+  .empty-state .emoji{ animation:floatSlow 2.6s ease-in-out infinite; }
+  .success-box .emoji{ animation:popIn .5s ease both, floatSlow 2.4s ease-in-out .5s infinite; }
+  .section-head h2{ animation:fadeInUp .5s ease both; }
+  .admin-gate{ animation:fadeInUp .5s ease both; }
+  .admin-gate .emoji{ animation:floatSlow 2.8s ease-in-out infinite; }
+
+  .field input,.field textarea{ transition:border-color .2s ease, box-shadow .2s ease; }
+  .field input:focus,.field textarea:focus{ box-shadow:0 0 0 4px rgba(10,17,34,.08); }
+
+  .img-remove{ transition:transform .15s ease, background .2s ease; }
+  .img-remove:hover{ background:#FEE2E2; transform:rotate(90deg); }
+  .add-img-btn:hover{ background:#E5E7EB; transform:translateY(-1px); }
+
+  @media (prefers-reduced-motion:reduce){
+    .product-card,.ppage-main-img,.empty-state,.panel,.order-card,.admin-product-row,.success-box,.drawer-body .cart-item,
+    .logo-badge,.hero,.hero::before,.hero h1,.hero p,.hero .cta-btn,.badge,.cart-count,.toast,.loading-box,
+    .empty-state .emoji,.success-box .emoji,.admin-gate,.admin-gate .emoji,.section-head h2{ animation:none !important; }
+  }
 </style>
 </head>
 <body>
@@ -306,7 +421,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // ⚠️ حطي بيانات مشروعك من Supabase هنا (Project Settings → API)
+  // ⚠️ Put your Supabase project credentials here (Project Settings → API)
   const SUPABASE_URL = 'https://myvxroegtectghbalnom.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15dnhyb2VndGVjdGdoYmFsbm9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4OTk5MjcsImV4cCI6MjEwMjQ3NTkyN30.hAJ2nt8ib_oQHmEBHxshH03OkSs1E-iqxt5dkNLNFFA';
 </script>
@@ -315,23 +430,23 @@
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const state = {
-    view: 'store', // store | admin
+    view: 'store', // store | product | admin
     adminTab: 'products', // products | orders | settings
     adminAuthed: false,
     loading: true,
     products: [],
     orders: [],
-    settings: { name: 'متجري ✨', tagline: 'حاجات حلوة ومخصوصة، ضيفيها إنتي بنفسك.' },
+    settings: { name: 'My Store ✨', tagline: 'Cute, custom picks — add your own products here.' },
     cart: {}, // id -> qty
     drawerOpen: false,
     checkoutStep: 'cart', // cart | form | success
     editingProduct: null,
-    selectedProductId: null, // for product detail modal
+    selectedProductId: null, // for product detail full page
     galleryIndex: 0,
   };
 
   function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
-  function money(n){ return Number(n||0).toLocaleString('ar-EG') + ' ج.م'; }
+  function money(n){ return Number(n||0).toLocaleString('en-US') + ' EGP'; }
   function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
   // returns an array of image urls for a product, robust to old single-image rows
@@ -373,12 +488,16 @@
       await Promise.all([refreshProducts(), refreshSettings()]);
       state.cart = loadCart();
       if(location.hash === '#admin'){ state.view = 'admin'; }
+      else if(location.hash.startsWith('#product/')){
+        const pid = location.hash.slice('#product/'.length);
+        if(state.products.some(p=>p.id===pid)){ state.view = 'product'; state.selectedProductId = pid; }
+      }
       if(state.adminAuthed && state.view === 'admin'){ await refreshOrders(); }
       state.loading = false;
       render();
     }catch(err){
       state.loading = false;
-      state.loadError = (err && err.message) ? err.message : 'حصل خطأ في الاتصال بقاعدة البيانات';
+      state.loadError = (err && err.message) ? err.message : 'Error connecting to the database';
       render();
     }
   }
@@ -402,7 +521,7 @@
     addToCart(id){
       state.cart[id] = (state.cart[id]||0)+1;
       persistCart();
-      showToast('اتضافت للسلة ✨');
+      showToast('Added to cart ✨');
       render();
     },
     changeQty(id, delta){
@@ -432,7 +551,7 @@
         total: cartTotal(),
       };
       const { error } = await supabase.from('orders').insert(order);
-      if(error){ showToast('حصل خطأ، جربي تاني'); return; }
+      if(error){ showToast('Something went wrong, please try again'); return; }
       state.cart = {};
       persistCart();
       state.checkoutStep = 'success';
@@ -447,7 +566,7 @@
         email: f.email.value.trim(),
         password: f.password.value,
       });
-      if(error){ showToast('بيانات الدخول غلط'); return; }
+      if(error){ showToast('Invalid login credentials'); return; }
       await refreshOrders();
       render();
     },
@@ -470,11 +589,11 @@
     },
     cancelEdit(){ state.editingProduct = null; render(); },
     async deleteProduct(id){
-      if(!confirm('متأكدة إنك عايزة تمسحي المنتج ده؟')) return;
+      if(!confirm('Are you sure you want to delete this product?')) return;
       const { error } = await supabase.from('products').delete().eq('id', id);
-      if(error){ showToast('حصل خطأ في الحذف'); return; }
+      if(error){ showToast('Error deleting product'); return; }
       await refreshProducts();
-      showToast('اتمسح المنتج');
+      showToast('Product deleted');
       render();
     },
     async saveProduct(ev){
@@ -491,17 +610,17 @@
         description: f.description.value.trim(),
         badge: f.badge.value.trim(),
       };
-      if(!data.name || !data.price){ showToast('لازم اسم وسعر للمنتج'); return; }
+      if(!data.name || !data.price){ showToast('Product name and price are required'); return; }
       let error;
       if(state.editingProduct){
         ({ error } = await supabase.from('products').update(data).eq('id', state.editingProduct.id));
-        if(!error) showToast('اتحدث المنتج ✨');
+        if(!error) showToast('Product updated ✨');
         state.editingProduct = null;
       } else {
         ({ error } = await supabase.from('products').insert(data));
-        if(!error) showToast('اتضاف المنتج ✨');
+        if(!error) showToast('Product added ✨');
       }
-      if(error){ showToast('حصل خطأ، جربي تاني'); return; }
+      if(error){ showToast('Something went wrong, please try again'); return; }
       await refreshProducts();
       f.reset();
       render();
@@ -509,21 +628,28 @@
     async saveSettings(ev){
       ev.preventDefault();
       const f = ev.target;
-      const data = { name: f.sname.value.trim() || 'متجري ✨', tagline: f.tagline.value.trim() };
+      const data = { name: f.sname.value.trim() || 'My Store ✨', tagline: f.tagline.value.trim() };
       const { error } = await supabase.from('store_settings').update(data).eq('id',1);
-      if(error){ showToast('حصل خطأ، جربي تاني'); return; }
+      if(error){ showToast('Something went wrong, please try again'); return; }
       state.settings = data;
-      showToast('اتحفظت الإعدادات');
+      showToast('Settings saved');
       render();
     },
-    // ---- product detail modal ----
+    // ---- product detail full page ----
     openProduct(id){
       state.selectedProductId = id;
       state.galleryIndex = 0;
+      state.view = 'product';
+      state.drawerOpen = false;
+      location.hash = 'product/'+id;
+      window.scrollTo(0,0);
       render();
     },
     closeProduct(){
       state.selectedProductId = null;
+      state.view = 'store';
+      history.replaceState(null,'',location.pathname+location.search);
+      window.scrollTo(0,0);
       render();
     },
     setGalleryIndex(i){
@@ -570,7 +696,7 @@
           <div class="brand-name">${esc(s.name)}</div>
         </div>
         <div class="topbar-actions">
-          <button class="icon-btn" onclick="__actions.openDrawer()" aria-label="السلة">
+          <button class="icon-btn" onclick="__actions.openDrawer()" aria-label="Cart">
             🛍️
             ${cartCount()>0 ? `<span class="cart-count">${cartCount()}</span>` : ''}
           </button>
@@ -581,21 +707,21 @@
         <div class="hero-inner">
           <h1>${esc(s.name)}</h1>
           <p>${esc(s.tagline)}</p>
-          <a href="#products" class="cta-btn">تسوقي دلوقتي</a>
+          <a href="#products" class="cta-btn">Shop Now</a>
         </div>
         <div class="scallop"></div>
       </section>
 
       <main id="products">
         <div class="section-head">
-          <div class="eyebrow">المنتجات</div>
-          <h2>كل حاجة هنا مختارة بحب</h2>
+          <div class="eyebrow">Products</div>
+          <h2>Everything here, picked with love</h2>
         </div>
         ${state.products.length === 0 ? `
           <div class="empty-state">
             <span class="emoji">✨</span>
-            <h3>لسه مفيش منتجات</h3>
-            <p>هتلاقي هنا كل المنتجات المتاحة أول ما تتضاف.</p>
+            <h3>No products yet</h3>
+            <p>Once you add products, they'll show up here.</p>
           </div>
         ` : `
           <div class="grid">
@@ -608,7 +734,7 @@
                   ${p.description ? `<p class="product-desc">${esc(p.description)}</p>` : ''}
                   <div class="price-row">
                     <span class="price">${money(p.price)}</span>
-                    <button class="add-btn" onclick="event.stopPropagation();__actions.addToCart('${p.id}')">أضيفي للسلة</button>
+                    <button class="add-btn" onclick="event.stopPropagation();__actions.addToCart('${p.id}')">Add to Cart</button>
                   </div>
                 </div>
               </div>
@@ -617,51 +743,71 @@
         `}
       </main>
 
-      <footer>صُنع بحب 💌 — الدفع الحقيقي لسه مش متفعل، الطلبات بتتسجل وتقدري تتواصلي مع العميل بنفسك.</footer>
+      <footer>Made with love 💌 — Real payment isn't active yet; orders are recorded and you can contact the customer yourself.</footer>
 
       ${renderDrawer()}
-      ${renderProductModal()}
     `;
   }
 
-  function renderProductModal(){
+  function renderProductPage(){
     const id = state.selectedProductId;
-    if(!id) return '';
     const p = state.products.find(x=>x.id===id);
-    if(!p) return '';
+    if(!p){
+      return `
+        <div class="ppage-wrap">
+          <p style="color:var(--ink-soft);">This product is no longer available.</p>
+          <a href="#" class="ppage-back" onclick="__actions.closeProduct();return false;">← Back to store</a>
+        </div>
+      `;
+    }
     const imgs = productImages(p);
     const main = imgs[state.galleryIndex] || imgs[0];
     const mainHtml = main
       ? `<img src="${esc(main)}" alt="${esc(p.name)}" onerror="this.parentElement.innerHTML='<span class=placeholder>🪄</span>'">`
       : `<span class="placeholder">🪄</span>`;
+    const qty = state.cart[p.id] || 0;
 
     return `
-      <div class="pmodal-overlay open" onclick="if(event.target===this) __actions.closeProduct()">
-        <div class="pmodal">
-          <button class="pmodal-close" onclick="__actions.closeProduct()">✕</button>
-          <div class="pmodal-grid">
-            <div class="pmodal-gallery">
-              <div class="pmodal-main-img">${mainHtml}</div>
+      <header class="topbar">
+        <a href="#" class="ppage-back" onclick="__actions.closeProduct();return false;">← Back to store</a>
+        <button class="icon-btn" onclick="__actions.openDrawer()" aria-label="Cart">
+          🛍️
+          ${cartCount()>0 ? `<span class="cart-count">${cartCount()}</span>` : ''}
+        </button>
+      </header>
+      <div class="ppage">
+        <div class="ppage-wrap">
+          <div class="ppage-grid">
+            <div class="ppage-gallery">
+              <div class="ppage-main-img">${mainHtml}</div>
               ${imgs.length>1 ? `
-                <div class="pmodal-thumbs">
+                <div class="ppage-thumbs">
                   ${imgs.map((im,i)=>`
-                    <div class="pmodal-thumb ${i===state.galleryIndex?'active':''}" onclick="__actions.setGalleryIndex(${i})">
+                    <div class="ppage-thumb ${i===state.galleryIndex?'active':''}" onclick="__actions.setGalleryIndex(${i})">
                       <img src="${esc(im)}" alt="">
                     </div>
                   `).join('')}
                 </div>
               ` : ''}
             </div>
-            <div class="pmodal-info">
-              ${p.badge ? `<span class="badge" style="position:static;align-self:flex-start;">${esc(p.badge)}</span>` : ''}
-              <h3>${esc(p.name)}</h3>
+            <div class="ppage-info">
+              ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}
+              <h1>${esc(p.name)}</h1>
               <span class="price">${money(p.price)}</span>
               ${p.description ? `<p class="product-desc">${esc(p.description)}</p>` : ''}
-              <button class="add-btn" onclick="__actions.addToCart('${p.id}')">أضيفي للسلة</button>
+              ${qty>0 ? `
+                <div class="qty-row">
+                  <button class="qty-btn" onclick="__actions.changeQty('${p.id}',-1)">−</button>
+                  <span>${qty}</span>
+                  <button class="qty-btn" onclick="__actions.changeQty('${p.id}',1)">+</button>
+                </div>
+              ` : ''}
+              <button class="add-btn" onclick="__actions.addToCart('${p.id}')">Add to Cart</button>
             </div>
           </div>
         </div>
       </div>
+      ${renderDrawer()}
     `;
   }
 
@@ -672,23 +818,23 @@
       body = `
         <div class="success-box">
           <span class="emoji">🎉</span>
-          <h3>اتسجل طلبك!</h3>
-          <p style="color:var(--ink-soft);line-height:1.7;">هنتواصل معاكي على الرقم اللي كتبتيه لتأكيد الطلب والدفع.</p>
-          <button class="checkout-btn" style="margin-top:16px;" onclick="__actions.closeDrawer()">تمام</button>
+          <h3>Your order is placed!</h3>
+          <p style="color:var(--ink-soft);line-height:1.7;">We'll contact you on the number you provided to confirm the order and payment.</p>
+          <button class="checkout-btn" style="margin-top:16px;" onclick="__actions.closeDrawer()">Done</button>
         </div>`;
     } else if(state.checkoutStep === 'form'){
       body = `
         <form onsubmit="__actions.submitOrder(event)">
-          <div class="field"><label>الاسم</label><input name="name" required placeholder="اسمك"></div>
-          <div class="field"><label>رقم الموبايل</label><input name="phone" required placeholder="01xxxxxxxxx"></div>
-          <div class="field"><label>العنوان</label><textarea name="address" rows="2" required placeholder="المحافظة، المنطقة، تفاصيل العنوان"></textarea></div>
-          <div class="field"><label>ملاحظات (اختياري)</label><textarea name="note" rows="2" placeholder="أي تفاصيل حابة تقوليها"></textarea></div>
-          <button type="button" class="mini-btn" style="margin-bottom:10px;" onclick="__actions.backToCart()">⟵ رجوع للسلة</button>
-          <button type="submit" class="checkout-btn">تأكيد الطلب</button>
+          <div class="field"><label>Name</label><input name="name" required placeholder="Your name"></div>
+          <div class="field"><label>Phone Number</label><input name="phone" required placeholder="e.g. 01xxxxxxxxx"></div>
+          <div class="field"><label>Address</label><textarea name="address" rows="2" required placeholder="City, area, address details"></textarea></div>
+          <div class="field"><label>Notes (optional)</label><textarea name="note" rows="2" placeholder="Any details you'd like to add"></textarea></div>
+          <button type="button" class="mini-btn" style="margin-bottom:10px;" onclick="__actions.backToCart()">← Back to cart</button>
+          <button type="submit" class="checkout-btn">Confirm Order</button>
         </form>`;
     } else {
       body = items.length === 0
-        ? `<p style="text-align:center;color:var(--ink-soft);padding:40px 0;">السلة فاضية دلوقتي 🛍️</p>`
+        ? `<p style="text-align:center;color:var(--ink-soft);padding:40px 0;">Your cart is empty right now 🛍️</p>`
         : items.map(it=>`
             <div class="cart-item">
               ${(productImages(it)[0]) ? `<img src="${esc(productImages(it)[0])}" alt="">` : `<div class="ph">🪄</div>`}
@@ -699,7 +845,7 @@
                   <button class="qty-btn" onclick="__actions.changeQty('${it.id}',-1)">−</button>
                   <span>${it.qty}</span>
                   <button class="qty-btn" onclick="__actions.changeQty('${it.id}',1)">+</button>
-                  <a href="#" class="remove-link" onclick="__actions.removeFromCart('${it.id}');return false;">حذف</a>
+                  <a href="#" class="remove-link" onclick="__actions.removeFromCart('${it.id}');return false;">Remove</a>
                 </div>
               </div>
             </div>
@@ -710,14 +856,14 @@
       <div class="overlay ${state.drawerOpen?'open':''}" onclick="__actions.closeDrawer()"></div>
       <aside class="drawer ${state.drawerOpen?'open':''}">
         <div class="drawer-head">
-          <h3>السلة</h3>
+          <h3>Cart</h3>
           <button class="close-x" onclick="__actions.closeDrawer()">✕</button>
         </div>
         <div class="drawer-body">${body}</div>
         ${state.checkoutStep==='cart' ? `
           <div class="drawer-foot">
-            <div class="total-row"><span>الإجمالي</span><span>${money(cartTotal())}</span></div>
-            <button class="checkout-btn" ${items.length===0?'disabled style="opacity:.5;"':''} onclick="__actions.goToForm()">إتمام الطلب</button>
+            <div class="total-row"><span>Total</span><span>${money(cartTotal())}</span></div>
+            <button class="checkout-btn" ${items.length===0?'disabled style="opacity:.5;"':''} onclick="__actions.goToForm()">Checkout</button>
           </div>
         ` : ''}
       </aside>
@@ -728,17 +874,17 @@
     if(!state.adminAuthed){
       return `
         <header class="topbar">
-          <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">لوحة التحكم</div></div>
-          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ رجوع للمتجر</a>
+          <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">Admin Panel</div></div>
+          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">← Back to store</a>
         </header>
         <div class="admin-gate">
           <span class="emoji">🔐</span>
-          <h3>دخول لوحة التحكم</h3>
-          <p style="color:var(--ink-soft);font-size:13px;">بحساب الأدمن بتاعك في Supabase، إنتي بس اللي تقدري تدخلي بيه.</p>
+          <h3>Admin Login</h3>
+          <p style="color:var(--ink-soft);font-size:13px;">Sign in with your Supabase admin account — only you can access this.</p>
           <form onsubmit="__actions.tryAuth(event)">
-            <div class="field"><input name="email" type="email" placeholder="الإيميل" required></div>
-            <div class="field"><input name="password" type="password" placeholder="كلمة السر" required></div>
-            <button type="submit" class="save-btn" style="width:100%;">دخول</button>
+            <div class="field"><input name="email" type="email" placeholder="Email" required></div>
+            <div class="field"><input name="password" type="password" placeholder="Password" required></div>
+            <button type="submit" class="save-btn" style="width:100%;">Sign In</button>
           </form>
         </div>
       `;
@@ -746,17 +892,17 @@
 
     return `
       <header class="topbar">
-        <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">لوحة التحكم</div></div>
+        <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">Admin Panel</div></div>
         <div class="topbar-actions">
-          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ رجوع للمتجر</a>
-          <a href="#" class="admin-link" onclick="__actions.signOut();return false;">🚪 خروج</a>
+          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">← Back to store</a>
+          <a href="#" class="admin-link" onclick="__actions.signOut();return false;">🚪 Sign Out</a>
         </div>
       </header>
       <div class="admin-wrap">
         <div class="tabs">
-          <button class="tab-btn ${state.adminTab==='products'?'active':''}" onclick="__actions.setAdminTab('products')">المنتجات</button>
-          <button class="tab-btn ${state.adminTab==='orders'?'active':''}" onclick="__actions.setAdminTab('orders')">الطلبات (${state.orders.length})</button>
-          <button class="tab-btn ${state.adminTab==='settings'?'active':''}" onclick="__actions.setAdminTab('settings')">إعدادات المتجر</button>
+          <button class="tab-btn ${state.adminTab==='products'?'active':''}" onclick="__actions.setAdminTab('products')">Products</button>
+          <button class="tab-btn ${state.adminTab==='orders'?'active':''}" onclick="__actions.setAdminTab('orders')">Orders (${state.orders.length})</button>
+          <button class="tab-btn ${state.adminTab==='settings'?'active':''}" onclick="__actions.setAdminTab('settings')">Store Settings</button>
         </div>
         ${state.adminTab==='products' ? renderAdminProducts() : ''}
         ${state.adminTab==='orders' ? renderAdminOrders() : ''}
@@ -777,35 +923,35 @@
 
     return `
       <div class="panel" id="product-form" style="margin-bottom:24px;">
-        <h3>${ep ? 'تعديل المنتج' : 'إضافة منتج جديد'}</h3>
+        <h3>${ep ? 'Edit Product' : 'Add New Product'}</h3>
         <form onsubmit="__actions.saveProduct(event)">
           <div class="form-grid">
-            <div class="field"><label>اسم المنتج</label><input name="name" required value="${esc(ep?.name||'')}"></div>
-            <div class="field"><label>السعر (ج.م)</label><input name="price" type="number" step="0.01" required value="${ep?.price??''}"></div>
+            <div class="field"><label>Product Name</label><input name="name" required value="${esc(ep?.name||'')}"></div>
+            <div class="field"><label>Price (EGP)</label><input name="price" type="number" step="0.01" required value="${ep?.price??''}"></div>
             <div class="field full">
-              <label>صور المنتج (تقدري تضيفي أكتر من صورة)</label>
+              <label>Product Images (you can add more than one)</label>
               <div id="images-list">${imagesRowsHtml}</div>
-              <button type="button" class="add-img-btn" onclick="__imgActions.add('')">+ إضافة صورة تانية</button>
+              <button type="button" class="add-img-btn" onclick="__imgActions.add('')">+ Add another image</button>
             </div>
-            <div class="field full"><label>الوصف</label><textarea name="description" rows="2">${esc(ep?.description||'')}</textarea></div>
-            <div class="field"><label>شارة (اختياري، زي "الأكثر مبيعًا")</label><input name="badge" value="${esc(ep?.badge||'')}"></div>
+            <div class="field full"><label>Description</label><textarea name="description" rows="2">${esc(ep?.description||'')}</textarea></div>
+            <div class="field"><label>Badge (optional, e.g. "Best Seller")</label><input name="badge" value="${esc(ep?.badge||'')}"></div>
           </div>
-          <button type="submit" class="save-btn">${ep ? 'حفظ التعديلات' : 'إضافة المنتج'}</button>
-          ${ep ? `<button type="button" class="mini-btn" style="margin-inline-start:10px;" onclick="__actions.cancelEdit()">إلغاء</button>` : ''}
+          <button type="submit" class="save-btn">${ep ? 'Save Changes' : 'Add Product'}</button>
+          ${ep ? `<button type="button" class="mini-btn" style="margin-inline-start:10px;" onclick="__actions.cancelEdit()">Cancel</button>` : ''}
         </form>
       </div>
       <div class="panel">
-        <h3>المنتجات الحالية (${state.products.length})</h3>
-        ${state.products.length===0 ? `<p style="color:var(--ink-soft);">لسه مفيش منتجات مضافة.</p>` : state.products.map(p=>`
+        <h3>Current Products (${state.products.length})</h3>
+        ${state.products.length===0 ? `<p style="color:var(--ink-soft);">No products added yet.</p>` : state.products.map(p=>`
           <div class="admin-product-row">
             ${productImages(p)[0] ? `<img src="${esc(productImages(p)[0])}" alt="" onerror="this.outerHTML='<div class=ph>🪄</div>'">` : `<div class="ph">🪄</div>`}
             <div class="info">
-              <div class="n">${esc(p.name)} ${productImages(p).length>1 ? `<span style="color:var(--ink-soft);font-weight:400;">(${productImages(p).length} صور)</span>` : ''}</div>
+              <div class="n">${esc(p.name)} ${productImages(p).length>1 ? `<span style="color:var(--ink-soft);font-weight:400;">(${productImages(p).length} photos)</span>` : ''}</div>
               <div class="p">${money(p.price)}</div>
             </div>
             <div class="row-actions">
-              <button class="mini-btn" onclick="__actions.editProduct('${p.id}')">تعديل</button>
-              <button class="mini-btn danger" onclick="__actions.deleteProduct('${p.id}')">حذف</button>
+              <button class="mini-btn" onclick="__actions.editProduct('${p.id}')">Edit</button>
+              <button class="mini-btn danger" onclick="__actions.deleteProduct('${p.id}')">Delete</button>
             </div>
           </div>
         `).join('')}
@@ -816,15 +962,15 @@
   function renderAdminOrders(){
     return `
       <div class="panel">
-        <h3>الطلبات</h3>
-        ${state.orders.length===0 ? `<p style="color:var(--ink-soft);">لسه مفيش طلبات.</p>` : state.orders.map(o=>`
+        <h3>Orders</h3>
+        ${state.orders.length===0 ? `<p style="color:var(--ink-soft);">No orders yet.</p>` : state.orders.map(o=>`
           <div class="order-card">
             <div class="top"><span>${esc(o.customer_name)}</span><span>${money(o.total)}</span></div>
             <div class="meta">
               📱 ${esc(o.phone)}<br>
               📍 ${esc(o.address)}<br>
               ${o.note ? `📝 ${esc(o.note)}<br>` : ''}
-              🕒 ${new Date(o.created_at).toLocaleString('ar-EG')}
+              🕒 ${new Date(o.created_at).toLocaleString('en-US')}
             </div>
             <ul>${o.items.map(it=>`<li>${esc(it.name)} × ${it.qty} — ${money(it.price*it.qty)}</li>`).join('')}</ul>
           </div>
@@ -837,12 +983,12 @@
     const s = state.settings;
     return `
       <div class="panel">
-        <h3>إعدادات المتجر</h3>
-        <div class="muted-note">المنتجات والطلبات والإعدادات محفوظة دائمًا في قاعدة بيانات Supabase — متاحة لأي زائر يفتح رابط المتجر، ومتضيعش أبدًا بالريفريش. سلة كل زائر شخصية بس (محفوظة على متصفحه هو).</div>
+        <h3>Store Settings</h3>
+        <div class="muted-note">Products, orders, and settings are always stored in your Supabase database — available to any visitor who opens the store link, and never lost on refresh. Each visitor's cart is personal (saved in their own browser).</div>
         <form onsubmit="__actions.saveSettings(event)">
-          <div class="field"><label>اسم المتجر</label><input name="sname" required value="${esc(s.name)}"></div>
-          <div class="field"><label>الجملة الترحيبية</label><textarea name="tagline" rows="2">${esc(s.tagline)}</textarea></div>
-          <button type="submit" class="save-btn">حفظ</button>
+          <div class="field"><label>Store Name</label><input name="sname" required value="${esc(s.name)}"></div>
+          <div class="field"><label>Welcome Tagline</label><textarea name="tagline" rows="2">${esc(s.tagline)}</textarea></div>
+          <button type="submit" class="save-btn">Save</button>
         </form>
       </div>
     `;
@@ -851,10 +997,12 @@
   function render(){
     const app = document.getElementById('app');
     if(state.loading){
-      app.innerHTML = `<div class="loading-box">✨ بنجهز متجرك...</div>`;
+      app.innerHTML = `<div class="loading-box">✨ Setting up your store...</div>`;
       return;
     }
-    app.innerHTML = state.view === 'admin' ? renderAdmin() : renderStore();
+    if(state.view === 'admin') app.innerHTML = renderAdmin();
+    else if(state.view === 'product') app.innerHTML = renderProductPage();
+    else app.innerHTML = renderStore();
   }
 
   loadAll();
