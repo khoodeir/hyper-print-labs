@@ -1,75 +1,352 @@
 <!-- 
-  PRODUCT PAGE — GALLERY NAV + FLY-TO-CART ANIMATION
-  ----------------------------------------------------
-  How to use with your real images:
-  1. Replace the URLs inside the `images` array (search "REPLACE IMAGE URLS") 
-     with your actual product photo paths, e.g. "images/dragon-1.jpg".
-  2. Everything else (arrows, swipe, keyboard nav, fly-to-cart) works automatically.
+  HYPER PRINT LABS — FULL PAGE (Intro + Animated Hero + Product Page)
+  ---------------------------------------------------------------------
+  Everything in one file. No external images — product "photos" are
+  placeholder panels (gradient + label) so you can swap in your own
+  <img> tags later. Search "REPLACE WITH YOUR IMAGE" to find every spot.
 -->
 
-<div class="page">
-  <div class="gallery">
-    <div class="main-image-wrap" id="mainImageWrap">
-      <button class="nav-btn nav-prev" id="prevBtn" aria-label="Previous image">‹</button>
-      <img id="mainImage" class="main-image" src="" alt="Black Dragon Fantasy Figurine">
-      <button class="nav-btn nav-next" id="nextBtn" aria-label="Next image">›</button>
-      <div class="dots" id="dots"></div>
-    </div>
+<div class="site" id="site">
 
-    <div class="thumbs" id="thumbs"></div>
+  <!-- ============ INTRO OVERLAY (plays once on load) ============ -->
+  <div class="intro" id="intro">
+    <svg class="intro-wire" viewBox="0 0 300 300">
+      <polygon class="wire-shape" points="150,40 210,90 230,170 190,250 110,250 70,170 90,90"></polygon>
+      <polygon class="wire-shape wire-shape-2" points="150,70 195,105 205,165 175,220 125,220 95,165 105,105"></polygon>
+      <line class="wire-line" x1="150" y1="40" x2="150" y2="250"/>
+      <line class="wire-line" x1="70" y1="170" x2="230" y2="170"/>
+    </svg>
+    <div class="scan-line"></div>
+    <div class="intro-label">
+      <span id="introText"></span><span class="cursor">|</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill"></div></div>
   </div>
 
-  <div class="details">
-    <h1 class="title">Black Dragon Fantasy Figurine</h1>
-    <div class="price">2,355 EGP</div>
-
-    <p class="description">
-      A beautifully detailed black dragon figurine featuring large sculpted wings,
-      curved horns, textured scales, bright yellow eyes, and sharp orange claws.
-      The dragon has a long, curled tail and a small red-and-black bat-wing accessory
-      placed beside it. Its glossy black finish gives it a mysterious and powerful
-      appearance, making it a great decorative piece for fantasy lovers, collectors,
-      desks, shelves, or gaming rooms.
-    </p>
-
-    <div class="qty-row">
-      <button class="qty-btn" id="minusBtn" aria-label="Decrease quantity">−</button>
-      <span class="qty-value" id="qtyValue">5</span>
-      <button class="qty-btn" id="plusBtn" aria-label="Increase quantity">+</button>
+  <!-- ============ HEADER ============ -->
+  <header class="header">
+    <div class="brand">
+      <svg class="logo-mark" viewBox="0 0 60 60">
+        <polygon class="logo-shape" points="30,6 50,20 44,44 16,44 10,20"></polygon>
+        <polygon class="logo-shape logo-shape-inner" points="30,18 40,26 36,40 24,40 20,26"></polygon>
+      </svg>
+      <span class="brand-name">Hyper Print Labs</span>
     </div>
+    <div class="cart" id="cartIcon">
+      🛍️
+      <span class="cart-badge" id="cartCount">6</span>
+    </div>
+  </header>
 
-    <button class="add-to-cart" id="addToCartBtn">
-      <span id="addToCartLabel">Add to Cart</span>
-    </button>
-  </div>
-</div>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <canvas id="particles" class="particles-canvas"></canvas>
 
-<!-- Fixed cart icon in the corner — the animation flies items into this -->
-<div class="cart-icon" id="cartIcon">
-  🛒
-  <span class="cart-count" id="cartCount">0</span>
+    <svg class="hero-wire" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
+      <polygon class="hw-shape" points="200,60 270,120 300,220 250,320 150,320 100,220 130,120"/>
+      <polygon class="hw-shape hw-shape-inner" points="200,100 245,135 260,205 225,270 175,270 140,205 155,135"/>
+      <line class="hw-line" x1="200" y1="60" x2="200" y2="320"/>
+      <line class="hw-line" x1="100" y1="220" x2="300" y2="220"/>
+      <line class="hw-line" x1="130" y1="120" x2="270" y2="120"/>
+    </svg>
+
+    <div class="hero-content">
+      <h1 class="hero-title">Hyper Print Labs</h1>
+      <p class="hero-text">
+        We specialize in designing and creating high-quality fantasy and
+        collectible figurines inspired by mythical creatures, dragons, and
+        imaginative worlds. Our mission is to transform creative ideas into
+        unique, detailed sculptures that combine artistic design, craftsmanship,
+        and modern 3D modeling techniques. Each piece is carefully designed
+        with attention to details such as textures, shapes, colors, and
+        character expressions, making our collectibles ideal for fantasy
+        enthusiasts, collectors, home décor, and unique gifts. We are
+        passionate about bringing imagination to life and creating distinctive
+        pieces that add personality and magic to every collection.
+      </p>
+      <a href="#product" class="shop-btn">Shop Now</a>
+    </div>
+  </section>
+
+  <div class="scallop"></div>
+
+  <!-- ============ PRODUCT PAGE ============ -->
+  <section class="product-page" id="product">
+    <div class="page">
+      <div class="gallery">
+        <div class="main-image-wrap" id="mainImageWrap">
+          <button class="nav-btn nav-prev" id="prevBtn" aria-label="Previous image">‹</button>
+
+          <!-- REPLACE WITH YOUR IMAGE: this placeholder swaps its label/gradient per index -->
+          <div class="main-image" id="mainImage">
+            <span class="ph-icon">🐉</span>
+            <span class="ph-label" id="mainImageLabel">View 1</span>
+          </div>
+
+          <button class="nav-btn nav-next" id="nextBtn" aria-label="Next image">›</button>
+          <div class="dots" id="dots"></div>
+        </div>
+
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+
+      <div class="details">
+        <h1 class="title">Black Dragon Fantasy Figurine</h1>
+        <div class="price">2,355 EGP</div>
+
+        <p class="description">
+          A beautifully detailed black dragon figurine featuring large sculpted wings,
+          curved horns, textured scales, bright yellow eyes, and sharp orange claws.
+          The dragon has a long, curled tail and a small red-and-black bat-wing accessory
+          placed beside it. Its glossy black finish gives it a mysterious and powerful
+          appearance, making it a great decorative piece for fantasy lovers, collectors,
+          desks, shelves, or gaming rooms.
+        </p>
+
+        <div class="qty-row">
+          <button class="qty-btn" id="minusBtn" aria-label="Decrease quantity">−</button>
+          <span class="qty-value" id="qtyValue">5</span>
+          <button class="qty-btn" id="plusBtn" aria-label="Increase quantity">+</button>
+        </div>
+
+        <button class="add-to-cart" id="addToCartBtn">
+          <span id="addToCartLabel">Add to Cart</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <style>
   * { box-sizing: border-box; }
 
+  .site {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    position: relative;
+    background: #08080c;
+  }
+
+  /* ================= INTRO ================= */
+  .intro {
+    position: fixed;
+    inset: 0;
+    background: #06060a;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  .intro.hide { opacity: 0; visibility: hidden; }
+
+  .intro-wire { width: 180px; height: 180px; overflow: visible; }
+  .wire-shape, .wire-shape-2 {
+    fill: none;
+    stroke: #8b7bff;
+    stroke-width: 1.4;
+    stroke-dasharray: 620;
+    stroke-dashoffset: 620;
+    animation: draw 1.8s ease forwards;
+    filter: drop-shadow(0 0 4px rgba(139, 123, 255, 0.6));
+  }
+  .wire-shape-2 { stroke: #4dd8ff; animation-delay: 0.25s; }
+  .wire-line {
+    stroke: rgba(139, 123, 255, 0.5);
+    stroke-width: 1;
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+    animation: draw 1.4s ease forwards 0.5s;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  .scan-line {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 220px;
+    height: 2px;
+    transform: translate(-50%, -110px);
+    background: linear-gradient(90deg, transparent, #4dd8ff, transparent);
+    animation: scan 1.8s ease-in-out infinite;
+    opacity: 0.85;
+  }
+  @keyframes scan {
+    0% { transform: translate(-50%, -110px); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translate(-50%, 110px); opacity: 0; }
+  }
+
+  .intro-label {
+    font-family: "Courier New", monospace;
+    letter-spacing: 4px;
+    font-size: 13px;
+    color: #9d97ff;
+    text-transform: uppercase;
+  }
+  .cursor { animation: blink 0.8s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .progress-track {
+    width: 200px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #8b7bff, #4dd8ff);
+    animation: fillbar 2.4s ease forwards;
+  }
+  @keyframes fillbar { to { width: 100%; } }
+
+  /* ================= HEADER ================= */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    background: #08080c;
+    border-bottom: 1px solid rgba(139, 123, 255, 0.15);
+    position: relative;
+    z-index: 5;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo-mark { width: 38px; height: 38px; overflow: visible; }
+  .logo-shape {
+    fill: rgba(139, 123, 255, 0.12);
+    stroke: #8b7bff;
+    stroke-width: 1.6;
+  }
+  .logo-shape-inner { fill: rgba(77, 216, 255, 0.18); stroke: #4dd8ff; stroke-width: 1.2; }
+  .brand-name { font-weight: 800; font-size: 20px; color: #fff; }
+  .cart {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6a5cff, #4dd8ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    position: relative;
+  }
+  .cart-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #111;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cart.pulse { animation: pulse 0.4s ease; }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  /* ================= HERO ================= */
+  .hero {
+    position: relative;
+    background: radial-gradient(ellipse at 50% 0%, #14141c 0%, #08080c 60%, #030304 100%);
+    min-height: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .particles-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .hero-wire {
+    position: absolute;
+    width: 640px;
+    height: 640px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.16;
+    animation: rotateWire 40s linear infinite;
+  }
+  @keyframes rotateWire {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  .hw-shape { fill: none; stroke: #8b7bff; stroke-width: 1; }
+  .hw-shape-inner { stroke: #4dd8ff; }
+  .hw-line { stroke: rgba(139, 123, 255, 0.5); stroke-width: 0.6; }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    text-align: center;
+    padding: 80px 24px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: revealUp 0.9s ease forwards;
+    animation-delay: 2.6s;
+  }
+  @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
+
+  .hero-title { color: #fff; font-size: 52px; font-weight: 800; margin: 0 0 22px; letter-spacing: -0.5px; }
+  .hero-text { color: rgba(255, 255, 255, 0.72); font-size: 16px; line-height: 1.8; margin: 0 0 34px; }
+  .shop-btn {
+    display: inline-block;
+    background: #fff;
+    color: #111;
+    text-decoration: none;
+    border: none;
+    padding: 16px 38px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.3s ease;
+  }
+  .shop-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139, 123, 255, 0.35); }
+
+  .scallop {
+    height: 26px;
+    background: #08080c;
+    -webkit-mask: radial-gradient(circle 13px at 13px 0, transparent 12px, #000 13px) 0 0 / 26px 100% repeat-x;
+    mask: radial-gradient(circle 13px at 13px 0, transparent 12px, #000 13px) 0 0 / 26px 100% repeat-x;
+  }
+
+  /* ================= PRODUCT PAGE ================= */
+  .product-page {
+    background: radial-gradient(ellipse at 50% 0%, #14141c 0%, #08080c 60%, #030304 100%);
+    padding: 20px 0 60px;
+  }
+
   .page {
     display: flex;
     gap: 48px;
     max-width: 1100px;
-    margin: 40px auto;
+    margin: 20px auto;
     padding: 0 24px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #1a1a1a;
+    color: #fff;
     flex-wrap: wrap;
   }
 
-  /* ---------- GALLERY ---------- */
   .gallery { flex: 1 1 420px; max-width: 560px; }
 
   .main-image-wrap {
     position: relative;
-    background: linear-gradient(180deg, #e9eaec 0%, #cfd2d6 100%);
+    background: linear-gradient(180deg, #1c1c24 0%, #0c0c12 100%);
+    border: 1px solid rgba(139, 123, 255, 0.15);
     border-radius: 20px;
     overflow: hidden;
     aspect-ratio: 1 / 1;
@@ -77,13 +354,19 @@
     user-select: none;
   }
 
+  /* placeholder "image" panel — swap for <img> when you have real photos */
   .main-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.5);
   }
+  .ph-icon { font-size: 64px; opacity: 0.7; }
+  .ph-label { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
 
   .nav-btn {
     position: absolute;
@@ -102,141 +385,81 @@
     justify-content: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     transition: background 0.15s ease, transform 0.15s ease;
+    z-index: 2;
   }
   .nav-btn:hover { background: #fff; transform: translateY(-50%) scale(1.08); }
   .nav-btn:active { transform: translateY(-50%) scale(0.95); }
   .nav-prev { left: 14px; }
   .nav-next { right: 14px; }
 
-  .dots {
-    position: absolute;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 6px;
-  }
-  .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    transition: background 0.15s ease, width 0.15s ease;
-  }
+  .dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); cursor: pointer; transition: background 0.15s ease, width 0.15s ease; }
   .dot.active { background: #fff; width: 18px; border-radius: 4px; }
 
-  .thumbs {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
-  }
+  .thumbs { display: flex; gap: 10px; margin-top: 14px; }
   .thumb {
     width: 64px;
     height: 64px;
     border-radius: 10px;
-    overflow: hidden;
     cursor: pointer;
     border: 2px solid transparent;
-    opacity: 0.6;
+    opacity: 0.55;
     transition: opacity 0.15s ease, border-color 0.15s ease;
     flex-shrink: 0;
-  }
-  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .thumb.active { opacity: 1; border-color: #1a1a1a; }
-  .thumb:hover { opacity: 1; }
-
-  /* ---------- DETAILS ---------- */
-  .details { flex: 1 1 360px; max-width: 480px; padding-top: 4px; }
-
-  .title { font-size: 32px; font-weight: 800; margin: 0 0 8px; line-height: 1.15; }
-  .price { font-size: 26px; font-weight: 800; margin-bottom: 18px; }
-  .description { font-size: 15px; line-height: 1.7; color: #55575c; margin-bottom: 26px; }
-
-  .qty-row {
+    background: linear-gradient(180deg, #1c1c24 0%, #0c0c12 100%);
+    border-color: rgba(139, 123, 255, 0.15);
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 22px;
+    justify-content: center;
+    font-size: 22px;
   }
+  .thumb.active { opacity: 1; border-color: #8b7bff; }
+  .thumb:hover { opacity: 1; }
+
+  .details { flex: 1 1 360px; max-width: 480px; padding-top: 4px; }
+  .title { font-size: 32px; font-weight: 800; margin: 0 0 8px; line-height: 1.15; color: #fff; }
+  .price { font-size: 26px; font-weight: 800; margin-bottom: 18px; color: #fff; }
+  .description { font-size: 15px; line-height: 1.7; color: rgba(255, 255, 255, 0.65); margin-bottom: 26px; }
+
+  .qty-row { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; }
   .qty-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    border: none;
-    background: #eef0f2;
-    font-size: 18px;
-    cursor: pointer;
+    width: 36px; height: 36px; border-radius: 8px; border: 1px solid rgba(139, 123, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06); color: #fff; font-size: 18px; cursor: pointer;
     transition: background 0.15s ease, transform 0.1s ease;
   }
-  .qty-btn:hover { background: #e1e4e8; }
+  .qty-btn:hover { background: rgba(255, 255, 255, 0.12); }
   .qty-btn:active { transform: scale(0.92); }
-  .qty-value { font-size: 17px; min-width: 18px; text-align: center; }
+  .qty-value { font-size: 17px; min-width: 18px; text-align: center; color: #fff; }
 
   .add-to-cart {
     width: 100%;
     padding: 18px;
     border: none;
     border-radius: 999px;
-    background: #111214;
-    color: #fff;
+    background: linear-gradient(135deg, #6a5cff, #4dd8ff);
+    color: #0a0a10;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
-    transition: transform 0.12s ease, background 0.2s ease;
+    box-shadow: 0 8px 20px rgba(139, 123, 255, 0.3);
+    transition: transform 0.12s ease, box-shadow 0.2s ease;
   }
   .add-to-cart:hover { transform: translateY(-1px); }
   .add-to-cart:active { transform: translateY(0) scale(0.985); }
-  .add-to-cart.added { background: #1f8a4c; }
+  .add-to-cart.added { background: #1f8a4c; color: #fff; }
 
-  /* ---------- CART ICON (fly-to target) ---------- */
-  .cart-icon {
-    position: fixed;
-    top: 20px;
-    right: 24px;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    z-index: 500;
-  }
-  .cart-count {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    background: #e0403f;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    min-width: 18px;
-    height: 18px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 4px;
-  }
-  .cart-icon.pulse { animation: pulse 0.4s ease; }
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.25); }
-    100% { transform: scale(1); }
-  }
-
-  /* the flying clone */
+  /* the flying clone used by the add-to-cart animation */
   .flying-item {
     position: fixed;
     border-radius: 14px;
     pointer-events: none;
-    z-index: 999;
-    object-fit: cover;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    z-index: 9998;
+    background: linear-gradient(180deg, #1c1c24 0%, #0c0c12 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     transition: left 0.7s cubic-bezier(0.3, 0, 0.2, 1),
                 top 0.7s cubic-bezier(0.3, 0, 0.2, 1),
                 width 0.7s cubic-bezier(0.3, 0, 0.2, 1),
@@ -244,7 +467,16 @@
                 opacity 0.7s ease-in;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .hero-wire { animation: none; }
+    .hero-content { animation: none; opacity: 1; transform: none; }
+    .intro { display: none; }
+  }
+
   @media (max-width: 640px) {
+    .hero-title { font-size: 34px; }
+    .hero-text { font-size: 14px; }
+    .hero-wire { width: 420px; height: 420px; }
     .title { font-size: 26px; }
     .page { gap: 28px; }
   }
@@ -252,16 +484,92 @@
 
 <script>
 (function () {
-  // ---- REPLACE IMAGE URLS with your real product photos ----
-  const images = [
-    "https://images.unsplash.com/photo-1618519764620-7403abdbdfe9?w=800&q=80",
-    "https://images.unsplash.com/photo-1642104784251-3d68ce7c8dc0?w=800&q=80"
+  /* ---------- INTRO TYPING + FADE OUT ---------- */
+  const introText = document.getElementById("introText");
+  const fullText = "PRINTING YOUR EXPERIENCE";
+  let i = 0;
+  const typeInterval = setInterval(() => {
+    introText.textContent = fullText.slice(0, i + 1);
+    i++;
+    if (i >= fullText.length) clearInterval(typeInterval);
+  }, 45);
+
+  setTimeout(() => {
+    document.getElementById("intro").classList.add("hide");
+  }, 2500);
+
+  /* ---------- PARTICLE BACKGROUND ---------- */
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+  let particles = [];
+  let w, h;
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    w = canvas.width = rect.width;
+    h = canvas.height = rect.height;
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  const colors = ["139,123,255", "77,216,255", "255,255,255"];
+
+  function makeParticle() {
+    return {
+      x: Math.random() * w,
+      y: h + Math.random() * 40,
+      r: Math.random() * 1.8 + 0.6,
+      speed: Math.random() * 0.5 + 0.15,
+      drift: (Math.random() - 0.5) * 0.3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      alpha: Math.random() * 0.5 + 0.2,
+      flicker: Math.random() * 0.02 + 0.005
+    };
+  }
+
+  const count = window.innerWidth < 640 ? 40 : 80;
+  for (let n = 0; n < count; n++) {
+    const p = makeParticle();
+    p.y = Math.random() * h;
+    particles.push(p);
+  }
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function tick() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach((p) => {
+      if (!reduceMotion) {
+        p.y -= p.speed;
+        p.x += p.drift;
+        p.alpha += (Math.random() - 0.5) * p.flicker;
+        p.alpha = Math.max(0.1, Math.min(0.7, p.alpha));
+        if (p.y < -10) {
+          Object.assign(p, makeParticle());
+          p.y = h + 10;
+        }
+      }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color},${p.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  /* ---------- PRODUCT GALLERY (placeholder panels, no real images) ---------- */
+  // REPLACE WITH YOUR IMAGE: swap "icon" + "label" for real <img src="..."> per slide
+  const slides = [
+    { icon: "🐉", label: "View 1 — front" },
+    { icon: "🦴", label: "View 2 — accessory" }
   ];
 
   let currentIndex = 0;
   let qty = 5;
 
   const mainImage = document.getElementById("mainImage");
+  const mainImageLabel = document.getElementById("mainImageLabel");
   const thumbsWrap = document.getElementById("thumbs");
   const dotsWrap = document.getElementById("dots");
   const prevBtn = document.getElementById("prevBtn");
@@ -273,62 +581,52 @@
   const addLabel = document.getElementById("addToCartLabel");
   const qtyValue = document.getElementById("qtyValue");
 
-  let cartTotal = 0;
+  let cartTotal = 6;
 
-  // Build thumbnails + dots dynamically
-  images.forEach((src, i) => {
+  slides.forEach((slide, idx) => {
     const thumb = document.createElement("div");
-    thumb.className = "thumb" + (i === 0 ? " active" : "");
-    thumb.innerHTML = `<img src="${src}" alt="View ${i + 1}">`;
-    thumb.addEventListener("click", () => goTo(i));
+    thumb.className = "thumb" + (idx === 0 ? " active" : "");
+    thumb.textContent = slide.icon;
+    thumb.addEventListener("click", () => goTo(idx));
     thumbsWrap.appendChild(thumb);
 
     const dot = document.createElement("div");
-    dot.className = "dot" + (i === 0 ? " active" : "");
-    dot.addEventListener("click", () => goTo(i));
+    dot.className = "dot" + (idx === 0 ? " active" : "");
+    dot.addEventListener("click", () => goTo(idx));
     dotsWrap.appendChild(dot);
   });
 
   function render() {
-    mainImage.src = images[currentIndex];
-    [...thumbsWrap.children].forEach((el, i) =>
-      el.classList.toggle("active", i === currentIndex)
-    );
-    [...dotsWrap.children].forEach((el, i) =>
-      el.classList.toggle("active", i === currentIndex)
-    );
+    const slide = slides[currentIndex];
+    mainImage.querySelector(".ph-icon").textContent = slide.icon;
+    mainImageLabel.textContent = slide.label;
+    [...thumbsWrap.children].forEach((el, idx) => el.classList.toggle("active", idx === currentIndex));
+    [...dotsWrap.children].forEach((el, idx) => el.classList.toggle("active", idx === currentIndex));
   }
 
   function goTo(index) {
-    currentIndex = (index + images.length) % images.length;
+    currentIndex = (index + slides.length) % slides.length;
     render();
   }
 
   prevBtn.addEventListener("click", () => goTo(currentIndex - 1));
   nextBtn.addEventListener("click", () => goTo(currentIndex + 1));
 
-  // Keyboard navigation
   document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") goTo(currentIndex - 1);
     if (e.key === "ArrowRight") goTo(currentIndex + 1);
   });
 
-  // Swipe navigation (touch)
   let touchStartX = 0;
-  mainWrap.addEventListener("touchstart", (e) => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-
+  mainWrap.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
   mainWrap.addEventListener("touchend", (e) => {
     const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) {
-      dx > 0 ? goTo(currentIndex - 1) : goTo(currentIndex + 1);
-    }
+    if (Math.abs(dx) > 40) dx > 0 ? goTo(currentIndex - 1) : goTo(currentIndex + 1);
   }, { passive: true });
 
   render();
 
-  // ---- Quantity controls ----
+  /* ---------- QUANTITY ---------- */
   document.getElementById("minusBtn").addEventListener("click", () => {
     qty = Math.max(1, qty - 1);
     qtyValue.textContent = qty;
@@ -338,13 +636,14 @@
     qtyValue.textContent = qty;
   });
 
-  // ---- Fly-to-cart animation ----
+  /* ---------- FLY TO CART ---------- */
   function flyToCart() {
     const imgRect = mainImage.getBoundingClientRect();
     const cartRect = cartIcon.getBoundingClientRect();
 
-    const clone = mainImage.cloneNode();
+    const clone = document.createElement("div");
     clone.className = "flying-item";
+    clone.textContent = slides[currentIndex].icon;
     clone.style.left = imgRect.left + "px";
     clone.style.top = imgRect.top + "px";
     clone.style.width = imgRect.width + "px";
@@ -352,7 +651,6 @@
     clone.style.opacity = "1";
     document.body.appendChild(clone);
 
-    // force layout before transitioning
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         clone.style.left = cartRect.left + cartRect.width / 2 - 10 + "px";
@@ -360,6 +658,7 @@
         clone.style.width = "20px";
         clone.style.height = "20px";
         clone.style.opacity = "0.2";
+        clone.style.fontSize = "10px";
       });
     });
 
