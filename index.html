@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>متجري ✨</title>
+<title>My Store ✨</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Cairo:wght@400;500;600;700&display=swap');
 
@@ -68,12 +68,14 @@
   }
   .icon-btn:hover{transform:translateY(-2px);}
   .cart-count{
-    position:absolute;top:-4px;left:-4px;
+    position:absolute;top:-4px;right:-4px;
     background:var(--pink-deep);color:#fff;
     font-size:11px;font-weight:700;
     min-width:18px;height:18px;border-radius:9px;
     display:flex;align-items:center;justify-content:center;padding:0 4px;
   }
+  .cart-count.pulse{animation:pulse .4s ease;}
+  @keyframes pulse{0%{transform:scale(1);}40%{transform:scale(1.3);}100%{transform:scale(1);}}
   .admin-link{
     font-size:13px;color:var(--ink-soft);
     display:flex;align-items:center;gap:6px;
@@ -134,7 +136,7 @@
   .product-card{
     background:var(--card);border-radius:var(--radius);overflow:hidden;
     box-shadow:var(--shadow);display:flex;flex-direction:column;
-    transition:transform .18s ease;position:relative;
+    transition:transform .18s ease;position:relative;cursor:pointer;
   }
   .product-card:hover{transform:translateY(-4px);}
   .product-media{
@@ -159,6 +161,73 @@
   }
   .add-btn:hover{background:var(--pink-deep);}
 
+  /* ---------- Product detail page ---------- */
+  .pd-wrap{max-width:1100px;margin:0 auto;padding:32px 24px 90px;}
+  .pd-back{
+    display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;
+    color:var(--ink-soft);margin-bottom:22px;
+  }
+  .pd-back:hover{color:var(--ink);}
+  .pd-grid{display:flex;gap:48px;flex-wrap:wrap;}
+  .pd-gallery{flex:1 1 420px;max-width:560px;}
+  .pd-main-wrap{
+    position:relative;background:linear-gradient(135deg,#F5F5F5,#EDEDED);
+    border-radius:20px;overflow:hidden;aspect-ratio:1/1;touch-action:pan-y;user-select:none;
+  }
+  .pd-main{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+  .pd-main img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;}
+  .pd-main .placeholder{font-size:64px;opacity:.5;}
+  .pd-nav{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.9);
+    font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow);transition:background .15s ease,transform .15s ease;z-index:2;
+  }
+  .pd-nav:hover{background:#fff;transform:translateY(-50%) scale(1.08);}
+  .pd-nav-prev{left:14px;}
+  .pd-nav-next{right:14px;}
+  .pd-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
+  .pd-dot{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.25);cursor:pointer;transition:background .15s ease,width .15s ease;}
+  .pd-dot.active{background:var(--ink);width:18px;border-radius:4px;}
+  .pd-thumbs{display:flex;gap:10px;margin-top:14px;}
+  .pd-thumb{
+    width:64px;height:64px;border-radius:10px;overflow:hidden;cursor:pointer;
+    border:2px solid transparent;opacity:.6;transition:opacity .15s ease,border-color .15s ease;
+    flex-shrink:0;background:linear-gradient(135deg,#F5F5F5,#EDEDED);
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+  }
+  .pd-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .pd-thumb.active{opacity:1;border-color:var(--ink);}
+  .pd-thumb:hover{opacity:1;}
+  .pd-info{flex:1 1 360px;max-width:480px;padding-top:4px;}
+  .pd-title{font-size:32px;font-weight:800;margin:0 0 8px;line-height:1.15;}
+  .pd-price{font-size:26px;font-weight:800;margin-bottom:18px;color:var(--pink-deep);}
+  .pd-desc{font-size:15px;line-height:1.7;color:var(--ink-soft);margin-bottom:26px;}
+  .pd-qty-row{display:flex;align-items:center;gap:16px;margin-bottom:22px;}
+  .pd-qty-btn{
+    width:36px;height:36px;border-radius:8px;background:var(--mint);font-size:18px;
+    transition:background .15s ease,transform .1s ease;
+  }
+  .pd-qty-btn:hover{background:#e6e6e6;}
+  .pd-qty-btn:active{transform:scale(.92);}
+  .pd-qty-value{font-size:17px;min-width:18px;text-align:center;}
+  .pd-add-btn{
+    width:100%;padding:18px;border-radius:999px;background:var(--ink);color:#fff;
+    font-size:16px;font-weight:700;box-shadow:0 8px 18px rgba(0,0,0,.18);
+    transition:transform .12s ease,background .2s ease;
+  }
+  .pd-add-btn:hover{transform:translateY(-1px);background:var(--pink-deep);}
+  .pd-add-btn:active{transform:translateY(0) scale(.985);}
+  .pd-add-btn.added{background:#1f8a4c;}
+
+  .flying-item{
+    position:fixed;border-radius:14px;pointer-events:none;z-index:999;overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+    transition:left .7s cubic-bezier(.3,0,.2,1),top .7s cubic-bezier(.3,0,.2,1),
+      width .7s cubic-bezier(.3,0,.2,1),height .7s cubic-bezier(.3,0,.2,1),opacity .7s ease-in;
+  }
+  .flying-item img{width:100%;height:100%;object-fit:cover;}
+
   /* ---------- Cart drawer ---------- */
   .overlay{
     position:fixed;inset:0;background:rgba(58,46,63,0.35);z-index:50;
@@ -166,10 +235,10 @@
   }
   .overlay.open{opacity:1;pointer-events:auto;}
   .drawer{
-    position:fixed;top:0;bottom:0;left:0;width:min(380px,92vw);
-    background:#fff;z-index:51;transform:translateX(-100%);
+    position:fixed;top:0;bottom:0;right:0;width:min(380px,92vw);
+    background:#fff;z-index:51;transform:translateX(100%);
     transition:transform .25s ease;display:flex;flex-direction:column;
-    box-shadow:10px 0 30px rgba(0,0,0,0.12);
+    box-shadow:-10px 0 30px rgba(0,0,0,0.12);
   }
   .drawer.open{transform:translateX(0);}
   .drawer-head{padding:20px;border-bottom:1px solid #EAEAEA;display:flex;justify-content:space-between;align-items:center;}
@@ -242,6 +311,11 @@
   .toast.show{transform:translateX(-50%) translateY(0);}
   .loading-box{text-align:center;padding:100px 20px;color:var(--ink-soft);}
   footer{text-align:center;padding:30px;color:var(--ink-soft);font-size:13px;}
+
+  @media(max-width:640px){
+    .pd-title{font-size:26px;}
+    .pd-grid{gap:28px;}
+  }
 </style>
 </head>
 <body>
@@ -251,7 +325,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // ⚠️ حطي بيانات مشروعك من Supabase هنا (Project Settings → API)
+  // ⚠️ Put your Supabase project credentials here (Project Settings → API)
   const SUPABASE_URL = 'https://myvxroegtectghbalnom.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15dnhyb2VndGVjdGdoYmFsbm9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4OTk5MjcsImV4cCI6MjEwMjQ3NTkyN30.hAJ2nt8ib_oQHmEBHxshH03OkSs1E-iqxt5dkNLNFFA';
 </script>
@@ -260,21 +334,24 @@
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const state = {
-    view: 'store', // store | admin
+    view: 'store', // store | product | admin
     adminTab: 'products', // products | orders | settings
     adminAuthed: false,
     loading: true,
     products: [],
     orders: [],
-    settings: { name: 'متجري ✨', tagline: 'حاجات حلوة ومخصوصة، ضيفيها إنتي بنفسك.' },
+    settings: { name: 'My Store ✨', tagline: 'Nice, hand-picked things — curated just for you.' },
     cart: {}, // id -> qty
     drawerOpen: false,
     checkoutStep: 'cart', // cart | form | success
     editingProduct: null,
+    selectedProductId: null,
+    pdQty: 1,
+    pdGalleryIndex: 0,
   };
 
   function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
-  function money(n){ return Number(n||0).toLocaleString('ar-EG') + ' ج.م'; }
+  function money(n){ return Number(n||0).toLocaleString('en-US') + ' EGP'; }
   function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
   function showToast(msg){
@@ -288,6 +365,12 @@
     try{ return JSON.parse(localStorage.getItem('cart')||'{}'); }catch(e){ return {}; }
   }
   function persistCart(){ localStorage.setItem('cart', JSON.stringify(state.cart)); }
+
+  function productImages(p){
+    const list = [p.image];
+    if(p.images){ list.push(...String(p.images).split(',').map(s=>s.trim())); }
+    return list.map(s=>s&&s.trim()).filter(Boolean);
+  }
 
   async function refreshProducts(){
     const { data, error } = await supabase.from('products').select('*').order('created_at',{ascending:true});
@@ -314,7 +397,7 @@
       render();
     }catch(err){
       state.loading = false;
-      state.loadError = (err && err.message) ? err.message : 'حصل خطأ في الاتصال بقاعدة البيانات';
+      state.loadError = (err && err.message) ? err.message : 'A database connection error occurred';
       render();
     }
   }
@@ -333,12 +416,76 @@
   }
   function cartTotal(){ return cartItems().reduce((sum,it)=>sum+it.price*it.qty,0); }
 
+  // ---------- flying "added to cart" animation ----------
+  function flyToCart(sourceEl){
+    const cartEl = document.getElementById('cartIcon');
+    if(!sourceEl || !cartEl) return;
+    const srcRect = sourceEl.getBoundingClientRect();
+    const cartRect = cartEl.getBoundingClientRect();
+
+    const clone = sourceEl.cloneNode(true);
+    clone.classList.add('flying-item');
+    clone.style.left = srcRect.left + 'px';
+    clone.style.top = srcRect.top + 'px';
+    clone.style.width = srcRect.width + 'px';
+    clone.style.height = srcRect.height + 'px';
+    clone.style.opacity = '1';
+    document.body.appendChild(clone);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        clone.style.left = (cartRect.left + cartRect.width/2 - 10) + 'px';
+        clone.style.top = (cartRect.top + cartRect.height/2 - 10) + 'px';
+        clone.style.width = '20px';
+        clone.style.height = '20px';
+        clone.style.opacity = '0.15';
+      });
+    });
+
+    setTimeout(() => {
+      clone.remove();
+      const freshCart = document.getElementById('cartIcon');
+      const freshBadge = document.getElementById('cartCountBadge');
+      if(freshCart) freshCart.classList.add('pulse');
+      if(freshBadge) freshBadge.classList.add('pulse');
+      setTimeout(() => {
+        if(freshCart) freshCart.classList.remove('pulse');
+        if(freshBadge) freshBadge.classList.remove('pulse');
+      }, 400);
+    }, 700);
+  }
+
   // ---------- actions ----------
   window.__actions = {
     addToCart(id){
       state.cart[id] = (state.cart[id]||0)+1;
       persistCart();
-      showToast('اتضافت للسلة ✨');
+      showToast('Added to cart ✨');
+      render();
+    },
+    addToCartFromCard(ev, id){
+      ev.stopPropagation();
+      const card = ev.currentTarget.closest('.product-card');
+      const media = card ? card.querySelector('.product-media') : null;
+      if(media) flyToCart(media);
+      this.addToCart(id);
+    },
+    addToCartFromProduct(id){
+      const mainEl = document.getElementById('pdMainImage');
+      if(mainEl) flyToCart(mainEl);
+      const qty = state.pdQty || 1;
+      state.cart[id] = (state.cart[id]||0) + qty;
+      persistCart();
+      showToast('Added to cart ✨');
+      const btn = document.getElementById('pdAddBtn');
+      if(btn){
+        btn.classList.add('added');
+        btn.querySelector('span').textContent = 'Added ✓';
+        setTimeout(()=>{
+          btn.classList.remove('added');
+          btn.querySelector('span').textContent = 'Add to Cart';
+        }, 1000);
+      }
       render();
     },
     changeQty(id, delta){
@@ -368,7 +515,7 @@
         total: cartTotal(),
       };
       const { error } = await supabase.from('orders').insert(order);
-      if(error){ showToast('حصل خطأ، جربي تاني'); return; }
+      if(error){ showToast('Something went wrong, please try again'); return; }
       state.cart = {};
       persistCart();
       state.checkoutStep = 'success';
@@ -376,6 +523,33 @@
     },
     goAdmin(){ state.view='admin'; location.hash='admin'; render(); },
     goStore(){ state.view='store'; history.replaceState(null,'',location.pathname+location.search); render(); },
+    viewProduct(id){
+      state.view = 'product';
+      state.selectedProductId = id;
+      state.pdQty = 1;
+      state.pdGalleryIndex = 0;
+      render();
+      window.scrollTo(0,0);
+    },
+    pdPrev(){
+      const p = state.products.find(x=>x.id===state.selectedProductId);
+      const imgs = p ? productImages(p) : [];
+      if(imgs.length<2) return;
+      state.pdGalleryIndex = (state.pdGalleryIndex - 1 + imgs.length) % imgs.length;
+      render();
+    },
+    pdNext(){
+      const p = state.products.find(x=>x.id===state.selectedProductId);
+      const imgs = p ? productImages(p) : [];
+      if(imgs.length<2) return;
+      state.pdGalleryIndex = (state.pdGalleryIndex + 1) % imgs.length;
+      render();
+    },
+    pdGoTo(idx){ state.pdGalleryIndex = idx; render(); },
+    pdChangeQty(delta){
+      state.pdQty = Math.max(1, (state.pdQty||1)+delta);
+      render();
+    },
     async tryAuth(ev){
       ev.preventDefault();
       const f = ev.target;
@@ -383,7 +557,7 @@
         email: f.email.value.trim(),
         password: f.password.value,
       });
-      if(error){ showToast('بيانات الدخول غلط'); return; }
+      if(error){ showToast('Incorrect login details'); return; }
       await refreshOrders();
       render();
     },
@@ -406,11 +580,11 @@
     },
     cancelEdit(){ state.editingProduct = null; render(); },
     async deleteProduct(id){
-      if(!confirm('متأكدة إنك عايزة تمسحي المنتج ده؟')) return;
+      if(!confirm('Are you sure you want to delete this product?')) return;
       const { error } = await supabase.from('products').delete().eq('id', id);
-      if(error){ showToast('حصل خطأ في الحذف'); return; }
+      if(error){ showToast('Something went wrong while deleting'); return; }
       await refreshProducts();
-      showToast('اتمسح المنتج');
+      showToast('Product deleted');
       render();
     },
     async saveProduct(ev){
@@ -420,20 +594,21 @@
         name: f.name.value.trim(),
         price: parseFloat(f.price.value) || 0,
         image: f.image.value.trim(),
+        images: f.images.value.trim(),
         description: f.description.value.trim(),
         badge: f.badge.value.trim(),
       };
-      if(!data.name || !data.price){ showToast('لازم اسم وسعر للمنتج'); return; }
+      if(!data.name || !data.price){ showToast('Product name and price are required'); return; }
       let error;
       if(state.editingProduct){
         ({ error } = await supabase.from('products').update(data).eq('id', state.editingProduct.id));
-        if(!error) showToast('اتحدث المنتج ✨');
+        if(!error) showToast('Product updated ✨');
         state.editingProduct = null;
       } else {
         ({ error } = await supabase.from('products').insert(data));
-        if(!error) showToast('اتضاف المنتج ✨');
+        if(!error) showToast('Product added ✨');
       }
-      if(error){ showToast('حصل خطأ، جربي تاني'); return; }
+      if(error){ showToast('Something went wrong, please try again'); return; }
       await refreshProducts();
       f.reset();
       render();
@@ -441,25 +616,25 @@
     async saveSettings(ev){
       ev.preventDefault();
       const f = ev.target;
-      const data = { name: f.sname.value.trim() || 'متجري ✨', tagline: f.tagline.value.trim() };
+      const data = { name: f.sname.value.trim() || 'My Store ✨', tagline: f.tagline.value.trim() };
       const { error } = await supabase.from('store_settings').update(data).eq('id',1);
-      if(error){ showToast('حصل خطأ، جربي تاني'); return; }
+      if(error){ showToast('Something went wrong, please try again'); return; }
       state.settings = data;
-      showToast('اتحفظت الإعدادات');
+      showToast('Settings saved');
       render();
     },
   };
   const A = window.__actions;
 
   // ---------- render pieces ----------
-  function productMedia(p, big){
+  function productMedia(p){
     if(p.image){
       return `<div class="product-media"><img src="${esc(p.image)}" alt="${esc(p.name)}" onerror="this.parentElement.innerHTML='<span class=placeholder>🪄</span>'"></div>`;
     }
     return `<div class="product-media"><span class="placeholder">🪄</span></div>`;
   }
 
-  function renderStore(){
+  function topbar(){
     const s = state.settings;
     return `
       <header class="topbar">
@@ -468,37 +643,44 @@
           <div class="brand-name">${esc(s.name)}</div>
         </div>
         <div class="topbar-actions">
-          <button class="icon-btn" onclick="__actions.openDrawer()" aria-label="السلة">
+          <button class="icon-btn" id="cartIcon" onclick="__actions.openDrawer()" aria-label="Cart">
             🛍️
-            ${cartCount()>0 ? `<span class="cart-count">${cartCount()}</span>` : ''}
+            ${cartCount()>0 ? `<span class="cart-count" id="cartCountBadge">${cartCount()}</span>` : ''}
           </button>
         </div>
       </header>
+    `;
+  }
+
+  function renderStore(){
+    const s = state.settings;
+    return `
+      ${topbar()}
 
       <section class="hero">
         <div class="hero-inner">
           <h1>${esc(s.name)}</h1>
           <p>${esc(s.tagline)}</p>
-          <a href="#products" class="cta-btn">تسوقي دلوقتي</a>
+          <a href="#products" class="cta-btn">Shop now</a>
         </div>
         <div class="scallop"></div>
       </section>
 
       <main id="products">
         <div class="section-head">
-          <div class="eyebrow">المنتجات</div>
-          <h2>كل حاجة هنا مختارة بحب</h2>
+          <div class="eyebrow">Products</div>
+          <h2>Everything here is picked with love</h2>
         </div>
         ${state.products.length === 0 ? `
           <div class="empty-state">
             <span class="emoji">✨</span>
-            <h3>لسه مفيش منتجات</h3>
-            <p>هتلاقي هنا كل المنتجات المتاحة أول ما تتضاف.</p>
+            <h3>No products yet</h3>
+            <p>Available products will show up here as soon as they're added.</p>
           </div>
         ` : `
           <div class="grid">
             ${state.products.map(p=>`
-              <div class="product-card">
+              <div class="product-card" onclick="__actions.viewProduct('${p.id}')">
                 ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}
                 ${productMedia(p)}
                 <div class="product-body">
@@ -506,7 +688,7 @@
                   ${p.description ? `<p class="product-desc">${esc(p.description)}</p>` : ''}
                   <div class="price-row">
                     <span class="price">${money(p.price)}</span>
-                    <button class="add-btn" onclick="__actions.addToCart('${p.id}')">أضيفي للسلة</button>
+                    <button class="add-btn" onclick="__actions.addToCartFromCard(event,'${p.id}')">Add to cart</button>
                   </div>
                 </div>
               </div>
@@ -515,8 +697,69 @@
         `}
       </main>
 
-      <footer>صُنع بحب 💌 — الدفع الحقيقي لسه مش متفعل، الطلبات بتتسجل وتقدري تتواصلي مع العميل بنفسك.</footer>
+      <footer>Made with love 💌 — real payment isn't wired up yet: orders are saved and you can follow up with the customer directly.</footer>
 
+      ${renderDrawer()}
+    `;
+  }
+
+  function renderProduct(){
+    const p = state.products.find(x=>x.id===state.selectedProductId);
+    if(!p){
+      return `
+        ${topbar()}
+        <div class="pd-wrap">
+          <a href="#" class="pd-back" onclick="__actions.goStore();return false;">‹ Back to store</a>
+          <p>This product is no longer available.</p>
+        </div>
+        ${renderDrawer()}
+      `;
+    }
+    const imgs = productImages(p);
+    const idx = Math.min(state.pdGalleryIndex, Math.max(imgs.length-1,0));
+    const current = imgs[idx];
+
+    const mainInner = current
+      ? `<img src="${esc(current)}" alt="${esc(p.name)}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'placeholder',textContent:'🪄'}))">`
+      : `<span class="placeholder">🪄</span>`;
+
+    return `
+      ${topbar()}
+      <div class="pd-wrap">
+        <a href="#" class="pd-back" onclick="__actions.goStore();return false;">‹ Back to store</a>
+        <div class="pd-grid">
+          <div class="pd-gallery">
+            <div class="pd-main-wrap" id="pdMainWrap">
+              ${imgs.length>1 ? `<button class="pd-nav pd-nav-prev" onclick="__actions.pdPrev()" aria-label="Previous image">‹</button>` : ''}
+              <div class="pd-main" id="pdMainImage">${mainInner}</div>
+              ${imgs.length>1 ? `<button class="pd-nav pd-nav-next" onclick="__actions.pdNext()" aria-label="Next image">›</button>` : ''}
+              ${imgs.length>1 ? `<div class="pd-dots">${imgs.map((_,i)=>`<div class="pd-dot ${i===idx?'active':''}" onclick="__actions.pdGoTo(${i})"></div>`).join('')}</div>` : ''}
+            </div>
+            ${imgs.length>1 ? `
+              <div class="pd-thumbs">
+                ${imgs.map((src,i)=>`
+                  <div class="pd-thumb ${i===idx?'active':''}" onclick="__actions.pdGoTo(${i})">
+                    <img src="${esc(src)}" alt="View ${i+1}" onerror="this.parentElement.textContent='🪄'">
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+          <div class="pd-info">
+            <h1 class="pd-title">${esc(p.name)}</h1>
+            <div class="pd-price">${money(p.price)}</div>
+            ${p.description ? `<p class="pd-desc">${esc(p.description)}</p>` : ''}
+            <div class="pd-qty-row">
+              <button class="pd-qty-btn" onclick="__actions.pdChangeQty(-1)" aria-label="Decrease quantity">−</button>
+              <span class="pd-qty-value">${state.pdQty}</span>
+              <button class="pd-qty-btn" onclick="__actions.pdChangeQty(1)" aria-label="Increase quantity">+</button>
+            </div>
+            <button class="pd-add-btn" id="pdAddBtn" onclick="__actions.addToCartFromProduct('${p.id}')">
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        </div>
+      </div>
       ${renderDrawer()}
     `;
   }
@@ -528,23 +771,23 @@
       body = `
         <div class="success-box">
           <span class="emoji">🎉</span>
-          <h3>اتسجل طلبك!</h3>
-          <p style="color:var(--ink-soft);line-height:1.7;">هنتواصل معاكي على الرقم اللي كتبتيه لتأكيد الطلب والدفع.</p>
-          <button class="checkout-btn" style="margin-top:16px;" onclick="__actions.closeDrawer()">تمام</button>
+          <h3>Your order is in!</h3>
+          <p style="color:var(--ink-soft);line-height:1.7;">We'll reach out on the number you gave us to confirm the order and payment.</p>
+          <button class="checkout-btn" style="margin-top:16px;" onclick="__actions.closeDrawer()">Done</button>
         </div>`;
     } else if(state.checkoutStep === 'form'){
       body = `
         <form onsubmit="__actions.submitOrder(event)">
-          <div class="field"><label>الاسم</label><input name="name" required placeholder="اسمك"></div>
-          <div class="field"><label>رقم الموبايل</label><input name="phone" required placeholder="01xxxxxxxxx"></div>
-          <div class="field"><label>العنوان</label><textarea name="address" rows="2" required placeholder="المحافظة، المنطقة، تفاصيل العنوان"></textarea></div>
-          <div class="field"><label>ملاحظات (اختياري)</label><textarea name="note" rows="2" placeholder="أي تفاصيل حابة تقوليها"></textarea></div>
-          <button type="button" class="mini-btn" style="margin-bottom:10px;" onclick="__actions.backToCart()">⟵ رجوع للسلة</button>
-          <button type="submit" class="checkout-btn">تأكيد الطلب</button>
+          <div class="field"><label>Name</label><input name="name" required placeholder="Your name"></div>
+          <div class="field"><label>Phone number</label><input name="phone" required placeholder="01xxxxxxxxx"></div>
+          <div class="field"><label>Address</label><textarea name="address" rows="2" required placeholder="Governorate, area, address details"></textarea></div>
+          <div class="field"><label>Notes (optional)</label><textarea name="note" rows="2" placeholder="Anything else we should know"></textarea></div>
+          <button type="button" class="mini-btn" style="margin-bottom:10px;" onclick="__actions.backToCart()">⟵ Back to cart</button>
+          <button type="submit" class="checkout-btn">Confirm order</button>
         </form>`;
     } else {
       body = items.length === 0
-        ? `<p style="text-align:center;color:var(--ink-soft);padding:40px 0;">السلة فاضية دلوقتي 🛍️</p>`
+        ? `<p style="text-align:center;color:var(--ink-soft);padding:40px 0;">Your cart is empty 🛍️</p>`
         : items.map(it=>`
             <div class="cart-item">
               ${it.image ? `<img src="${esc(it.image)}" alt="">` : `<div class="ph">🪄</div>`}
@@ -555,7 +798,7 @@
                   <button class="qty-btn" onclick="__actions.changeQty('${it.id}',-1)">−</button>
                   <span>${it.qty}</span>
                   <button class="qty-btn" onclick="__actions.changeQty('${it.id}',1)">+</button>
-                  <a href="#" class="remove-link" onclick="__actions.removeFromCart('${it.id}');return false;">حذف</a>
+                  <a href="#" class="remove-link" onclick="__actions.removeFromCart('${it.id}');return false;">Remove</a>
                 </div>
               </div>
             </div>
@@ -566,14 +809,14 @@
       <div class="overlay ${state.drawerOpen?'open':''}" onclick="__actions.closeDrawer()"></div>
       <aside class="drawer ${state.drawerOpen?'open':''}">
         <div class="drawer-head">
-          <h3>السلة</h3>
+          <h3>Cart</h3>
           <button class="close-x" onclick="__actions.closeDrawer()">✕</button>
         </div>
         <div class="drawer-body">${body}</div>
         ${state.checkoutStep==='cart' ? `
           <div class="drawer-foot">
-            <div class="total-row"><span>الإجمالي</span><span>${money(cartTotal())}</span></div>
-            <button class="checkout-btn" ${items.length===0?'disabled style="opacity:.5;"':''} onclick="__actions.goToForm()">إتمام الطلب</button>
+            <div class="total-row"><span>Total</span><span>${money(cartTotal())}</span></div>
+            <button class="checkout-btn" ${items.length===0?'disabled style="opacity:.5;"':''} onclick="__actions.goToForm()">Checkout</button>
           </div>
         ` : ''}
       </aside>
@@ -584,17 +827,17 @@
     if(!state.adminAuthed){
       return `
         <header class="topbar">
-          <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">لوحة التحكم</div></div>
-          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ رجوع للمتجر</a>
+          <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">Admin Panel</div></div>
+          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ Back to store</a>
         </header>
         <div class="admin-gate">
           <span class="emoji">🔐</span>
-          <h3>دخول لوحة التحكم</h3>
-          <p style="color:var(--ink-soft);font-size:13px;">بحساب الأدمن بتاعك في Supabase، إنتي بس اللي تقدري تدخلي بيه.</p>
+          <h3>Admin login</h3>
+          <p style="color:var(--ink-soft);font-size:13px;">Use your admin account from Supabase — only you can log in.</p>
           <form onsubmit="__actions.tryAuth(event)">
-            <div class="field"><input name="email" type="email" placeholder="الإيميل" required></div>
-            <div class="field"><input name="password" type="password" placeholder="كلمة السر" required></div>
-            <button type="submit" class="save-btn" style="width:100%;">دخول</button>
+            <div class="field"><input name="email" type="email" placeholder="Email" required></div>
+            <div class="field"><input name="password" type="password" placeholder="Password" required></div>
+            <button type="submit" class="save-btn" style="width:100%;">Log in</button>
           </form>
         </div>
       `;
@@ -602,17 +845,17 @@
 
     return `
       <header class="topbar">
-        <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">لوحة التحكم</div></div>
+        <div class="brand"><div class="logo-badge">🔧</div><div class="brand-name">Admin Panel</div></div>
         <div class="topbar-actions">
-          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ رجوع للمتجر</a>
-          <a href="#" class="admin-link" onclick="__actions.signOut();return false;">🚪 خروج</a>
+          <a href="#" class="admin-link" onclick="__actions.goStore();return false;">⟵ Back to store</a>
+          <a href="#" class="admin-link" onclick="__actions.signOut();return false;">🚪 Sign out</a>
         </div>
       </header>
       <div class="admin-wrap">
         <div class="tabs">
-          <button class="tab-btn ${state.adminTab==='products'?'active':''}" onclick="__actions.setAdminTab('products')">المنتجات</button>
-          <button class="tab-btn ${state.adminTab==='orders'?'active':''}" onclick="__actions.setAdminTab('orders')">الطلبات (${state.orders.length})</button>
-          <button class="tab-btn ${state.adminTab==='settings'?'active':''}" onclick="__actions.setAdminTab('settings')">إعدادات المتجر</button>
+          <button class="tab-btn ${state.adminTab==='products'?'active':''}" onclick="__actions.setAdminTab('products')">Products</button>
+          <button class="tab-btn ${state.adminTab==='orders'?'active':''}" onclick="__actions.setAdminTab('orders')">Orders (${state.orders.length})</button>
+          <button class="tab-btn ${state.adminTab==='settings'?'active':''}" onclick="__actions.setAdminTab('settings')">Store settings</button>
         </div>
         ${state.adminTab==='products' ? renderAdminProducts() : ''}
         ${state.adminTab==='orders' ? renderAdminOrders() : ''}
@@ -625,22 +868,23 @@
     const ep = state.editingProduct;
     return `
       <div class="panel" id="product-form" style="margin-bottom:24px;">
-        <h3>${ep ? 'تعديل المنتج' : 'إضافة منتج جديد'}</h3>
+        <h3>${ep ? 'Edit product' : 'Add a new product'}</h3>
         <form onsubmit="__actions.saveProduct(event)">
           <div class="form-grid">
-            <div class="field"><label>اسم المنتج</label><input name="name" required value="${esc(ep?.name||'')}"></div>
-            <div class="field"><label>السعر (ج.م)</label><input name="price" type="number" step="0.01" required value="${ep?.price??''}"></div>
-            <div class="field full"><label>رابط الصورة (اختياري)</label><input name="image" placeholder="https://..." value="${esc(ep?.image||'')}"></div>
-            <div class="field full"><label>الوصف</label><textarea name="description" rows="2">${esc(ep?.description||'')}</textarea></div>
-            <div class="field"><label>شارة (اختياري، زي "الأكثر مبيعًا")</label><input name="badge" value="${esc(ep?.badge||'')}"></div>
+            <div class="field"><label>Product name</label><input name="name" required value="${esc(ep?.name||'')}"></div>
+            <div class="field"><label>Price (EGP)</label><input name="price" type="number" step="0.01" required value="${ep?.price??''}"></div>
+            <div class="field full"><label>Main image URL (optional)</label><input name="image" placeholder="https://..." value="${esc(ep?.image||'')}"></div>
+            <div class="field full"><label>Extra gallery images (optional, comma-separated URLs)</label><input name="images" placeholder="https://..., https://..." value="${esc(ep?.images||'')}"></div>
+            <div class="field full"><label>Description</label><textarea name="description" rows="2">${esc(ep?.description||'')}</textarea></div>
+            <div class="field"><label>Badge (optional, e.g. "Best seller")</label><input name="badge" value="${esc(ep?.badge||'')}"></div>
           </div>
-          <button type="submit" class="save-btn">${ep ? 'حفظ التعديلات' : 'إضافة المنتج'}</button>
-          ${ep ? `<button type="button" class="mini-btn" style="margin-inline-start:10px;" onclick="__actions.cancelEdit()">إلغاء</button>` : ''}
+          <button type="submit" class="save-btn">${ep ? 'Save changes' : 'Add product'}</button>
+          ${ep ? `<button type="button" class="mini-btn" style="margin-inline-start:10px;" onclick="__actions.cancelEdit()">Cancel</button>` : ''}
         </form>
       </div>
       <div class="panel">
-        <h3>المنتجات الحالية (${state.products.length})</h3>
-        ${state.products.length===0 ? `<p style="color:var(--ink-soft);">لسه مفيش منتجات مضافة.</p>` : state.products.map(p=>`
+        <h3>Current products (${state.products.length})</h3>
+        ${state.products.length===0 ? `<p style="color:var(--ink-soft);">No products added yet.</p>` : state.products.map(p=>`
           <div class="admin-product-row">
             ${p.image ? `<img src="${esc(p.image)}" alt="" onerror="this.outerHTML='<div class=ph>🪄</div>'">` : `<div class="ph">🪄</div>`}
             <div class="info">
@@ -648,8 +892,8 @@
               <div class="p">${money(p.price)}</div>
             </div>
             <div class="row-actions">
-              <button class="mini-btn" onclick="__actions.editProduct('${p.id}')">تعديل</button>
-              <button class="mini-btn danger" onclick="__actions.deleteProduct('${p.id}')">حذف</button>
+              <button class="mini-btn" onclick="__actions.editProduct('${p.id}')">Edit</button>
+              <button class="mini-btn danger" onclick="__actions.deleteProduct('${p.id}')">Delete</button>
             </div>
           </div>
         `).join('')}
@@ -660,15 +904,15 @@
   function renderAdminOrders(){
     return `
       <div class="panel">
-        <h3>الطلبات</h3>
-        ${state.orders.length===0 ? `<p style="color:var(--ink-soft);">لسه مفيش طلبات.</p>` : state.orders.map(o=>`
+        <h3>Orders</h3>
+        ${state.orders.length===0 ? `<p style="color:var(--ink-soft);">No orders yet.</p>` : state.orders.map(o=>`
           <div class="order-card">
             <div class="top"><span>${esc(o.customer_name)}</span><span>${money(o.total)}</span></div>
             <div class="meta">
               📱 ${esc(o.phone)}<br>
               📍 ${esc(o.address)}<br>
               ${o.note ? `📝 ${esc(o.note)}<br>` : ''}
-              🕒 ${new Date(o.created_at).toLocaleString('ar-EG')}
+              🕒 ${new Date(o.created_at).toLocaleString('en-US')}
             </div>
             <ul>${o.items.map(it=>`<li>${esc(it.name)} × ${it.qty} — ${money(it.price*it.qty)}</li>`).join('')}</ul>
           </div>
@@ -681,12 +925,12 @@
     const s = state.settings;
     return `
       <div class="panel">
-        <h3>إعدادات المتجر</h3>
-        <div class="muted-note">المنتجات والطلبات والإعدادات محفوظة دائمًا في قاعدة بيانات Supabase — متاحة لأي زائر يفتح رابط المتجر، ومتضيعش أبدًا بالريفريش. سلة كل زائر شخصية بس (محفوظة على متصفحه هو).</div>
+        <h3>Store settings</h3>
+        <div class="muted-note">Products, orders, and settings are always saved in your Supabase database — available to any visitor who opens the store link, and never lost on refresh. Each visitor's cart is personal (saved on their own browser only).</div>
         <form onsubmit="__actions.saveSettings(event)">
-          <div class="field"><label>اسم المتجر</label><input name="sname" required value="${esc(s.name)}"></div>
-          <div class="field"><label>الجملة الترحيبية</label><textarea name="tagline" rows="2">${esc(s.tagline)}</textarea></div>
-          <button type="submit" class="save-btn">حفظ</button>
+          <div class="field"><label>Store name</label><input name="sname" required value="${esc(s.name)}"></div>
+          <div class="field"><label>Welcome message</label><textarea name="tagline" rows="2">${esc(s.tagline)}</textarea></div>
+          <button type="submit" class="save-btn">Save</button>
         </form>
       </div>
     `;
@@ -695,11 +939,33 @@
   function render(){
     const app = document.getElementById('app');
     if(state.loading){
-      app.innerHTML = `<div class="loading-box">✨ بنجهز متجرك...</div>`;
+      app.innerHTML = `<div class="loading-box">✨ Setting up your store...</div>`;
       return;
     }
-    app.innerHTML = state.view === 'admin' ? renderAdmin() : renderStore();
+    if(state.view === 'admin'){ app.innerHTML = renderAdmin(); }
+    else if(state.view === 'product'){ app.innerHTML = renderProduct(); }
+    else { app.innerHTML = renderStore(); }
   }
+
+  // ---------- gallery keyboard + swipe (registered once, delegated) ----------
+  document.addEventListener('keydown', (e) => {
+    if(state.view !== 'product') return;
+    if(e.key === 'ArrowLeft') A.pdPrev();
+    if(e.key === 'ArrowRight') A.pdNext();
+  });
+
+  let pdTouchStartX = 0;
+  document.addEventListener('touchstart', (e) => {
+    if(state.view !== 'product') return;
+    if(!e.target.closest('#pdMainWrap')) return;
+    pdTouchStartX = e.touches[0].clientX;
+  }, { passive:true });
+  document.addEventListener('touchend', (e) => {
+    if(state.view !== 'product') return;
+    if(!e.target.closest('#pdMainWrap')) return;
+    const dx = e.changedTouches[0].clientX - pdTouchStartX;
+    if(Math.abs(dx) > 40){ dx > 0 ? A.pdPrev() : A.pdNext(); }
+  }, { passive:true });
 
   loadAll();
 })();
