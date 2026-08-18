@@ -122,35 +122,45 @@
     padding:80px 24px 48px;
     overflow:hidden;
   }
-  .hero-smoke{
+.hero-smoke{
     --smoke-x:0px;--smoke-y:0px;
-    position:absolute;inset:-12%;pointer-events:none;z-index:0;opacity:.84;
-    filter:blur(18px) saturate(1.22);mix-blend-mode:screen;
+    position:absolute;inset:-18%;pointer-events:none;z-index:0;opacity:.52;
+    filter:blur(25px) saturate(.72) contrast(.88);mix-blend-mode:screen;
     transition:filter .45s ease,opacity .45s ease;
     background:
-      radial-gradient(ellipse 27% 34% at 8% 53%,rgba(208,145,92,.30) 0%,rgba(126,82,57,.16) 34%,transparent 74%),
-      radial-gradient(ellipse 21% 28% at 19% 16%,rgba(164,112,77,.22) 0%,transparent 72%),
-      radial-gradient(ellipse 29% 37% at 92% 49%,rgba(196,137,89,.28) 0%,rgba(123,83,58,.14) 36%,transparent 74%),
-      radial-gradient(ellipse 22% 27% at 83% 17%,rgba(165,113,75,.22) 0%,transparent 70%);
-    animation:smokeDrift 8s ease-in-out infinite alternate;
+      radial-gradient(ellipse 24% 42% at 7% 58%,rgba(183,171,157,.14) 0%,rgba(112,100,88,.08) 34%,transparent 78%),
+      radial-gradient(ellipse 18% 34% at 25% 13%,rgba(165,154,142,.10) 0%,transparent 76%),
+      radial-gradient(ellipse 28% 45% at 91% 44%,rgba(190,178,163,.13) 0%,rgba(112,101,89,.07) 38%,transparent 78%),
+      radial-gradient(ellipse 20% 35% at 77% 82%,rgba(161,151,140,.09) 0%,transparent 76%);
+    animation:smokeDrift 14s ease-in-out infinite alternate;
   }
   @keyframes smokeDrift{
-    0%{transform:translate3d(calc(-2.5% + var(--smoke-x)),calc(1.5% + var(--smoke-y)),0) scale(1);opacity:.62;}
-    50%{transform:translate3d(calc(1.8% + var(--smoke-x)),calc(-1.8% + var(--smoke-y)),0) scale(1.06);opacity:.92;}
-    100%{transform:translate3d(calc(3% + var(--smoke-x)),calc(2% + var(--smoke-y)),0) scale(1.02);opacity:.72;}
+    0%{transform:translate3d(calc(-4% + var(--smoke-x)),calc(3% + var(--smoke-y)),0) scale(1.04) rotate(-1deg);opacity:.34;}
+    35%{transform:translate3d(calc(1% + var(--smoke-x)),calc(-2% + var(--smoke-y)),0) scale(1.10) rotate(1deg);opacity:.50;}
+    70%{transform:translate3d(calc(4% + var(--smoke-x)),calc(1% + var(--smoke-y)),0) scale(1.06) rotate(-.5deg);opacity:.43;}
+    100%{transform:translate3d(calc(7% + var(--smoke-x)),calc(-3% + var(--smoke-y)),0) scale(1.13) rotate(1.5deg);opacity:.56;}
   }
   @keyframes heroBackgroundDrift{
     0%{background-position:48% 50%;}
     100%{background-position:52% 50%;}
   }
-  .hero-texture{
-    position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;
+.hero-texture{
+    position:absolute;inset:-10%;z-index:1;pointer-events:none;opacity:.34;
     background-image:
-      linear-gradient(var(--line-dark) 1px,transparent 1px),
-      linear-gradient(90deg,var(--line-dark) 1px,transparent 1px);
-    background-size:28px 28px;
-    -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 20%,black 0%,transparent 78%);
-    mask-image:radial-gradient(ellipse 75% 65% at 50% 20%,black 0%,transparent 78%);
+      radial-gradient(ellipse 42% 58% at 50% 18%,rgba(255,255,255,.10),transparent 72%),
+      radial-gradient(ellipse 24% 34% at 16% 72%,rgba(255,90,34,.08),transparent 76%),
+      repeating-linear-gradient(118deg,rgba(242,238,227,.045) 0 1px,transparent 1px 9px),
+      repeating-linear-gradient(62deg,transparent 0 17px,rgba(242,238,227,.025) 18px,transparent 19px 36px);
+    background-size:auto,auto,100% 100%,100% 100%;
+    background-position:center,center,0 0,0 0;
+    -webkit-mask-image:radial-gradient(ellipse 78% 68% at 50% 24%,black 0%,rgba(0,0,0,.72) 48%,transparent 88%);
+    mask-image:radial-gradient(ellipse 78% 68% at 50% 24%,black 0%,rgba(0,0,0,.72) 48%,transparent 88%);
+    animation:heroTextureDrift 18s ease-in-out infinite alternate;
+  }
+  @keyframes heroTextureDrift{
+    0%{transform:translate3d(-1.5%,-.5%,0) scale(1.02);opacity:.25;}
+    50%{transform:translate3d(1%,.8%,0) scale(1.05);opacity:.34;}
+    100%{transform:translate3d(2%, -1%,0) scale(1.08);opacity:.28;}
   }
   .hero-inner{
     position:relative;z-index:2;max-width:1180px;margin:0 auto;
