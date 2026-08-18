@@ -188,7 +188,18 @@
   html[dir="rtl"] .cta-btn svg{transform:scaleX(-1);}
 
   .hero-scene{flex:1 1 320px;max-width:400px;display:flex;justify-content:center;perspective:900px;}
-  .hero-scene svg{width:100%;height:auto;max-width:340px;transition:transform .25s ease-out;transform-style:preserve-3d;}
+.hero-print-stage{position:relative;width:100%;max-width:540px;aspect-ratio:4 / 3;overflow:hidden;border-radius:16px;background:#0d0d0c;box-shadow:0 24px 60px rgba(0,0,0,.42),0 0 34px rgba(255,90,34,.12);transform-style:preserve-3d;}
+.hero-print-stage::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.35) 100%);z-index:4;}
+.hero-character{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;clip-path:inset(100% 0 0 0);animation:characterPrintReveal 8s cubic-bezier(.22,.8,.24,1) infinite;}
+.hero-print-head{position:absolute;left:8%;right:8%;top:0;height:3px;z-index:5;border-radius:999px;background:linear-gradient(90deg,transparent 0%,rgba(255,90,34,.2) 14%,#ff5a22 50%,rgba(255,90,34,.2) 86%,transparent 100%);box-shadow:0 0 12px 3px rgba(255,90,34,.55);animation:printHeadMove 8s cubic-bezier(.22,.8,.24,1) infinite;}
+.hero-print-head::after{content:'';position:absolute;left:50%;top:-5px;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;background:#ffd1b8;box-shadow:0 0 0 4px rgba(255,90,34,.24),0 0 18px 7px rgba(255,90,34,.85);}
+.hero-print-layer-lines{position:absolute;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 8px,rgba(255,130,82,.12) 8px 9px);mix-blend-mode:screen;opacity:0;animation:layerLinesReveal 8s ease-in-out infinite;}
+.hero-scene img:hover{filter:brightness(1.06) saturate(1.04);}
+@keyframes characterPrintReveal{0%,8%{clip-path:inset(100% 0 0 0);filter:brightness(.45) saturate(.75);}12%{clip-path:inset(88% 0 0 0);filter:brightness(.65) saturate(.9);}74%,86%{clip-path:inset(0 0 0 0);filter:brightness(1) saturate(1);}100%{clip-path:inset(100% 0 0 0);filter:brightness(.45) saturate(.75);}}
+@keyframes printHeadMove{0%,8%{top:92%;opacity:0;}12%{top:88%;opacity:1;}74%,86%{top:5%;opacity:1;}100%{top:92%;opacity:0;}}
+@keyframes layerLinesReveal{0%,10%{opacity:0;}16%,72%{opacity:.45;}86%,100%{opacity:0;}}
+@media(max-width:640px){.hero-print-stage{max-width:100%;border-radius:12px;}}
+@media(prefers-reduced-motion:reduce){.hero-character{animation:none;clip-path:inset(0);filter:none;}.hero-print-head,.hero-print-layer-lines{animation:none;opacity:0;}}
 
   /* ---- Live-printing loop: the hero build never finishes printing ---- */
   .live-head{
@@ -1606,40 +1617,19 @@
 
   function heroScene(){
     return `
-      <svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="heroPartGrad" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0" stop-color="#7A2A0B"/>
-            <stop offset=".5" stop-color="#C7420E"/>
-            <stop offset="1" stop-color="#FF9A66"/>
-          </linearGradient>
-        </defs>
-        <line x1="20" y1="30" x2="320" y2="30" stroke="#4A463C" stroke-width="2"/>
-        <circle cx="20" cy="30" r="4" fill="#4A463C"/>
-        <circle cx="320" cy="30" r="4" fill="#4A463C"/>
-        <g class="live-head">
-          <rect x="150" y="26" width="30" height="18" rx="4" fill="#59544A"/>
-          <path d="M158 44 L172 44 L165 58 Z" fill="#59544A"/>
-        </g>
-        <circle class="live-spark" cx="165" cy="58" r="2.4" fill="#FFC79A"/>
-        <g>
-          <ellipse cx="165" cy="252" rx="120" ry="10" fill="#000" opacity=".18"/>
-          <rect class="build-layer layer-1" x="100" y="234" width="130" height="10" rx="2" fill="#3A362E"/>
-          <rect class="build-layer layer-2" x="108" y="220" width="114" height="14" rx="2" fill="#4A4438"/>
-          <rect class="build-layer layer-3" x="116" y="204" width="98" height="16" rx="2" fill="#5A5344"/>
-          <rect class="build-layer layer-4" x="122" y="186" width="86" height="18" rx="2" fill="#7A6E52"/>
-          <rect class="build-layer layer-5" x="128" y="166" width="74" height="20" rx="2" fill="#9A8256"/>
-          <rect class="build-layer layer-6" x="134" y="144" width="62" height="22" rx="2" fill="url(#heroPartGrad)"/>
-          <rect class="build-layer layer-7" x="140" y="120" width="50" height="24" rx="2" fill="url(#heroPartGrad)"/>
-          <rect class="build-layer layer-8 live-layer-glow" x="148" y="94" width="34" height="26" rx="2" fill="url(#heroPartGrad)"/>
-        </g>
-        <rect x="45" y="244" width="240" height="6" rx="3" fill="#332F28"/>
-        <g stroke="#FF5A22" stroke-width="1" opacity=".55">
-          <line x1="60" y1="94" x2="60" y2="244"/>
-          <line x1="90" y1="94" x2="90" y2="244"/>
-          <line x1="120" y1="94" x2="120" y2="244"/>
-        </g>
-      </svg>
+      <div class="hero-print-stage" aria-label="محاكاة طباعة الشخصية ثلاثية الأبعاد">
+        <img
+          class="hero-character"
+          src="converted_professional.png"
+          alt="محاكاة طباعة شخصية سوداء ثلاثية الأبعاد بقبعة ونظارة دائرية على منصة مضيئة"
+          width="2176"
+          height="1632"
+          loading="eager"
+          decoding="async"
+        />
+        <span class="hero-print-layer-lines" aria-hidden="true"></span>
+        <span class="hero-print-head" aria-hidden="true"></span>
+      </div>
     `;
   }
 
@@ -2235,7 +2225,7 @@
         }
       }
 
-      const scene = document.querySelector('.hero-scene svg');
+      const scene = document.querySelector('.hero-scene img');
       if(!scene) return;
       const rect = scene.parentElement.getBoundingClientRect();
       if(e.clientX < rect.left - 60 || e.clientX > rect.right + 60 || e.clientY < rect.top - 60 || e.clientY > rect.bottom + 60) return;
@@ -2245,7 +2235,7 @@
     });
   });
   document.addEventListener('mouseleave', () => {
-    const scene = document.querySelector('.hero-scene svg');
+    const scene = document.querySelector('.hero-scene img');
     const smoke = document.querySelector('.hero-smoke');
     if(scene) scene.style.transform = 'rotateY(0deg) rotateX(0deg)';
     if(smoke){
