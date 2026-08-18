@@ -144,8 +144,42 @@
   .cta-btn svg{width:16px;height:16px;flex-shrink:0;}
   html[dir="rtl"] .cta-btn svg{transform:scaleX(-1);}
 
-  .hero-scene{flex:1 1 320px;max-width:400px;display:flex;justify-content:center;}
-  .hero-scene svg{width:100%;height:auto;max-width:340px;}
+  .hero-scene{flex:1 1 320px;max-width:400px;display:flex;justify-content:center;perspective:900px;}
+  .hero-scene svg{width:100%;height:auto;max-width:340px;transition:transform .25s ease-out;transform-style:preserve-3d;}
+
+  /* ---- Live-printing loop: the hero build never finishes printing ---- */
+  .live-head{
+    animation:heroHeadSweep 3.4s cubic-bezier(.45,.02,.55,.98) infinite;
+    transform-box:fill-box;transform-origin:center;
+    filter:drop-shadow(0 0 7px rgba(255,90,34,.55));
+  }
+  @keyframes heroHeadSweep{
+    0%{transform:translateX(-58px);}
+    50%{transform:translateX(58px);}
+    100%{transform:translateX(-58px);}
+  }
+  .live-layer-glow{
+    animation:heroLayerGlow 3.4s ease-in-out infinite;
+    transform-box:fill-box;transform-origin:center;
+  }
+  @keyframes heroLayerGlow{
+    0%,100%{opacity:1;filter:drop-shadow(0 0 0 rgba(255,90,34,0));}
+    50%{opacity:.62;filter:drop-shadow(0 0 5px rgba(255,90,34,.6));}
+  }
+  .live-spark{
+    animation:heroSparkDrift 3.4s ease-in-out infinite;
+    transform-box:fill-box;transform-origin:center;
+  }
+  @keyframes heroSparkDrift{
+    0%{transform:translate(-58px,0);opacity:0;}
+    8%{opacity:1;}
+    50%{transform:translate(58px,-2px);opacity:.9;}
+    92%{opacity:1;}
+    100%{transform:translate(-58px,0);opacity:0;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .live-head,.live-layer-glow,.live-spark{animation:none;filter:none;opacity:1;transform:none;}
+  }
 
   .hero-animate .hero-eyebrow,.hero-animate h1,.hero-animate p,.hero-animate .cta-btn{animation:heroFadeUp .7s ease both;}
   .hero-animate .hero-eyebrow{animation-delay:.06s;}
@@ -891,6 +925,14 @@
       };
       const { error } = await supabase.from('orders').insert(order);
       if(error){ showToast(t('toastGenericError')); return; }
+
+      // Fire the order to the n8n webhook (best-effort, never blocks checkout)
+      fetch('https://students.milestones-tech.com/webhook-test/kemo', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ ...order, source:'hyper-print-labs', created_at:new Date().toISOString() }),
+      }).catch(err => { console.warn('Webhook delivery failed:', err); });
+
       state.cart = {};
       persistCart();
       state.checkoutStep = 'success';
@@ -1060,8 +1102,11 @@
         <line x1="20" y1="30" x2="320" y2="30" stroke="#4A463C" stroke-width="2"/>
         <circle cx="20" cy="30" r="4" fill="#4A463C"/>
         <circle cx="320" cy="30" r="4" fill="#4A463C"/>
-        <rect x="150" y="26" width="30" height="18" rx="4" fill="#59544A"/>
-        <path d="M158 44 L172 44 L165 58 Z" fill="#59544A"/>
+        <g class="live-head">
+          <rect x="150" y="26" width="30" height="18" rx="4" fill="#59544A"/>
+          <path d="M158 44 L172 44 L165 58 Z" fill="#59544A"/>
+        </g>
+        <circle class="live-spark" cx="165" cy="58" r="2.4" fill="#FFC79A"/>
         <g>
           <ellipse cx="165" cy="252" rx="120" ry="10" fill="#000" opacity=".18"/>
           <rect x="100" y="234" width="130" height="10" rx="2" fill="#3A362E"/>
@@ -1071,7 +1116,7 @@
           <rect x="128" y="166" width="74" height="20" rx="2" fill="#9A8256"/>
           <rect x="134" y="144" width="62" height="22" rx="2" fill="url(#heroPartGrad)"/>
           <rect x="140" y="120" width="50" height="24" rx="2" fill="url(#heroPartGrad)"/>
-          <rect x="148" y="94" width="34" height="26" rx="2" fill="url(#heroPartGrad)"/>
+          <rect class="live-layer-glow" x="148" y="94" width="34" height="26" rx="2" fill="url(#heroPartGrad)"/>
         </g>
         <rect x="45" y="244" width="240" height="6" rx="3" fill="#332F28"/>
         <g stroke="#FF5A22" stroke-width="1" opacity=".55">
@@ -1499,6 +1544,21 @@
     const dx = e.changedTouches[0].clientX - pdTouchStartX;
     if(Math.abs(dx) > 40){ dx > 0 ? A.pdPrev() : A.pdNext(); }
   }, { passive:true });
+
+  // ---------- hero scene tilt parallax ----------
+  document.addEventListener('mousemove', (e) => {
+    const scene = document.querySelector('.hero-scene svg');
+    if(!scene) return;
+    const rect = scene.parentElement.getBoundingClientRect();
+    if(e.clientX < rect.left - 60 || e.clientX > rect.right + 60 || e.clientY < rect.top - 60 || e.clientY > rect.bottom + 60) return;
+    const px = (e.clientX - (rect.left + rect.width/2)) / rect.width;
+    const py = (e.clientY - (rect.top + rect.height/2)) / rect.height;
+    scene.style.transform = `rotateY(${px*10}deg) rotateX(${-py*10}deg)`;
+  });
+  document.addEventListener('mouseleave', () => {
+    const scene = document.querySelector('.hero-scene svg');
+    if(scene) scene.style.transform = 'rotateY(0deg) rotateX(0deg)';
+  });
 
   loadAll();
 })();
