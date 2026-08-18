@@ -919,6 +919,34 @@
   }
   function persistCart(){ localStorage.setItem('cart', JSON.stringify(state.cart)); }
 
+  // Optional rating metadata is kept locally, so missing Supabase columns do not block saving.
+  function loadProductMeta(){
+    try{ return JSON.parse(localStorage.getItem('productMeta')||'{}'); }catch(e){ return {}; }
+  }
+  function productMetaKeys(p){
+    const keys = [];
+    if(p && p.id != null) keys.push('id:' + String(p.id));
+    if(p && p.name) keys.push('name:' + String(p.name).trim().toLowerCase());
+    return keys;
+  }
+  function applyLocalProductMeta(products){
+    const meta = loadProductMeta();
+    return products.map(p=>{
+      const key = productMetaKeys(p).find(k=>Object.prototype.hasOwnProperty.call(meta,k));
+      return key ? {...p, ...meta[key]} : p;
+    });
+  }
+  function saveLocalProductMeta(product, rating, reviewsCount){
+    if(!product) return;
+    const meta = loadProductMeta();
+    const values = {};
+    if(rating !== '') values.rating = rating ? parseFloat(rating) : null;
+    if(reviewsCount !== '') values.reviews_count = reviewsCount ? parseInt(reviewsCount,10) : null;
+    if(!Object.keys(values).length) return;
+    productMetaKeys(product).forEach(key=>{ meta[key] = {...(meta[key]||{}), ...values}; });
+    try{ localStorage.setItem('productMeta', JSON.stringify(meta)); }catch(e){}
+  }
+
   function starsHtml(rating){
     const r = Number(rating);
     if(!r || r<=0) return '';
@@ -956,7 +984,7 @@
 
   async function refreshProducts(){
     const { data, error } = await supabase.from('products').select('*').order('created_at',{ascending:true});
-    if(!error && data) state.products = data;
+    if(!error && data) state.products = applyLocalProductMeta(data);
   }
   async function refreshOrders(){
     const { data, error } = await supabase.from('orders').select('*').order('created_at',{ascending:false});
@@ -1282,6 +1310,10 @@
     async saveProduct(ev){
       ev.preventDefault();
       const f = ev.target;
+      // Do not send optional rating fields to Supabase; save them in localStorage instead.
+      const ratingValue = f.rating.value.trim();
+      const reviewsCountValue = f.reviews_count.value.trim();
+      const editingId = state.editingProduct ? state.editingProduct.id : null;
       const data = {
         name: f.name.value.trim(),
         price: parseFloat(f.price.value) || 0,
@@ -1289,8 +1321,6 @@
         images: f.images.value.trim(),
         description: f.description.value.trim(),
         badge: f.badge.value.trim(),
-        rating: f.rating.value.trim() ? parseFloat(f.rating.value) : null,
-        reviews_count: f.reviews_count.value.trim() ? parseInt(f.reviews_count.value,10) : null,
       };
       if(!data.name || !data.price){ showToast(t('toastProductRequired')); return; }
       let error;
@@ -1303,8 +1333,13 @@
         if(!error) showToast(t('toastAdded'));
       }
       if(error){ showToast(t('toastGenericError')); return; }
-      this.clearProductDraft();
       await refreshProducts();
+      const savedProduct = editingId != null
+        ? state.products.find(p=>String(p.id)===String(editingId))
+        : state.products.find(p=>String(p.name).trim()===data.name);
+      saveLocalProductMeta(savedProduct || {id: editingId, name: data.name}, ratingValue, reviewsCountValue);
+      state.products = applyLocalProductMeta(state.products);
+      this.clearProductDraft();
       f.reset();
       render();
     },
