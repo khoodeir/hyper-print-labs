@@ -164,12 +164,29 @@
     100%{transform:translateX(-58px);}
   }
   .live-layer-glow{
-    animation:heroLayerGlow 3.4s ease-in-out infinite;
+    animation:heroLayerGlow 5.8s ease-in-out infinite;
     transform-box:fill-box;transform-origin:center;
   }
   @keyframes heroLayerGlow{
-    0%,100%{opacity:1;filter:drop-shadow(0 0 0 rgba(255,90,34,0));}
-    50%{opacity:.62;filter:drop-shadow(0 0 5px rgba(255,90,34,.6));}
+    0%,100%{filter:drop-shadow(0 0 0 rgba(255,90,34,0));}
+    50%{filter:drop-shadow(0 0 5px rgba(255,90,34,.6));}
+  }
+  /* The printed form reveals one layer at a time, from the build plate upward. */
+  .build-layer{
+    opacity:0;transform-box:fill-box;transform-origin:center bottom;
+    animation:heroBuildLayer 5.8s cubic-bezier(.45,.02,.55,.98) infinite;
+  }
+  .build-layer.layer-1{animation-delay:0s;}
+  .build-layer.layer-2{animation-delay:.16s;}
+  .build-layer.layer-3{animation-delay:.32s;}
+  .build-layer.layer-4{animation-delay:.48s;}
+  .build-layer.layer-5{animation-delay:.64s;}
+  .build-layer.layer-6{animation-delay:.80s;}
+  .build-layer.layer-7{animation-delay:.96s;}
+  .build-layer.layer-8{animation-delay:1.12s;}
+  @keyframes heroBuildLayer{
+    0%,8%{opacity:0;transform:translateY(9px) scaleX(.82);}
+    17%,100%{opacity:1;transform:translateY(0) scaleX(1);}
   }
   .live-spark{
     animation:heroSparkDrift 3.4s ease-in-out infinite;
@@ -183,7 +200,7 @@
     100%{transform:translate(-58px,0);opacity:0;}
   }
   @media (prefers-reduced-motion:reduce){
-    .live-head,.live-layer-glow,.live-spark{animation:none;filter:none;opacity:1;transform:none;}
+    .live-head,.live-layer-glow,.live-spark,.build-layer{animation:none;filter:none;opacity:1;transform:none;}
   }
 
   .hero-animate .hero-eyebrow,.hero-animate h1,.hero-animate p,.hero-animate .cta-btn{animation:heroFadeUp .7s ease both;}
@@ -195,6 +212,99 @@
   @keyframes heroFadeUp{ from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
   @media (prefers-reduced-motion:reduce){
     .hero-animate .hero-eyebrow,.hero-animate h1,.hero-animate p,.hero-animate .cta-btn,.hero-animate .hero-scene{animation:none;opacity:1;transform:none;}
+  }
+
+  /* ---------- Global page motion: subtle, consistent, and non-blocking ---------- */
+  @keyframes pageFadeRise{
+    from{opacity:0;transform:translateY(18px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @keyframes pageSlideDown{
+    from{opacity:0;transform:translateY(-12px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @keyframes softFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-4px);}
+  }
+  header.topbar{animation:pageSlideDown .65s ease both;}
+  .hero-seam{animation:pageFadeRise .8s ease .45s both;}
+  .custom-card{animation:pageFadeRise .7s ease .12s both;}
+  .trust-item{animation:pageFadeRise .65s ease both;}
+  .trust-item:nth-child(2){animation-delay:.08s;}
+  .trust-item:nth-child(3){animation-delay:.16s;}
+  .trust-item:nth-child(4){animation-delay:.24s;}
+  .section-head{animation:pageFadeRise .65s ease both;}
+  .product-card{animation:pageFadeRise .65s ease both;}
+  .product-card:nth-child(2){animation-delay:.08s;}
+  .product-card:nth-child(3){animation-delay:.16s;}
+  .product-card:nth-child(4){animation-delay:.24s;}
+  .product-card:nth-child(5){animation-delay:.32s;}
+  .product-card:nth-child(6){animation-delay:.40s;}
+  .faq-item{animation:pageFadeRise .55s ease both;}
+  .faq-item:nth-child(2){animation-delay:.08s;}
+  .faq-item:nth-child(3){animation-delay:.16s;}
+  .faq-item:nth-child(4){animation-delay:.24s;}
+  .custom-btn,.cta-btn,.add-btn{position:relative;overflow:hidden;}
+  .custom-btn::after,.cta-btn::after,.add-btn::after{
+    content:'';position:absolute;inset-block:0;width:34%;inset-inline-start:-45%;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.24),transparent);
+    transform:skewX(-18deg);transition:inset-inline-start .5s ease;pointer-events:none;
+  }
+  .custom-btn:hover::after,.cta-btn:hover::after,.add-btn:hover::after{inset-inline-start:115%;}
+  .trust-item:hover{transform:translateY(-4px);transition:transform .2s ease,box-shadow .2s ease;box-shadow:var(--shadow-soft);}
+  .hero-eyebrow .dot{animation:softFloat 2.4s ease-in-out infinite;}
+  @media (prefers-reduced-motion:reduce){
+    header.topbar,.hero-seam,.custom-card,.trust-item,.section-head,.product-card,.faq-item,
+    .hero-eyebrow .dot{animation:none;}
+    .custom-btn::after,.cta-btn::after,.add-btn::after{display:none;}
+    .trust-item:hover{transform:none;}
+  }
+
+  /* Additional micro-interactions for a livelier storefront */
+  @keyframes imageGlow{
+    0%,100%{opacity:.18;transform:translateX(-110%);}
+    50%{opacity:.55;transform:translateX(110%);}
+  }
+  @keyframes pricePop{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.04);}
+  }
+  @keyframes badgeBounce{
+    0%,100%{transform:rotate(0) scale(1);}
+    50%{transform:rotate(-2deg) scale(1.06);}
+  }
+  @keyframes starTwinkle{
+    0%,100%{transform:scale(1) rotate(0);}
+    45%{transform:scale(1.22) rotate(-8deg);}
+  }
+  .product-media::before{
+    content:'';position:absolute;z-index:1;inset:0;width:42%;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.28),transparent);
+    transform:translateX(-120%) skewX(-18deg);pointer-events:none;
+  }
+  .product-card:hover .product-media::before{animation:imageGlow .8s ease both;}
+  .product-card:hover .badge{animation:badgeBounce .7s ease both;}
+  .product-card:hover .price{animation:pricePop .8s ease both;color:var(--ember);}
+  .product-card:hover .stars svg{animation:starTwinkle .65s ease both;}
+  .product-card:hover .stars svg:nth-child(2){animation-delay:.06s;}
+  .product-card:hover .stars svg:nth-child(3){animation-delay:.12s;}
+  .product-card:hover .stars svg:nth-child(4){animation-delay:.18s;}
+  .product-card:hover .stars svg:nth-child(5){animation-delay:.24s;}
+  .product-card:hover .rating-value{color:var(--ember-deep);transition:color .2s ease;}
+  .product-card:hover .price-row{border-color:rgba(255,90,34,.45);transition:border-color .25s ease;}
+  .custom-card:hover{transform:translateY(-4px);box-shadow:0 24px 48px rgba(27,26,23,.28);transition:transform .25s ease,box-shadow .25s ease;}
+  .custom-card:hover .custom-btn svg{transform:translateX(-3px);transition:transform .2s ease;}
+  .trust-item .ic{transition:transform .25s ease,background .25s ease;}
+  .trust-item:hover .ic{transform:rotate(-6deg) scale(1.08);background:#fff0e9;}
+  .faq-q:hover{color:var(--ember-deep);transition:color .2s ease;}
+  .faq-q:hover .chev{transform:translateY(2px) scale(1.08);}
+  .add-btn:active,.custom-btn:active,.cta-btn:active,.pd-add-btn:active{transform:scale(.96);}
+  @media (prefers-reduced-motion:reduce){
+    .product-card:hover .product-media::before,.product-card:hover .badge,.product-card:hover .price,
+    .product-card:hover .stars svg{animation:none;}
+    .custom-card:hover{transform:none;}
+    .custom-card:hover .custom-btn svg,.trust-item:hover .ic,.faq-q:hover .chev{transform:none;}
   }
 
   /* Calibration-ruler seam between hero and the store interior */
@@ -1418,14 +1528,14 @@
         <circle class="live-spark" cx="165" cy="58" r="2.4" fill="#FFC79A"/>
         <g>
           <ellipse cx="165" cy="252" rx="120" ry="10" fill="#000" opacity=".18"/>
-          <rect x="100" y="234" width="130" height="10" rx="2" fill="#3A362E"/>
-          <rect x="108" y="220" width="114" height="14" rx="2" fill="#4A4438"/>
-          <rect x="116" y="204" width="98" height="16" rx="2" fill="#5A5344"/>
-          <rect x="122" y="186" width="86" height="18" rx="2" fill="#7A6E52"/>
-          <rect x="128" y="166" width="74" height="20" rx="2" fill="#9A8256"/>
-          <rect x="134" y="144" width="62" height="22" rx="2" fill="url(#heroPartGrad)"/>
-          <rect x="140" y="120" width="50" height="24" rx="2" fill="url(#heroPartGrad)"/>
-          <rect class="live-layer-glow" x="148" y="94" width="34" height="26" rx="2" fill="url(#heroPartGrad)"/>
+          <rect class="build-layer layer-1" x="100" y="234" width="130" height="10" rx="2" fill="#3A362E"/>
+          <rect class="build-layer layer-2" x="108" y="220" width="114" height="14" rx="2" fill="#4A4438"/>
+          <rect class="build-layer layer-3" x="116" y="204" width="98" height="16" rx="2" fill="#5A5344"/>
+          <rect class="build-layer layer-4" x="122" y="186" width="86" height="18" rx="2" fill="#7A6E52"/>
+          <rect class="build-layer layer-5" x="128" y="166" width="74" height="20" rx="2" fill="#9A8256"/>
+          <rect class="build-layer layer-6" x="134" y="144" width="62" height="22" rx="2" fill="url(#heroPartGrad)"/>
+          <rect class="build-layer layer-7" x="140" y="120" width="50" height="24" rx="2" fill="url(#heroPartGrad)"/>
+          <rect class="build-layer layer-8 live-layer-glow" x="148" y="94" width="34" height="26" rx="2" fill="url(#heroPartGrad)"/>
         </g>
         <rect x="45" y="244" width="240" height="6" rx="3" fill="#332F28"/>
         <g stroke="#FF5A22" stroke-width="1" opacity=".55">
