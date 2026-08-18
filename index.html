@@ -114,27 +114,34 @@
   .hero{
     position:relative;
     background-color:var(--graphite);
-    background-image:linear-gradient(rgba(27,26,23,.70),rgba(27,26,23,.78)),url('3d-figurines-hero-bg-smoke.png');
+    background-image:linear-gradient(rgba(27,26,23,.70),rgba(27,26,23,.78)),url('3d-figurines-hero-bg.png');
     background-size:cover;
     background-position:center;
+    animation:heroBackgroundDrift 11s ease-in-out infinite alternate;
     color:var(--paper);
     padding:80px 24px 48px;
     overflow:hidden;
   }
   .hero-smoke{
-    position:absolute;inset:-12%;pointer-events:none;z-index:0;opacity:.62;
-    filter:blur(18px) saturate(1.08);mix-blend-mode:screen;
+    --smoke-x:0px;--smoke-y:0px;
+    position:absolute;inset:-12%;pointer-events:none;z-index:0;opacity:.84;
+    filter:blur(18px) saturate(1.22);mix-blend-mode:screen;
+    transition:filter .45s ease,opacity .45s ease;
     background:
       radial-gradient(ellipse 27% 34% at 8% 53%,rgba(208,145,92,.30) 0%,rgba(126,82,57,.16) 34%,transparent 74%),
       radial-gradient(ellipse 21% 28% at 19% 16%,rgba(164,112,77,.22) 0%,transparent 72%),
       radial-gradient(ellipse 29% 37% at 92% 49%,rgba(196,137,89,.28) 0%,rgba(123,83,58,.14) 36%,transparent 74%),
       radial-gradient(ellipse 22% 27% at 83% 17%,rgba(165,113,75,.22) 0%,transparent 70%);
-    animation:smokeDrift 14s ease-in-out infinite alternate;
+    animation:smokeDrift 8s ease-in-out infinite alternate;
   }
   @keyframes smokeDrift{
-    0%{transform:translate3d(-1.5%,1%,0) scale(1);opacity:.48;}
-    50%{transform:translate3d(1%, -1%,0) scale(1.04);opacity:.68;}
-    100%{transform:translate3d(2%,1.5%,0) scale(1.01);opacity:.54;}
+    0%{transform:translate3d(calc(-2.5% + var(--smoke-x)),calc(1.5% + var(--smoke-y)),0) scale(1);opacity:.62;}
+    50%{transform:translate3d(calc(1.8% + var(--smoke-x)),calc(-1.8% + var(--smoke-y)),0) scale(1.06);opacity:.92;}
+    100%{transform:translate3d(calc(3% + var(--smoke-x)),calc(2% + var(--smoke-y)),0) scale(1.02);opacity:.72;}
+  }
+  @keyframes heroBackgroundDrift{
+    0%{background-position:48% 50%;}
+    100%{background-position:52% 50%;}
   }
   .hero-texture{
     position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;
@@ -275,7 +282,7 @@
   .trust-item:hover{transform:translateY(-4px);transition:transform .2s ease,box-shadow .2s ease;box-shadow:var(--shadow-soft);}
   .hero-eyebrow .dot{animation:softFloat 2.4s ease-in-out infinite;}
   @media (prefers-reduced-motion:reduce){
-    header.topbar,.hero-seam,.custom-card,.trust-item,.section-head,.product-card,.faq-item,
+    header.topbar,.hero,.hero-smoke,.hero-seam,.custom-card,.trust-item,.section-head,.product-card,.faq-item,
     .hero-eyebrow .dot{animation:none;}
     .custom-btn::after,.cta-btn::after,.add-btn::after{display:none;}
     .trust-item:hover{transform:none;}
@@ -2105,19 +2112,47 @@
     if(Math.abs(dx) > 40){ dx > 0 ? A.pdPrev() : A.pdNext(); }
   }, { passive:true });
 
-  // ---------- hero scene tilt parallax ----------
+  // ---------- smooth hero smoke + scene parallax ----------
+  let heroPointerFrame = 0;
+  let heroPointerX = 50;
+  let heroPointerY = 50;
   document.addEventListener('mousemove', (e) => {
-    const scene = document.querySelector('.hero-scene svg');
-    if(!scene) return;
-    const rect = scene.parentElement.getBoundingClientRect();
-    if(e.clientX < rect.left - 60 || e.clientX > rect.right + 60 || e.clientY < rect.top - 60 || e.clientY > rect.bottom + 60) return;
-    const px = (e.clientX - (rect.left + rect.width/2)) / rect.width;
-    const py = (e.clientY - (rect.top + rect.height/2)) / rect.height;
-    scene.style.transform = `rotateY(${px*10}deg) rotateX(${-py*10}deg)`;
+    if(heroPointerFrame) return;
+    heroPointerFrame = requestAnimationFrame(() => {
+      heroPointerFrame = 0;
+      const hero = document.querySelector('.hero');
+      const smoke = document.querySelector('.hero-smoke');
+      if(hero){
+        const rect = hero.getBoundingClientRect();
+        const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+        const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+        heroPointerX += (x - heroPointerX) * .22;
+        heroPointerY += (y - heroPointerY) * .22;
+        if(smoke){
+          smoke.style.setProperty('--smoke-x', ((heroPointerX - 50) * .24).toFixed(2) + 'px');
+          smoke.style.setProperty('--smoke-y', ((heroPointerY - 50) * .16).toFixed(2) + 'px');
+          smoke.style.filter = 'blur(17px) saturate(1.24)';
+        }
+      }
+
+      const scene = document.querySelector('.hero-scene svg');
+      if(!scene) return;
+      const rect = scene.parentElement.getBoundingClientRect();
+      if(e.clientX < rect.left - 60 || e.clientX > rect.right + 60 || e.clientY < rect.top - 60 || e.clientY > rect.bottom + 60) return;
+      const px = (e.clientX - (rect.left + rect.width/2)) / rect.width;
+      const py = (e.clientY - (rect.top + rect.height/2)) / rect.height;
+      scene.style.transform = `rotateY(${px*10}deg) rotateX(${-py*10}deg)`;
+    });
   });
   document.addEventListener('mouseleave', () => {
     const scene = document.querySelector('.hero-scene svg');
+    const smoke = document.querySelector('.hero-smoke');
     if(scene) scene.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    if(smoke){
+      smoke.style.setProperty('--smoke-x','0px');
+      smoke.style.setProperty('--smoke-y','0px');
+      smoke.style.filter = 'blur(18px) saturate(1.22)';
+    }
   });
 
   loadAll();
