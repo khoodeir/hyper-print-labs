@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hyper Print Labs</title>
+<title>Hyper Print Labs | قطع مطبوعة ثلاثية الأبعاد بدقة عالية</title>
+<meta name="description" content="Hyper Print Labs — قطع وتماثيل مطبوعة بتقنية الطباعة ثلاثية الأبعاد بدقة عالية، وتصاميم مخصصة حسب الطلب. Precision 3D-printed collectibles and custom prints.">
+<meta property="og:title" content="Hyper Print Labs">
+<meta property="og:description" content="قطع مطبوعة ثلاثية الأبعاد بدقة عالية، وتصاميم مخصصة حسب الطلب.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231B1A17'/%3E%3Crect x='16' y='42' width='32' height='5' rx='1' fill='%233A362E'/%3E%3Crect x='19' y='36' width='26' height='5' rx='1' fill='%234A4438'/%3E%3Crect x='22' y='30' width='20' height='5' rx='1' fill='%236E6650'/%3E%3Crect x='25' y='24' width='14' height='5' rx='1' fill='%23FF5A22'/%3E%3Crect x='27' y='12' width='10' height='8' rx='2' fill='%23FF5A22'/%3E%3Cpath d='M28 20 L36 20 L32 26 Z' fill='%23FF5A22'/%3E%3C/svg%3E">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
 
@@ -108,7 +113,7 @@
     position:relative;
     background:var(--graphite);
     color:var(--paper);
-    padding:80px 24px 0;
+    padding:80px 24px 48px;
     overflow:hidden;
   }
   .hero-texture{
@@ -235,6 +240,91 @@
   .custom-btn-maker:hover{transform:translateY(-2px);background:#FF6E3B;box-shadow:0 14px 28px rgba(255,90,34,0.35);}
   .custom-btn-whatsapp{background:#25D366;color:#08340F;box-shadow:0 10px 22px rgba(37,211,102,0.25);}
   .custom-btn-whatsapp:hover{transform:translateY(-2px);background:#2FE577;box-shadow:0 14px 28px rgba(37,211,102,0.35);}
+
+  /* ---------- Trust badges ---------- */
+  .trust-strip{max-width:1180px;margin:0 auto;padding:22px 24px 0;}
+  .trust-row{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;
+  }
+  .trust-item{
+    display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
+    border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow-soft);
+  }
+  .trust-item .ic{
+    width:38px;height:38px;border-radius:9px;background:var(--paper-soft);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:var(--ember-deep);
+  }
+  .trust-item .ic svg{width:20px;height:20px;}
+  .trust-item .tx .h{font-weight:700;font-size:13.5px;margin-bottom:2px;}
+  .trust-item .tx .s{font-size:12px;color:var(--ink-soft);line-height:1.4;}
+
+  /* ---------- Star ratings ---------- */
+  .stars-row{display:flex;align-items:center;gap:6px;}
+  .stars-row .stars{display:flex;gap:1px;}
+  .stars-row svg{width:14px;height:14px;}
+  .stars-row .star-filled{color:var(--ember);}
+  .stars-row .star-empty{color:var(--line);}
+  .stars-row .count{font-size:12px;color:var(--ink-soft);font-family:var(--font-mono);}
+  .pd-stars{margin-bottom:14px;}
+  .pd-stars svg{width:17px;height:17px;}
+
+  /* ---------- Product toolbar (search + sort) ---------- */
+  .products-toolbar{
+    display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;
+  }
+  .toolbar-search{
+    flex:1 1 220px;position:relative;
+  }
+  .toolbar-search svg{
+    position:absolute;top:50%;transform:translateY(-50%);inset-inline-start:13px;
+    width:16px;height:16px;color:var(--ink-soft);pointer-events:none;
+  }
+  .toolbar-search input{
+    width:100%;padding:10px 14px 10px 38px;border-radius:8px;border:1.5px solid var(--line);background:#fff;font-size:13.5px;
+  }
+  html[dir="rtl"] .toolbar-search input{padding:10px 38px 10px 14px;}
+  .toolbar-search input:focus{outline:none;border-color:var(--ember-deep);}
+  .toolbar-sort select{
+    padding:10px 34px 10px 14px;border-radius:8px;border:1.5px solid var(--line);background:#fff;
+    font-size:13.5px;font-family:var(--font-mono);color:var(--ink);appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236E6656' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 10px center;background-size:15px;
+  }
+  html[dir="rtl"] .toolbar-sort select{background-position:left 10px center;padding:10px 14px 10px 34px;}
+  .toolbar-sort select:focus{outline:none;border-color:var(--ember-deep);}
+  .no-results{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:14px;}
+
+  /* ---------- FAQ ---------- */
+  .faq-section{max-width:820px;margin:70px auto 0;padding:0 24px;}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:18px 2px;font-weight:700;font-size:15px;text-align:start;color:var(--ink);
+  }
+  .faq-q .chev{transition:transform .2s ease;color:var(--ember-deep);flex-shrink:0;}
+  .faq-q .chev svg{width:16px;height:16px;}
+  .faq-item.open .faq-q .chev{transform:rotate(180deg);}
+  .faq-a{
+    max-height:0;overflow:hidden;transition:max-height .25s ease;
+    font-size:13.5px;color:var(--ink-soft);line-height:1.75;
+  }
+  .faq-item.open .faq-a{max-height:260px;}
+  .faq-a-inner{padding:0 2px 18px;}
+
+  /* ---------- Floating WhatsApp ---------- */
+  .float-whatsapp{
+    position:fixed;bottom:22px;inset-inline-end:22px;z-index:70;
+    width:54px;height:54px;border-radius:50%;background:#25D366;color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 26px rgba(37,211,102,0.42);
+    transition:transform .15s ease,box-shadow .15s ease;
+  }
+  .float-whatsapp svg{width:27px;height:27px;}
+  .float-whatsapp:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 14px 32px rgba(37,211,102,0.5);}
+  @media(max-width:640px){
+    .float-whatsapp{width:48px;height:48px;bottom:16px;inset-inline-end:16px;}
+    .float-whatsapp svg{width:23px;height:23px;}
+  }
 
   /* ---------- Products ---------- */
   main{max-width:1180px;margin:0 auto;padding:52px 24px 90px;}
@@ -538,6 +628,9 @@
 
 <div id="app"></div>
 <div id="toast" class="toast"></div>
+<a id="floatWhatsapp" class="float-whatsapp" href="https://wa.me/201021226608" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.33 4.94L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.1c-.25.7-1.24 1.28-2.02 1.44-.55.12-1.26.21-3.66-.78-3.07-1.27-5.05-4.38-5.2-4.58-.15-.2-1.24-1.65-1.24-3.15 0-1.5.79-2.24 1.07-2.55.28-.31.61-.38.82-.38.2 0 .41 0 .59.01.19.01.44-.07.69.53.25.6.85 2.08.93 2.23.08.15.13.33.02.53-.1.2-.15.33-.3.5-.15.18-.31.39-.44.53-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.36 1.46.3.15.48.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.28.1 1.75.83 2.05.98.3.15.5.23.58.36.08.13.08.75-.17 1.44z"/></svg>
+</a>
 
 <div id="introOverlay" class="intro-overlay" aria-hidden="true">
   <div class="intro-scene">
@@ -624,6 +717,8 @@
       fieldProductName:'Product name', fieldPrice:'Price (EGP)',
       fieldMainImage:'Main image URL (optional)', fieldGallery:'Extra gallery images (optional, comma-separated URLs)',
       fieldDescription:'Description', fieldBadge:'Badge (optional, e.g. "Best seller")',
+      fieldRating:'Rating 0–5 (optional)', fieldReviewsCount:'Reviews count (optional)',
+      ratingColumnsNote:'To use ratings, add two columns to your "products" table in Supabase first: rating (numeric, nullable) and reviews_count (int4, nullable). Leave rating/reviews fields blank on any product to hide the stars for it.',
       saveChanges:'Save changes', addProductBtn:'Add product', cancel:'Cancel',
       currentProducts:'Current pieces', noProductsAdmin:'No products added yet.',
       edit:'Edit', delete:'Delete',
@@ -653,6 +748,15 @@
       customDesc:"Browse thousands of ready-to-print models on MakerWorld, pick the one you like, then send it to us on WhatsApp and we'll quote it for you.",
       customBtnMaker:'Browse MakerWorld',
       customBtnWhatsapp:'Chat on WhatsApp',
+      trust1h:'Nationwide delivery', trust1s:'Shipped across Egypt within days',
+      trust2h:'Quality checked', trust2s:'Every piece inspected before it ships',
+      trust3h:'Secure ordering', trust3s:'Your details stay private',
+      trust4h:'Custom prints', trust4s:"Send us any design, we'll quote it",
+      searchPlaceholder:'Search products…',
+      sortDefault:'Sort: Featured', sortPriceAsc:'Price: Low to High', sortPriceDesc:'Price: High to Low', sortNameAsc:'Name: A–Z',
+      noResults:'No pieces match your search.',
+      reviews:'reviews',
+      faqEyebrow:'Questions', faqTitle:'Frequently asked questions',
     },
     ar: {
       dir:'rtl', htmlLang:'ar', langToggleLabel:'EN',
@@ -688,6 +792,8 @@
       fieldProductName:'اسم المنتج', fieldPrice:'السعر (بالجنيه المصري)',
       fieldMainImage:'رابط الصورة الرئيسية (اختياري)', fieldGallery:'صور إضافية (اختياري، روابط مفصولة بفاصلة)',
       fieldDescription:'الوصف', fieldBadge:'شارة (اختياري، مثل "الأكثر مبيعاً")',
+      fieldRating:'التقييم من ٥ (اختياري)', fieldReviewsCount:'عدد التقييمات (اختياري)',
+      ratingColumnsNote:'عشان تستخدم التقييمات، لازم تضيف عمودين لجدول "products" في Supabase الأول: rating (رقمي، ممكن يكون فاضي) و reviews_count (عدد صحيح، ممكن يكون فاضي). سيب حقلي التقييم فاضيين في أي منتج عشان النجوم متظهرش له.',
       saveChanges:'حفظ التعديلات', addProductBtn:'إضافة المنتج', cancel:'إلغاء',
       currentProducts:'القطع الحالية', noProductsAdmin:'لا توجد منتجات مضافة بعد.',
       edit:'تعديل', delete:'حذف',
@@ -717,7 +823,33 @@
       customDesc:'تصفح آلاف التصاميم الجاهزة للطباعة على MakerWorld، اختر اللي يعجبك، وابعتلنا على واتساب وهنبعتلك السعر فورًا.',
       customBtnMaker:'تصفح MakerWorld',
       customBtnWhatsapp:'تواصل عبر واتساب',
+      trust1h:'توصيل لكل المحافظات', trust1s:'الشحن يوصل خلال أيام لكل مصر',
+      trust2h:'فحص جودة', trust2s:'كل قطعة بتتفحص قبل ما تتشحن',
+      trust3h:'طلب آمن', trust3s:'بياناتك محفوظة وسرية',
+      trust4h:'تصاميم مخصصة', trust4s:'ابعتلنا أي تصميم وهنسعّره',
+      searchPlaceholder:'ابحث عن منتج…',
+      sortDefault:'الترتيب: المميز', sortPriceAsc:'السعر: من الأقل للأعلى', sortPriceDesc:'السعر: من الأعلى للأقل', sortNameAsc:'الاسم: أ–ي',
+      noResults:'لا توجد قطع مطابقة لبحثك.',
+      reviews:'تقييم',
+      faqEyebrow:'أسئلة', faqTitle:'الأسئلة الشائعة',
     }
+  };
+
+  const FAQ_DATA = {
+    en: [
+      { q:'How long does printing and delivery take?', a:'Most pieces are printed and quality-checked within 2–4 days, then shipped nationwide — delivery usually takes an extra 1–3 days depending on your area.' },
+      { q:'Can I order a fully custom design?', a:"Yes! Browse MakerWorld for a model you like, or send us your own idea on WhatsApp, and we'll quote the price and print time for you." },
+      { q:'What materials do you print with?', a:'We print in durable PLA and PETG filament, chosen per piece for strength, finish, and the intended use of the print.' },
+      { q:'How do I pay?', a:"Online payment isn't wired up yet — after you check out, we contact you on the number you provided to confirm the order and arrange payment." },
+      { q:'Can I return or exchange a piece?', a:"Since every piece is printed to order, we inspect it before shipping — if anything arrives damaged or incorrect, message us on WhatsApp and we'll sort it out." },
+    ],
+    ar: [
+      { q:'الطباعة والتوصيل بياخدوا قد إيه؟', a:'أغلب القطع بتتطبع وتتفحص خلال ٢–٤ أيام، وبعدين بتتشحن لكل المحافظات — التوصيل بياخد يوم لتلاتة تبعًا لمنطقتك.' },
+      { q:'أقدر أطلب تصميم مخصص بالكامل؟', a:'أكيد! تصفح MakerWorld ودور على الشكل اللي يعجبك، أو ابعتلنا فكرتك على واتساب، وهنبعتلك السعر ومدة الطباعة.' },
+      { q:'بتطبعوا بأنهي خامة؟', a:'بنطبع بخامتي PLA و PETG المتينتين، وبنختار الأنسب لكل قطعة حسب الاستخدام والمتانة والمظهر النهائي.' },
+      { q:'الدفع بيتم إزاي؟', a:'الدفع الإلكتروني لسه مش متاح — بعد إتمام الطلب هنتواصل معاك على الرقم اللي كتبته لتأكيد الطلب وترتيب الدفع.' },
+      { q:'أقدر أرجّع أو أستبدل قطعة؟', a:'كل قطعة بتتطبع خصيصًا وبتتفحص قبل الشحن — لو وصلك حاجة فيها عيب أو غلط، كلمنا على واتساب وهنظبطها.' },
+    ],
   };
 
   const state = {
@@ -737,6 +869,9 @@
     pdGalleryIndex: 0,
     productFormDraft: null,
     lang: 'ar',
+    sortBy: 'default',
+    searchQuery: '',
+    openFaqIndex: null,
   };
 
   try{
@@ -783,6 +918,36 @@
     try{ return JSON.parse(localStorage.getItem('cart')||'{}'); }catch(e){ return {}; }
   }
   function persistCart(){ localStorage.setItem('cart', JSON.stringify(state.cart)); }
+
+  function starsHtml(rating, count, size){
+    const r = Number(rating);
+    if(!r || r<=0) return '';
+    const full = Math.round(r);
+    let stars = '';
+    for(let i=1;i<=5;i++){
+      stars += `<svg viewBox="0 0 20 20" class="${i<=full?'star-filled':'star-empty'}" fill="currentColor" aria-hidden="true"><path d="M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L10 14.8l-5.2 2.9 1-5.9L1.5 7.7l5.9-.8L10 1.5z"/></svg>`;
+    }
+    const countTxt = count ? `<span class="count">(${count} ${t('reviews')})</span>` : '';
+    return `<div class="stars-row"><div class="stars">${stars}</div>${countTxt}</div>`;
+  }
+
+  function filteredSortedProducts(){
+    let list = state.products.slice();
+    const q = (state.searchQuery||'').trim().toLowerCase();
+    if(q){
+      list = list.filter(p =>
+        (p.name||'').toLowerCase().includes(q) ||
+        (p.description||'').toLowerCase().includes(q)
+      );
+    }
+    switch(state.sortBy){
+      case 'price_asc': list.sort((a,b)=>(a.price||0)-(b.price||0)); break;
+      case 'price_desc': list.sort((a,b)=>(b.price||0)-(a.price||0)); break;
+      case 'name_asc': list.sort((a,b)=>(a.name||'').localeCompare(b.name||'')); break;
+      default: break;
+    }
+    return list;
+  }
 
   function productImages(p){
     const list = [p.image];
@@ -970,6 +1135,14 @@
       persistCart();
       render();
     },
+    setSort(val){ state.sortBy = val; render(); },
+    setSearch(val){
+      state.searchQuery = val;
+      render();
+      const el = document.getElementById('toolbarSearchInput');
+      if(el){ el.focus(); const len = el.value.length; el.setSelectionRange(len,len); }
+    },
+    toggleFaq(idx){ state.openFaqIndex = state.openFaqIndex===idx ? null : idx; render(); },
     openDrawer(){ state.drawerOpen = true; state.checkoutStep='cart'; render(); },
     closeDrawer(){ state.drawerOpen = false; render(); },
     goToForm(){ if(cartItems().length===0) return; state.checkoutStep='form'; render(); },
@@ -1084,6 +1257,8 @@
         images: form.images.value,
         description: form.description.value,
         badge: form.badge.value,
+        rating: form.rating.value,
+        reviews_count: form.reviews_count.value,
       };
       state.productFormDraft = draft;
       try{ localStorage.setItem('productFormDraft', JSON.stringify(draft)); }catch(e){}
@@ -1115,6 +1290,8 @@
         images: f.images.value.trim(),
         description: f.description.value.trim(),
         badge: f.badge.value.trim(),
+        rating: f.rating.value.trim() ? parseFloat(f.rating.value) : null,
+        reviews_count: f.reviews_count.value.trim() ? parseInt(f.reviews_count.value,10) : null,
       };
       if(!data.name || !data.price){ showToast(t('toastProductRequired')); return; }
       let error;
@@ -1297,6 +1474,68 @@
     `;
   }
 
+  function truckIcon(){
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1zM14 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg>`;
+  }
+  function shieldIcon(){
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>`;
+  }
+  function lockSmallIcon(){
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M7 10V7a5 5 0 0110 0v3"/></svg>`;
+  }
+  function sparkIcon(){
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>`;
+  }
+  function chevronIcon(){
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
+  }
+
+  function trustStrip(){
+    const items = [
+      [truckIcon(), t('trust1h'), t('trust1s')],
+      [shieldIcon(), t('trust2h'), t('trust2s')],
+      [lockSmallIcon(), t('trust3h'), t('trust3s')],
+      [sparkIcon(), t('trust4h'), t('trust4s')],
+    ];
+    return `
+      <div class="trust-strip">
+        <div class="trust-row">
+          ${items.map(([icon,h,s])=>`
+            <div class="trust-item">
+              <div class="ic">${icon}</div>
+              <div class="tx"><div class="h">${esc(h)}</div><div class="s">${esc(s)}</div></div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function faqSection(){
+    const items = FAQ_DATA[state.lang] || FAQ_DATA.en;
+    return `
+      <section class="faq-section">
+        <div class="section-head" style="border-bottom:none;margin-bottom:8px;padding-bottom:0;">
+          <div>
+            <span class="eyebrow">${esc(t('faqEyebrow'))}</span>
+            <h2>${esc(t('faqTitle'))}</h2>
+          </div>
+        </div>
+        <div>
+          ${items.map((item,i)=>`
+            <div class="faq-item ${state.openFaqIndex===i?'open':''}">
+              <button class="faq-q" onclick="__actions.toggleFaq(${i})">
+                <span>${esc(item.q)}</span>
+                <span class="chev">${chevronIcon()}</span>
+              </button>
+              <div class="faq-a"><div class="faq-a-inner">${esc(item.a)}</div></div>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    `;
+  }
+
   function customStrip(){
     return `
       <div class="custom-strip">
@@ -1340,6 +1579,7 @@
       </section>
       <div class="hero-seam" aria-hidden="true"></div>
 
+      ${trustStrip()}
       ${customStrip()}
 
       <main id="products">
@@ -1348,7 +1588,7 @@
             <span class="eyebrow">${esc(t('productsEyebrow'))}</span>
             <h2>${esc(t('productsHeading'))}</h2>
           </div>
-          <span class="section-count mono">${String(state.products.length).padStart(2,'0')} ${state.lang==='ar'?'قطعة':'pieces'}</span>
+          <span class="section-count mono">${String(filteredSortedProducts().length).padStart(2,'0')} ${state.lang==='ar'?'قطعة':'pieces'}</span>
         </div>
         ${state.products.length === 0 ? `
           <div class="empty-state">
@@ -1357,13 +1597,31 @@
             <p>${esc(t('emptyDesc'))}</p>
           </div>
         ` : `
+          <div class="products-toolbar">
+            <div class="toolbar-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input id="toolbarSearchInput" type="text" value="${esc(state.searchQuery)}" placeholder="${esc(t('searchPlaceholder'))}" oninput="__actions.setSearch(this.value)">
+            </div>
+            <div class="toolbar-sort">
+              <select onchange="__actions.setSort(this.value)">
+                <option value="default" ${state.sortBy==='default'?'selected':''}>${esc(t('sortDefault'))}</option>
+                <option value="price_asc" ${state.sortBy==='price_asc'?'selected':''}>${esc(t('sortPriceAsc'))}</option>
+                <option value="price_desc" ${state.sortBy==='price_desc'?'selected':''}>${esc(t('sortPriceDesc'))}</option>
+                <option value="name_asc" ${state.sortBy==='name_asc'?'selected':''}>${esc(t('sortNameAsc'))}</option>
+              </select>
+            </div>
+          </div>
+          ${filteredSortedProducts().length === 0 ? `
+            <div class="no-results">${esc(t('noResults'))}</div>
+          ` : `
           <div class="grid">
-            ${state.products.map(p=>`
+            ${filteredSortedProducts().map(p=>`
               <div class="product-card" onclick="__actions.viewProduct('${p.id}')">
                 ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}
                 ${productMedia(p)}
                 <div class="product-body">
                   <h3>${esc(p.name)}</h3>
+                  ${starsHtml(p.rating, p.reviews_count)}
                   ${p.description ? `<p class="product-desc">${esc(p.description)}</p>` : ''}
                   <div class="price-row">
                     <span class="price">${money(p.price)}</span>
@@ -1373,8 +1631,11 @@
               </div>
             `).join('')}
           </div>
+          `}
         `}
       </main>
+
+      ${faqSection()}
 
       <footer>${esc(t('footer'))}</footer>
 
@@ -1426,6 +1687,7 @@
           </div>
           <div class="pd-info">
             <h1 class="pd-title">${esc(p.name)}</h1>
+            <div class="pd-stars">${starsHtml(p.rating, p.reviews_count)}</div>
             <div class="pd-price">${money(p.price)}</div>
             ${p.description ? `<p class="pd-desc">${esc(p.description)}</p>` : ''}
             <div class="pd-qty-row">
@@ -1553,12 +1815,14 @@
       vals = {
         name: ep?.name || '', price: ep?.price ?? '', image: ep?.image || '',
         images: ep?.images || '', description: ep?.description || '', badge: ep?.badge || '',
+        rating: ep?.rating ?? '', reviews_count: ep?.reviews_count ?? '',
       };
       state.productFormDraft = { _key: draftKey, ...vals };
     }
     return `
       <div class="panel" id="product-form" style="margin-bottom:24px;">
         <h3>${ep ? esc(t('editProductTitle')) : esc(t('addProductTitle'))}</h3>
+        <div class="muted-note">${esc(t('ratingColumnsNote'))}</div>
         <form onsubmit="__actions.saveProduct(event)" oninput="__actions.updateProductDraft(this)">
           <div class="form-grid">
             <div class="field"><label>${esc(t('fieldProductName'))}</label><input name="name" required value="${esc(vals.name)}"></div>
@@ -1567,6 +1831,8 @@
             <div class="field full"><label>${esc(t('fieldGallery'))}</label><input name="images" placeholder="https://..., https://..." value="${esc(vals.images)}"></div>
             <div class="field full"><label>${esc(t('fieldDescription'))}</label><textarea name="description" rows="2">${esc(vals.description)}</textarea></div>
             <div class="field"><label>${esc(t('fieldBadge'))}</label><input name="badge" value="${esc(vals.badge)}"></div>
+            <div class="field"><label>${esc(t('fieldRating'))}</label><input name="rating" type="number" min="0" max="5" step="0.1" placeholder="4.5" value="${esc(String(vals.rating ?? ''))}"></div>
+            <div class="field"><label>${esc(t('fieldReviewsCount'))}</label><input name="reviews_count" type="number" min="0" step="1" placeholder="12" value="${esc(String(vals.reviews_count ?? ''))}"></div>
           </div>
           <button type="submit" class="save-btn">${ep ? esc(t('saveChanges')) : esc(t('addProductBtn'))}</button>
           ${ep ? `<button type="button" class="mini-btn" style="margin-inline-start:10px;" onclick="__actions.cancelEdit()">${esc(t('cancel'))}</button>` : ''}
