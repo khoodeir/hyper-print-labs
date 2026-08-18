@@ -188,17 +188,22 @@
   html[dir="rtl"] .cta-btn svg{transform:scaleX(-1);}
 
   .hero-scene{flex:1 1 320px;max-width:400px;display:flex;justify-content:center;perspective:900px;}
-.hero-print-stage{position:relative;width:100%;max-width:540px;aspect-ratio:4 / 3;overflow:hidden;border-radius:16px;background:#0d0d0c;box-shadow:0 24px 60px rgba(0,0,0,.42),0 0 34px rgba(255,90,34,.12);transform-style:preserve-3d;}
-.hero-print-stage::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.35) 100%);z-index:4;}
-.hero-character{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;clip-path:inset(100% 0 0 0);animation:characterPrintReveal 8s cubic-bezier(.22,.8,.24,1) infinite;}
-.hero-print-head{position:absolute;left:8%;right:8%;top:0;height:3px;z-index:5;border-radius:999px;background:linear-gradient(90deg,transparent 0%,rgba(255,90,34,.2) 14%,#ff5a22 50%,rgba(255,90,34,.2) 86%,transparent 100%);box-shadow:0 0 12px 3px rgba(255,90,34,.55);animation:printHeadMove 8s cubic-bezier(.22,.8,.24,1) infinite;}
-.hero-print-head::after{content:'';position:absolute;left:50%;top:-5px;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;background:#ffd1b8;box-shadow:0 0 0 4px rgba(255,90,34,.24),0 0 18px 7px rgba(255,90,34,.85);}
-.hero-print-layer-lines{position:absolute;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 8px,rgba(255,130,82,.12) 8px 9px);mix-blend-mode:screen;opacity:0;animation:layerLinesReveal 8s ease-in-out infinite;}
+.hero-print-stage{position:relative;width:100%;max-width:540px;aspect-ratio:4 / 3;overflow:hidden;background:transparent;transform-style:preserve-3d;}
+.hero-print-rail{position:absolute;left:8%;right:8%;top:8%;height:2px;z-index:6;border-radius:999px;background:linear-gradient(90deg,transparent,rgba(242,238,227,.34) 12%,rgba(242,238,227,.5) 50%,rgba(242,238,227,.34) 88%,transparent);box-shadow:0 0 8px rgba(242,238,227,.16);}
+.hero-print-rail::before,.hero-print-rail::after{content:'';position:absolute;top:50%;width:8px;height:8px;border-radius:50%;background:#5b574d;box-shadow:0 0 0 2px rgba(255,255,255,.04);transform:translateY(-50%);}.hero-print-rail::before{left:-3px;}.hero-print-rail::after{right:-3px;}
+.hero-character{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;clip-path:inset(100% 0 0 0);animation:characterPrintReveal 8s cubic-bezier(.22,.8,.24,1) infinite;filter:brightness(.55) saturate(.8);}
+.hero-print-head{position:absolute;left:10%;top:8%;width:80%;height:2px;z-index:7;pointer-events:none;animation:printHeadDrop 8s cubic-bezier(.22,.8,.24,1) infinite;}
+.hero-print-nozzle{position:absolute;left:0;top:-7px;width:34px;height:22px;border-radius:5px 5px 3px 3px;background:#625d52;box-shadow:0 0 10px rgba(255,90,34,.55),inset 0 1px rgba(255,255,255,.12);animation:printNozzleSweep 8s cubic-bezier(.32,.02,.68,.98) infinite;}
+.hero-print-nozzle::before{content:'';position:absolute;left:50%;top:16px;transform:translateX(-50%);width:12px;height:14px;background:#625d52;clip-path:polygon(0 0,100% 0,68% 100%,32% 100%);}
+.hero-print-nozzle::after{content:'';position:absolute;left:50%;top:28px;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#ffd1b8;box-shadow:0 0 0 3px rgba(255,90,34,.22),0 0 12px 5px rgba(255,90,34,.9);}
+.hero-print-layer-lines{position:absolute;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 7px,rgba(255,130,82,.16) 7px 8px);mix-blend-mode:screen;opacity:0;animation:layerLinesReveal 8s ease-in-out infinite;}
+.hero-print-base{position:absolute;left:15%;right:15%;bottom:7%;height:7px;z-index:2;border-radius:5px;background:#332f28;box-shadow:0 5px 16px rgba(0,0,0,.28),0 0 10px rgba(255,90,34,.08);}
 .hero-scene img:hover{filter:brightness(1.06) saturate(1.04);}
-@keyframes characterPrintReveal{0%,8%{clip-path:inset(100% 0 0 0);filter:brightness(.45) saturate(.75);}12%{clip-path:inset(88% 0 0 0);filter:brightness(.65) saturate(.9);}74%,86%{clip-path:inset(0 0 0 0);filter:brightness(1) saturate(1);}100%{clip-path:inset(100% 0 0 0);filter:brightness(.45) saturate(.75);}}
-@keyframes printHeadMove{0%,8%{top:92%;opacity:0;}12%{top:88%;opacity:1;}74%,86%{top:5%;opacity:1;}100%{top:92%;opacity:0;}}
-@keyframes layerLinesReveal{0%,10%{opacity:0;}16%,72%{opacity:.45;}86%,100%{opacity:0;}}
-@media(max-width:640px){.hero-print-stage{max-width:100%;border-radius:12px;}}
+@keyframes characterPrintReveal{0%,8%{clip-path:inset(100% 0 0 0);filter:brightness(.45) saturate(.68);}12%{clip-path:inset(88% 0 0 0);filter:brightness(.58) saturate(.78);}74%,86%{clip-path:inset(0 0 0 0);filter:brightness(1) saturate(1);}100%{clip-path:inset(100% 0 0 0);filter:brightness(.45) saturate(.68);}}
+@keyframes printHeadDrop{0%,8%{top:88%;opacity:0;}12%{top:83%;opacity:1;}74%,86%{top:8%;opacity:1;}100%{top:88%;opacity:0;}}
+@keyframes printNozzleSweep{0%,8%{left:0;opacity:0;}14%{left:4%;opacity:1;}34%{left:72%;}51%{left:18%;}68%{left:80%;}82%{left:95%;opacity:1;}100%{left:0;opacity:0;}}
+@keyframes layerLinesReveal{0%,10%{opacity:0;}16%,72%{opacity:.5;}86%,100%{opacity:0;}}
+@media(max-width:640px){.hero-print-stage{max-width:100%;}.hero-print-nozzle{transform:scale(.82);transform-origin:left top;}}
 @media(prefers-reduced-motion:reduce){.hero-character{animation:none;clip-path:inset(0);filter:none;}.hero-print-head,.hero-print-layer-lines{animation:none;opacity:0;}}
 
   /* ---- Live-printing loop: the hero build never finishes printing ---- */
@@ -1620,15 +1625,17 @@
       <div class="hero-print-stage" aria-label="محاكاة طباعة الشخصية ثلاثية الأبعاد">
         <img
           class="hero-character"
-          src="converted_professional.png"
-          alt="محاكاة طباعة شخصية سوداء ثلاثية الأبعاد بقبعة ونظارة دائرية على منصة مضيئة"
+          src="print_character_transparent.png"
+          alt="محاكاة طباعة شخصية سوداء ثلاثية الأبعاد بقبعة ونظارة دائرية"
           width="2176"
           height="1632"
           loading="eager"
           decoding="async"
         />
         <span class="hero-print-layer-lines" aria-hidden="true"></span>
-        <span class="hero-print-head" aria-hidden="true"></span>
+        <span class="hero-print-rail" aria-hidden="true"></span>
+        <span class="hero-print-head" aria-hidden="true"><span class="hero-print-nozzle"></span></span>
+        <span class="hero-print-base" aria-hidden="true"></span>
       </div>
     `;
   }
