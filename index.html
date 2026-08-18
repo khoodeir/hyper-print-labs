@@ -66,8 +66,10 @@
   .mono{font-family:var(--font-mono);}
 
   /* ---------- Header ---------- */
-  header.topbar{
-    position:sticky;top:0;z-index:40;
+  .topbar{
+    position:sticky;top:0;z-index:1000;
+    width:100%;box-sizing:border-box;
+    animation:none;
     background:var(--graphite);
     border-bottom:1px solid var(--line-dark);
     padding:13px 24px;
@@ -112,15 +114,30 @@
   .hero{
     position:relative;
     background-color:var(--graphite);
-    background-image:linear-gradient(rgba(27,26,23,.70),rgba(27,26,23,.78)),url('3d-figurines-hero-bg.png');
+    background-image:linear-gradient(rgba(27,26,23,.70),rgba(27,26,23,.78)),url('3d-figurines-hero-bg-smoke.png');
     background-size:cover;
     background-position:center;
     color:var(--paper);
     padding:80px 24px 48px;
     overflow:hidden;
   }
+  .hero-smoke{
+    position:absolute;inset:-12%;pointer-events:none;z-index:0;opacity:.62;
+    filter:blur(18px) saturate(1.08);mix-blend-mode:screen;
+    background:
+      radial-gradient(ellipse 27% 34% at 8% 53%,rgba(208,145,92,.30) 0%,rgba(126,82,57,.16) 34%,transparent 74%),
+      radial-gradient(ellipse 21% 28% at 19% 16%,rgba(164,112,77,.22) 0%,transparent 72%),
+      radial-gradient(ellipse 29% 37% at 92% 49%,rgba(196,137,89,.28) 0%,rgba(123,83,58,.14) 36%,transparent 74%),
+      radial-gradient(ellipse 22% 27% at 83% 17%,rgba(165,113,75,.22) 0%,transparent 70%);
+    animation:smokeDrift 14s ease-in-out infinite alternate;
+  }
+  @keyframes smokeDrift{
+    0%{transform:translate3d(-1.5%,1%,0) scale(1);opacity:.48;}
+    50%{transform:translate3d(1%, -1%,0) scale(1.04);opacity:.68;}
+    100%{transform:translate3d(2%,1.5%,0) scale(1.01);opacity:.54;}
+  }
   .hero-texture{
-    position:absolute;inset:0;pointer-events:none;opacity:.5;
+    position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;
     background-image:
       linear-gradient(var(--line-dark) 1px,transparent 1px),
       linear-gradient(90deg,var(--line-dark) 1px,transparent 1px);
@@ -129,7 +146,7 @@
     mask-image:radial-gradient(ellipse 75% 65% at 50% 20%,black 0%,transparent 78%);
   }
   .hero-inner{
-    position:relative;max-width:1180px;margin:0 auto;
+    position:relative;z-index:2;max-width:1180px;margin:0 auto;
     display:flex;align-items:center;gap:48px;flex-wrap:wrap;
     padding-bottom:0;
   }
@@ -230,7 +247,7 @@
     0%,100%{transform:translateY(0);}
     50%{transform:translateY(-4px);}
   }
-  header.topbar{animation:pageSlideDown .65s ease both;}
+  header.topbar{animation:none;}
   .hero-seam{animation:pageFadeRise .8s ease .45s both;}
   .custom-card{animation:pageFadeRise .7s ease .12s both;}
   .trust-item{animation:pageFadeRise .65s ease both;}
@@ -1341,7 +1358,7 @@
       state.checkoutStep = 'success';
       render();
     },
-    goAdmin(){ state.view='admin'; location.hash='admin'; render(); },
+    goAdmin(){ state.view='admin'; history.replaceState(null,'',location.pathname+location.search+'#admin'); render(); },
     goStore(){ state.view='store'; history.replaceState(null,'',location.pathname+location.search); render(); },
     viewProduct(id){
       state.view = 'product';
@@ -1349,7 +1366,6 @@
       state.pdQty = 1;
       state.pdGalleryIndex = 0;
       render();
-      window.scrollTo(0,0);
     },
     pdPrev(){
       const p = state.products.find(x=>String(x.id)===String(state.selectedProductId));
@@ -1404,7 +1420,6 @@
       state.editingProduct = state.products.find(p=>String(p.id)===String(id)) || null;
       state.adminTab = 'products';
       render();
-      document.getElementById('product-form')?.scrollIntoView({behavior:'smooth'});
     },
     updateProductDraft(form){
       const draft = {
@@ -1731,13 +1746,14 @@
       ${topbar()}
 
       <section class="hero">
+        <div class="hero-smoke" aria-hidden="true"></div>
         <div class="hero-texture" aria-hidden="true"></div>
         <div class="hero-inner${heroAnimClass}">
           <div class="hero-copy">
             <div class="hero-eyebrow"><span class="dot"></span>${esc(t('heroEyebrow'))}</div>
             <h1>${esc(s.name)}</h1>
             <p>${esc(s.tagline)}</p>
-            <a href="#products" class="cta-btn">${esc(t('shopNow'))}${cartArrowIcon()}</a>
+            <a href="#products" class="cta-btn" onclick="event.preventDefault();return false;">${esc(t('shopNow'))}${cartArrowIcon()}</a>
           </div>
           <div class="hero-scene">${heroScene()}</div>
         </div>
