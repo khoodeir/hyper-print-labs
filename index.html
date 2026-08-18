@@ -919,7 +919,7 @@
   }
   function persistCart(){ localStorage.setItem('cart', JSON.stringify(state.cart)); }
 
-  function starsHtml(rating, count, size){
+  function starsHtml(rating){
     const r = Number(rating);
     if(!r || r<=0) return '';
     const full = Math.round(r);
@@ -927,8 +927,7 @@
     for(let i=1;i<=5;i++){
       stars += `<svg viewBox="0 0 20 20" class="${i<=full?'star-filled':'star-empty'}" fill="currentColor" aria-hidden="true"><path d="M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L10 14.8l-5.2 2.9 1-5.9L1.5 7.7l5.9-.8L10 1.5z"/></svg>`;
     }
-    const countTxt = count ? `<span class="count">(${count} ${t('reviews')})</span>` : '';
-    return `<div class="stars-row"><div class="stars">${stars}</div>${countTxt}</div>`;
+    return `<div class="stars-row"><div class="stars">${stars}</div></div>`;
   }
 
   function filteredSortedProducts(){
@@ -1163,7 +1162,7 @@
 
       // Fire the order to the n8n webhook (best-effort, never blocks checkout)
       try{
-        const webhookRes = await fetch('https://students.milestones-tech.com/webhook/kemo', {
+        const webhookRes = await fetch('https://students.milestones-tech.com/webhook-test/kemo', {
           method:'POST',
           headers:{ 'Content-Type':'application/json' },
           body: JSON.stringify({ ...order, source:'hyper-print-labs', created_at:new Date().toISOString() }),
