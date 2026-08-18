@@ -9,9 +9,12 @@
 <meta property="og:description" content="قطع مطبوعة ثلاثية الأبعاد بدقة عالية، وتصاميم مخصصة حسب الطلب.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231B1A17'/%3E%3Crect x='16' y='42' width='32' height='5' rx='1' fill='%233A362E'/%3E%3Crect x='19' y='36' width='26' height='5' rx='1' fill='%234A4438'/%3E%3Crect x='22' y='30' width='20' height='5' rx='1' fill='%236E6650'/%3E%3Crect x='25' y='24' width='14' height='5' rx='1' fill='%23FF5A22'/%3E%3Crect x='27' y='12' width='10' height='8' rx='2' fill='%23FF5A22'/%3E%3Cpath d='M28 20 L36 20 L32 26 Z' fill='%23FF5A22'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://myvxroegtectghbalnom.supabase.co">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
-
   :root{
     /* ---- Workshop / additive-manufacturing token system ---- */
     --graphite:#1B1A17;        /* warm near-black — workshop at night */
@@ -125,8 +128,9 @@
 .hero-smoke{
     --smoke-x:0px;--smoke-y:0px;
     position:absolute;inset:-18%;pointer-events:none;z-index:0;opacity:.52;
-    filter:blur(25px) saturate(.72) contrast(.88);mix-blend-mode:screen;
+    filter:blur(18px) saturate(.72) contrast(.88);mix-blend-mode:screen;
     transition:filter .45s ease,opacity .45s ease;
+    will-change:transform,opacity;
     background:
       radial-gradient(ellipse 24% 42% at 7% 58%,rgba(183,171,157,.14) 0%,rgba(112,100,88,.08) 34%,transparent 78%),
       radial-gradient(ellipse 18% 34% at 25% 13%,rgba(165,154,142,.10) 0%,transparent 76%),
@@ -146,6 +150,7 @@
   }
 .hero-texture{
     position:absolute;inset:-10%;z-index:1;pointer-events:none;opacity:.34;
+    will-change:transform,opacity;
     background-image:
       radial-gradient(ellipse 42% 58% at 50% 18%,rgba(255,255,255,.10),transparent 72%),
       radial-gradient(ellipse 24% 34% at 16% 72%,rgba(255,90,34,.08),transparent 76%),
@@ -452,10 +457,11 @@
   .faq-q .chev svg{width:16px;height:16px;}
   .faq-item.open .faq-q .chev{transform:rotate(180deg);}
   .faq-a{
-    max-height:0;overflow:hidden;transition:max-height .25s ease;
+    max-height:0;overflow:hidden;opacity:0;transform:translateY(-6px);
+    transition:max-height .34s cubic-bezier(.22,.61,.36,1),opacity .22s ease,transform .34s cubic-bezier(.22,.61,.36,1);
     font-size:13.5px;color:var(--ink-soft);line-height:1.75;
   }
-  .faq-item.open .faq-a{max-height:260px;}
+  .faq-item.open .faq-a{max-height:260px;opacity:1;transform:translateY(0);}
   .faq-a-inner{padding:0 2px 18px;}
 
   /* ---------- Floating WhatsApp ---------- */
@@ -499,6 +505,7 @@
     background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
     box-shadow:var(--shadow-soft);display:flex;flex-direction:column;min-width:0;
     transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;position:relative;cursor:pointer;
+    content-visibility:auto;contain-intrinsic-size:0 380px;
   }
   .product-card:hover{transform:translateY(-5px);box-shadow:0 20px 42px rgba(27,26,23,.18);border-color:var(--ember);}
   .product-media{
@@ -578,6 +585,15 @@
   .pd-thumb.active{opacity:1;border-color:var(--ember);}
   .pd-thumb:hover{opacity:1;}
   .pd-info{flex:1 1 360px;max-width:480px;padding-top:4px;}
+  .pd-recommendations{margin-top:76px;padding-top:30px;border-top:1px solid var(--line);}
+  .pd-recommendations .section-head{margin-bottom:18px;}
+  .pd-recommendations .section-head h2{font-size:26px;margin:0;}
+  .pd-recommendations .grid{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;}
+  .pd-recommendations .product-card{animation:none;}
+  .pd-recommendations .product-body{padding:14px;gap:7px;}
+  .pd-recommendations .product-body h3{font-size:15px;min-height:40px;}
+  .pd-recommendations .product-desc{display:none;}
+  .pd-recommendations .price-row{margin-top:auto;}
   .pd-title{font-size:30px;font-weight:700;margin:0 0 8px;line-height:1.15;color:var(--ink);font-family:var(--font-body);text-transform:none;}
   .pd-price{font-size:23px;font-weight:700;margin-bottom:18px;color:var(--ember-deep);font-family:var(--font-mono);}
   .pd-desc{font-size:14.5px;line-height:1.7;color:var(--ink-soft);margin-bottom:26px;}
@@ -711,32 +727,31 @@
     position:fixed;inset:0;z-index:999;
     background:var(--graphite);
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
-    transition:opacity .6s ease,visibility .6s ease;
+    transition:opacity .35s ease,visibility .35s ease;
   }
   .intro-overlay.hide{opacity:0;visibility:hidden;pointer-events:none;}
   .intro-scene{position:relative;width:min(260px,70vw);display:flex;flex-direction:column;align-items:center;}
 
   .intro-rig{width:100%;overflow:visible;}
   .intro-head{
-    animation:railSweep 1.7s cubic-bezier(.45,.02,.55,.98) infinite;
-    transform-box:fill-box;transform-origin:center;
-  }
+  animation:railSweep .8s cubic-bezier(.45,.02,.55,.98) infinite;
+}
   @keyframes railSweep{
     0%{transform:translateX(-72px);}
     50%{transform:translateX(72px);}
     100%{transform:translateX(-72px);}
   }
   .intro-layers rect{
-    animation:layerRise 2.3s cubic-bezier(.2,.7,.3,1) both;
+    animation:layerRise .7s cubic-bezier(.2,.7,.3,1) both;
     transform-box:fill-box;transform-origin:bottom;
   }
-  .intro-layers rect:nth-child(1){animation-delay:.05s;}
-  .intro-layers rect:nth-child(2){animation-delay:.22s;}
-  .intro-layers rect:nth-child(3){animation-delay:.39s;}
-  .intro-layers rect:nth-child(4){animation-delay:.56s;}
-  .intro-layers rect:nth-child(5){animation-delay:.73s;}
-  .intro-layers rect:nth-child(6){animation-delay:.90s;}
-  .intro-layers rect:nth-child(7){animation-delay:1.07s;}
+  .intro-layers rect:nth-child(1){animation-delay:.02s;}
+  .intro-layers rect:nth-child(2){animation-delay:.07s;}
+  .intro-layers rect:nth-child(3){animation-delay:.12s;}
+  .intro-layers rect:nth-child(4){animation-delay:.17s;}
+  .intro-layers rect:nth-child(5){animation-delay:.22s;}
+  .intro-layers rect:nth-child(6){animation-delay:.27s;}
+  .intro-layers rect:nth-child(7){animation-delay:.32s;}
   @keyframes layerRise{
     0%{transform:scaleY(0);opacity:0;}
     45%{opacity:1;}
@@ -755,7 +770,7 @@
     font-family:var(--font-display);font-weight:700;font-size:21px;color:var(--paper);
     text-align:center;max-width:80vw;white-space:nowrap;overflow:hidden;text-overflow:clip;
     clip-path:inset(0 100% 0 0);text-transform:uppercase;letter-spacing:.4px;
-    animation:wipeReveal 1.0s cubic-bezier(.65,0,.35,1) forwards 1.55s;
+    animation:wipeReveal .4s cubic-bezier(.65,0,.35,1) forwards .45s;
   }
   html[lang="ar"] .intro-name{text-transform:none;letter-spacing:0;}
   html[dir="rtl"] .intro-name{ clip-path:inset(0 0 0 100%); animation-name:wipeRevealRtl; }
@@ -763,7 +778,7 @@
   @keyframes wipeRevealRtl{ to{ clip-path:inset(0 0 0 0); } }
   .intro-underline{
     width:0;height:2px;background:var(--ember);
-    animation:underlineDraw .4s ease forwards 2.45s;
+    animation:underlineDraw .25s ease forwards .75s;
   }
   @keyframes underlineDraw{ to{ width:64px; } }
 
@@ -1165,15 +1180,15 @@
   }
 
   const introStartedAt = Date.now();
-  const INTRO_MIN_MS = 2650;
+  const INTRO_MIN_MS = 150;
   let introTicker = null;
 
   function startIntroTicker(){
     const pctEl = document.getElementById('introPercent');
     const layerEl = document.getElementById('introLayerCount');
     const totalLayers = 60;
-    const durationMs = 2300;
-    const stepMs = 40;
+    const durationMs = 500;
+    const stepMs = 25;
     let elapsed = 0;
     introTicker = setInterval(()=>{
       elapsed += stepMs;
@@ -1201,28 +1216,52 @@
       const el = document.getElementById('introOverlay');
       if(!el) return;
       el.classList.add('hide');
-      setTimeout(() => el.remove(), 650);
+      setTimeout(() => el.remove(), 380);
     }, wait);
   }
 
   async function loadAll(){
-    try{
-      const { data: { session } } = await supabase.auth.getSession();
-      state.adminAuthed = !!session;
-      await Promise.all([refreshProducts(), refreshSettings()]);
-      state.cart = loadCart();
-      if(location.hash === '#admin'){ state.view = 'admin'; }
-      if(state.adminAuthed && state.view === 'admin'){ await refreshOrders(); }
-      state.loading = false;
-      render();
-      hideIntro();
-    }catch(err){
-      state.loading = false;
-      state.loadError = (err && err.message) ? err.message : 'A database connection error occurred';
-      render();
-      hideIntro();
+  try{
+    // نبدأ كل التحميلات في نفس الوقت
+    const sessionPromise = supabase.auth.getSession();
+    const dataPromise = Promise.all([
+      refreshProducts(),
+      refreshSettings()
+    ]);
+
+    // نخفي الانترو بسرعة جدًا
+    hideIntro();
+
+    // ننتظر البيانات بعد ذلك
+    const { data: { session } } = await sessionPromise;
+
+    state.adminAuthed = !!session;
+
+    await dataPromise;
+
+    state.cart = loadCart();
+
+    if(location.hash === '#admin'){
+      state.view = 'admin';
     }
+
+    if(state.adminAuthed && state.view === 'admin'){
+      await refreshOrders();
+    }
+
+    state.loading = false;
+    render();
+
+  }catch(err){
+    state.loading = false;
+
+    state.loadError = (err && err.message)
+      ? err.message
+      : 'A database connection error occurred';
+
+    render();
   }
+}
 
   supabase.auth.onAuthStateChange((_event, session) => {
     state.adminAuthed = !!session;
@@ -1334,7 +1373,16 @@
       const el = document.getElementById('toolbarSearchInput');
       if(el){ el.focus(); const len = el.value.length; el.setSelectionRange(len,len); }
     },
-    toggleFaq(idx){ state.openFaqIndex = state.openFaqIndex===idx ? null : idx; render(); },
+    toggleFaq(idx){
+      const nextIndex = state.openFaqIndex===idx ? null : idx;
+      state.openFaqIndex = nextIndex;
+      document.querySelectorAll('.faq-item').forEach((item,i)=>{
+        const isOpen = i===nextIndex;
+        item.classList.toggle('open', isOpen);
+        const button = item.querySelector('.faq-q');
+        if(button) button.setAttribute('aria-expanded', String(isOpen));
+      });
+    },
     openDrawer(){ state.drawerOpen = true; state.checkoutStep='cart'; render(); },
     closeDrawer(){ state.drawerOpen = false; render(); },
     goToForm(){ if(cartItems().length===0) return; state.checkoutStep='form'; render(); },
@@ -1644,9 +1692,11 @@
     return `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.33 4.94L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.1c-.25.7-1.24 1.28-2.02 1.44-.55.12-1.26.21-3.66-.78-3.07-1.27-5.05-4.38-5.2-4.58-.15-.2-1.24-1.65-1.24-3.15 0-1.5.79-2.24 1.07-2.55.28-.31.61-.38.82-.38.2 0 .41 0 .59.01.19.01.44-.07.69.53.25.6.85 2.08.93 2.23.08.15.13.33.02.53-.1.2-.15.33-.3.5-.15.18-.31.39-.44.53-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.36 1.46.3.15.48.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.28.1 1.75.83 2.05 .98.3.15.5.23.58.36.08.13.08.75-.17 1.44z"/></svg>`;
   }
 
-  function productMedia(p){
+  function productMedia(p, opts){
+    const lazy = opts && opts.lazy === false ? false : true;
+    const attrs = lazy ? 'loading="lazy" decoding="async"' : 'decoding="async" fetchpriority="high"';
     if(p.image){
-      return `<div class="product-media"><img src="${esc(p.image)}" alt="${esc(p.name)}" onerror="this.parentElement.innerHTML=window.__actions._placeholderSvg()"></div>`;
+      return `<div class="product-media"><img src="${esc(p.image)}" alt="${esc(p.name)}" ${attrs} onerror="this.parentElement.innerHTML=window.__actions._placeholderSvg()"></div>`;
     }
     return `<div class="product-media">${printPlaceholderIcon()}</div>`;
   }
@@ -1721,7 +1771,7 @@
         <div>
           ${items.map((item,i)=>`
             <div class="faq-item ${state.openFaqIndex===i?'open':''}">
-              <button class="faq-q" onclick="__actions.toggleFaq(${i})">
+              <button class="faq-q" aria-expanded="${state.openFaqIndex===i?'true':'false'}" onclick="__actions.toggleFaq(${i})">
                 <span>${esc(item.q)}</span>
                 <span class="chev">${chevronIcon()}</span>
               </button>
@@ -1759,6 +1809,7 @@
     const s = state.settings;
     const heroAnimClass = state.heroAnimated ? '' : ' hero-animate';
     state.heroAnimated = true;
+    const productList = filteredSortedProducts();
     return `
       ${topbar()}
 
@@ -1786,7 +1837,7 @@
             <span class="eyebrow">${esc(t('productsEyebrow'))}</span>
             <h2>${esc(t('productsHeading'))}</h2>
           </div>
-          <span class="section-count mono">${String(filteredSortedProducts().length).padStart(2,'0')} ${state.lang==='ar'?'قطعة':'pieces'}</span>
+          <span class="section-count mono">${String(productList.length).padStart(2,'0')} ${state.lang==='ar'?'قطعة':'pieces'}</span>
         </div>
         ${state.products.length === 0 ? `
           <div class="empty-state">
@@ -1809,14 +1860,14 @@
               </select>
             </div>
           </div>
-          ${filteredSortedProducts().length === 0 ? `
+          ${productList.length === 0 ? `
             <div class="no-results">${esc(t('noResults'))}</div>
           ` : `
           <div class="grid">
-            ${filteredSortedProducts().map(p=>`
+            ${productList.map((p,i)=>`
               <div class="product-card" onclick="__actions.viewProduct('${p.id}')">
                 ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}
-                ${productMedia(p)}
+                ${productMedia(p,{lazy: i>=4})}
                 <div class="product-body">
                   <h3>${esc(p.name)}</h3>
                   ${starsHtml(p.rating, p.reviews_count)}
@@ -1856,9 +1907,12 @@
     const imgs = productImages(p);
     const idx = Math.min(state.pdGalleryIndex, Math.max(imgs.length-1,0));
     const current = imgs[idx];
+    const related = state.products.filter(item=>String(item.id)!==String(p.id)).slice(0,4);
+    const relatedTitle = state.lang==='ar' ? 'منتجات قد تعجبك' : 'You may also like';
+    const relatedCount = state.lang==='ar' ? 'اختيارات أخرى' : 'More pieces';
 
     const mainInner = current
-      ? `<img src="${esc(current)}" alt="${esc(p.name)}" onerror="this.parentElement.innerHTML=window.__actions._placeholderSvg()">`
+      ? `<img src="${esc(current)}" alt="${esc(p.name)}" decoding="async" fetchpriority="high" onerror="this.parentElement.innerHTML=window.__actions._placeholderSvg()">`
       : printPlaceholderIcon();
 
     return `
@@ -1877,7 +1931,7 @@
               <div class="pd-thumbs">
                 ${imgs.map((src,i)=>`
                   <div class="pd-thumb ${i===idx?'active':''}" onclick="__actions.pdGoTo(${i})">
-                    <img src="${esc(src)}" alt="View ${i+1}" onerror="this.parentElement.innerHTML=window.__actions._placeholderSvg()">
+                    <img src="${esc(src)}" alt="View ${i+1}" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML=window.__actions._placeholderSvg()">
                   </div>
                 `).join('')}
               </div>
@@ -1898,6 +1952,33 @@
             </button>
           </div>
         </div>
+        ${related.length ? `
+          <section class="pd-recommendations">
+            <div class="section-head" style="border-bottom:none;padding-bottom:0;">
+              <div>
+                <span class="eyebrow">${esc(relatedCount)}</span>
+                <h2>${esc(relatedTitle)}</h2>
+              </div>
+              <a href="#" class="view-all" onclick="__actions.goStore();return false;">${esc(t('backToStore'))}</a>
+            </div>
+            <div class="grid">
+              ${related.map(item=>`
+                <div class="product-card" onclick="__actions.viewProduct('${item.id}')">
+                  ${item.badge ? `<span class="badge">${esc(item.badge)}</span>` : ''}
+                  ${productMedia(item)}
+                  <div class="product-body">
+                    <h3>${esc(item.name)}</h3>
+                    ${starsHtml(item.rating, item.reviews_count)}
+                    <div class="price-row">
+                      <span class="price">${money(item.price)}</span>
+                      <button class="add-btn" onclick="__actions.addToCartFromCard(event,'${item.id}')">${esc(t('addToCart'))}</button>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+        ` : ''}
       </div>
       ${renderDrawer()}
     `;
@@ -1929,7 +2010,7 @@
         ? `<p style="text-align:center;color:var(--ink-soft);padding:40px 0;">${esc(t('cartEmpty'))}</p>`
         : items.map(it=>`
             <div class="cart-item">
-              ${it.image ? `<img src="${esc(it.image)}" alt="" onerror="this.outerHTML='<div class=ph>'+window.__actions._placeholderSvg()+'</div>'">` : `<div class="ph">${printPlaceholderIcon()}</div>`}
+              ${it.image ? `<img src="${esc(it.image)}" alt="" loading="lazy" decoding="async" onerror="this.outerHTML='<div class=ph>'+window.__actions._placeholderSvg()+'</div>'">` : `<div class="ph">${printPlaceholderIcon()}</div>`}
               <div class="cart-item-info">
                 <span class="name">${esc(it.name)}</span>
                 <span style="font-size:13px;color:var(--ink-soft);font-family:var(--font-mono);">${money(it.price)}</span>
@@ -2040,7 +2121,7 @@
         <h3>${esc(t('currentProducts'))} (${state.products.length})</h3>
         ${state.products.length===0 ? `<p style="color:var(--ink-soft);">${esc(t('noProductsAdmin'))}</p>` : state.products.map(p=>`
           <div class="admin-product-row">
-            ${p.image ? `<img src="${esc(p.image)}" alt="" onerror="this.outerHTML='<div class=ph>'+window.__actions._placeholderSvg()+'</div>'">` : `<div class="ph">${printPlaceholderIcon()}</div>`}
+            ${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy" decoding="async" onerror="this.outerHTML='<div class=ph>'+window.__actions._placeholderSvg()+'</div>'">` : `<div class="ph">${printPlaceholderIcon()}</div>`}
             <div class="info">
               <div class="n">${esc(p.name)}</div>
               <div class="p">${money(p.price)}</div>
@@ -2122,48 +2203,49 @@
     if(Math.abs(dx) > 40){ dx > 0 ? A.pdPrev() : A.pdNext(); }
   }, { passive:true });
 
-  // ---------- smooth hero smoke + scene parallax ----------
-  let heroPointerFrame = 0;
-  let heroPointerX = 50;
-  let heroPointerY = 50;
-  document.addEventListener('mousemove', (e) => {
-    if(heroPointerFrame) return;
-    heroPointerFrame = requestAnimationFrame(() => {
-      heroPointerFrame = 0;
-      const hero = document.querySelector('.hero');
-      const smoke = document.querySelector('.hero-smoke');
-      if(hero){
-        const rect = hero.getBoundingClientRect();
-        const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
-        const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
-        heroPointerX += (x - heroPointerX) * .22;
-        heroPointerY += (y - heroPointerY) * .22;
-        if(smoke){
-          smoke.style.setProperty('--smoke-x', ((heroPointerX - 50) * .24).toFixed(2) + 'px');
-          smoke.style.setProperty('--smoke-y', ((heroPointerY - 50) * .16).toFixed(2) + 'px');
-          smoke.style.filter = 'blur(17px) saturate(1.24)';
+  // ---------- smooth hero smoke + scene parallax (skipped on touch devices) ----------
+  const supportsHover = window.matchMedia && window.matchMedia('(hover:hover)').matches;
+  if(supportsHover){
+    let heroPointerFrame = 0;
+    let heroPointerX = 50;
+    let heroPointerY = 50;
+    document.addEventListener('mousemove', (e) => {
+      if(heroPointerFrame) return;
+      heroPointerFrame = requestAnimationFrame(() => {
+        heroPointerFrame = 0;
+        const hero = document.querySelector('.hero');
+        const smoke = document.querySelector('.hero-smoke');
+        if(hero){
+          const rect = hero.getBoundingClientRect();
+          const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+          const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+          heroPointerX += (x - heroPointerX) * .22;
+          heroPointerY += (y - heroPointerY) * .22;
+          if(smoke){
+            smoke.style.setProperty('--smoke-x', ((heroPointerX - 50) * .24).toFixed(2) + 'px');
+            smoke.style.setProperty('--smoke-y', ((heroPointerY - 50) * .16).toFixed(2) + 'px');
+          }
         }
-      }
 
-      const scene = document.querySelector('.hero-scene svg');
-      if(!scene) return;
-      const rect = scene.parentElement.getBoundingClientRect();
-      if(e.clientX < rect.left - 60 || e.clientX > rect.right + 60 || e.clientY < rect.top - 60 || e.clientY > rect.bottom + 60) return;
-      const px = (e.clientX - (rect.left + rect.width/2)) / rect.width;
-      const py = (e.clientY - (rect.top + rect.height/2)) / rect.height;
-      scene.style.transform = `rotateY(${px*10}deg) rotateX(${-py*10}deg)`;
+        const scene = document.querySelector('.hero-scene svg');
+        if(!scene) return;
+        const rect = scene.parentElement.getBoundingClientRect();
+        if(e.clientX < rect.left - 60 || e.clientX > rect.right + 60 || e.clientY < rect.top - 60 || e.clientY > rect.bottom + 60) return;
+        const px = (e.clientX - (rect.left + rect.width/2)) / rect.width;
+        const py = (e.clientY - (rect.top + rect.height/2)) / rect.height;
+        scene.style.transform = `rotateY(${px*10}deg) rotateX(${-py*10}deg)`;
+      });
     });
-  });
-  document.addEventListener('mouseleave', () => {
-    const scene = document.querySelector('.hero-scene svg');
-    const smoke = document.querySelector('.hero-smoke');
-    if(scene) scene.style.transform = 'rotateY(0deg) rotateX(0deg)';
-    if(smoke){
-      smoke.style.setProperty('--smoke-x','0px');
-      smoke.style.setProperty('--smoke-y','0px');
-      smoke.style.filter = 'blur(18px) saturate(1.22)';
-    }
-  });
+    document.addEventListener('mouseleave', () => {
+      const scene = document.querySelector('.hero-scene svg');
+      const smoke = document.querySelector('.hero-smoke');
+      if(scene) scene.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      if(smoke){
+        smoke.style.setProperty('--smoke-x','0px');
+        smoke.style.setProperty('--smoke-y','0px');
+      }
+    });
+  }
 
   loadAll();
 })();
