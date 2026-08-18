@@ -593,6 +593,10 @@
       currentProducts:'Current pieces', noProductsAdmin:'No products added yet.',
       edit:'Edit', delete:'Delete',
       ordersTitle:'Orders', noOrders:'No orders yet.',
+      cancelOrder:'Cancel order',
+      cancelOrderConfirm:'Are you sure you want to cancel this order? This cannot be undone.',
+      toastOrderCancelled:'Order cancelled',
+      toastCancelError:'Something went wrong while cancelling the order',
       storeSettingsTitle:'Store settings',
       settingsNote:"Products, orders, and settings live in your database — visible to every visitor and never lost on refresh. Each visitor's cart is personal to their own browser.",
       fieldStoreName:'Store name', fieldTagline:'Welcome message', save:'Save',
@@ -648,6 +652,10 @@
       currentProducts:'القطع الحالية', noProductsAdmin:'لا توجد منتجات مضافة بعد.',
       edit:'تعديل', delete:'حذف',
       ordersTitle:'الطلبات', noOrders:'لا توجد طلبات بعد.',
+      cancelOrder:'إلغاء الطلب',
+      cancelOrderConfirm:'هل أنت متأكد من رغبتك في إلغاء هذا الطلب؟ لا يمكن التراجع عن هذا الإجراء.',
+      toastOrderCancelled:'تم إلغاء الطلب',
+      toastCancelError:'حدثت مشكلة أثناء إلغاء الطلب',
       storeSettingsTitle:'إعدادات المتجر',
       settingsNote:'تُحفظ المنتجات والطلبات والإعدادات في قاعدة البيانات، وتظهر لجميع الزوار ولا تُفقد عند تحديث الصفحة. سلة كل زائر خاصة بمتصفحه فقط.',
       fieldStoreName:'اسم المتجر', fieldTagline:'رسالة الترحيب', save:'حفظ',
@@ -927,11 +935,21 @@
       if(error){ showToast(t('toastGenericError')); return; }
 
       // Fire the order to the n8n webhook (best-effort, never blocks checkout)
-      fetch('https://students.milestones-tech.com/webhook-test/kemo', {
-        method:'POST',
-        headers:{ 'Content-Type':'application/json' },
-        body: JSON.stringify({ ...order, source:'hyper-print-labs', created_at:new Date().toISOString() }),
-      }).catch(err => { console.warn('Webhook delivery failed:', err); });
+      try{
+        const webhookRes = await fetch('https://students.milestones-tech.com/webhook-test/kemo', {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          body: JSON.stringify({ ...order, source:'hyper-print-labs', created_at:new Date().toISOString() }),
+        });
+        if(!webhookRes.ok){
+          const bodyText = await webhookRes.text().catch(()=> '');
+          console.warn('[webhook] responded with status', webhookRes.status, bodyText);
+        } else {
+          console.info('[webhook] order delivered successfully');
+        }
+      }catch(err){
+        console.warn('[webhook] delivery failed — the n8n test URL only listens once while "Listen for test event" is open, or check CORS. Error:', err);
+      }
 
       state.cart = {};
       persistCart();
@@ -987,6 +1005,14 @@
     async setAdminTab(tab){
       state.adminTab = tab;
       if(tab==='orders') await refreshOrders();
+      render();
+    },
+    async cancelOrder(id){
+      if(!confirm(t('cancelOrderConfirm'))) return;
+      const { error } = await supabase.from('orders').delete().eq('id', id);
+      if(error){ showToast(t('toastCancelError')); return; }
+      await refreshOrders();
+      showToast(t('toastOrderCancelled'));
       render();
     },
     editProduct(id){
@@ -1493,6 +1519,7 @@
               ${new Date(o.created_at).toLocaleString('en-US')}
             </div>
             <ul>${o.items.map(it=>`<li>${esc(it.name)} × ${it.qty} — ${money(it.price*it.qty)}</li>`).join('')}</ul>
+            <button class="mini-btn danger" style="margin-top:10px;" onclick="__actions.cancelOrder('${o.id}')">${esc(t('cancelOrder'))}</button>
           </div>
         `).join('')}
       </div>
