@@ -1054,6 +1054,10 @@ img{max-width:100%;}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important;}}
 
 @media(max-width:760px){.hero p{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;max-height:10.5em!important;margin-bottom:16px!important}.cta-btn{padding:13px 21px!important}.hero-inner{padding-bottom:34px!important}}
+
+/* ---------- Three.js GLB/GLTF viewer ---------- */
+.three-viewer-canvas{position:absolute;inset:0;z-index:4;opacity:0;transition:opacity .25s ease;pointer-events:none}.three-viewer-canvas .three-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;pointer-events:auto}.three-viewer-canvas .three-canvas:active{cursor:grabbing}.viewer-3d.three-ready .three-viewer-canvas{opacity:1}.viewer-3d.three-ready .viewer-model,.viewer-3d.three-ready .viewer-grid{opacity:0;pointer-events:none}.viewer-3d.three-ready .viewer-drag-label::after{content:' · GLB';color:#1d9a62}.field-help{display:block;margin-top:6px;color:#777;font-size:11px}.three-fallback .viewer-drag-label::after{content:' · image mode';color:#e5483f}
+@media(max-width:760px){.three-viewer-canvas .three-canvas{touch-action:none}.viewer-3d.three-ready .viewer-model{display:none}}
 </style>
 </head>
 <body class="intro-active">
@@ -1447,8 +1451,8 @@ img{max-width:100%;}
           <div class="dimension-note"><span>✦</span>${ar?'مصمم للطباعة بدقة عالية ومناسب للعرض والاقتناء.':'Precision printed and finished for display and collecting.'}</div>
         </div>
         <div class="viewer-3d-wrap">
-          <div class="viewer-3d" id="dimensionViewer" data-zoom="1" style="--viewer-image:url(\'${esc(image)}\')" tabindex="0" aria-label="${title}">
-            <div class="viewer-grid"></div><div class="viewer-model">
+          <div class="viewer-3d" id="dimensionViewer" data-zoom="1" data-model="${esc(p.model_url||'')}" style="--viewer-image:url(\'${esc(image)}\')" tabindex="0" aria-label="${title}">
+            <div class="three-viewer-canvas" id="threeViewerCanvas" aria-hidden="true"></div><div class="viewer-grid"></div><div class="viewer-model">
               <div class="viewer-face viewer-front">${image?`<img src="${esc(image)}" alt="${esc(p.name)}" onerror="this.style.display='none'">`:printPlaceholderIcon()}</div>
               <div class="viewer-face viewer-side"></div><div class="viewer-face viewer-top"></div>
             </div>
@@ -1804,6 +1808,7 @@ img{max-width:100%;}
         width: form.width.value,
         height: form.height.value,
         depth: form.depth.value,
+        model_url: form.model_url.value,
       };
       state.productFormDraft = draft;
       updateAdminLivePreview(draft);
@@ -1832,7 +1837,7 @@ img{max-width:100%;}
       // Do not send optional rating fields to Supabase; save them in localStorage instead.
       const ratingValue = f.rating.value.trim();
       const reviewsCountValue = f.reviews_count.value.trim();
-      const dimensionValues = { width: parseFloat(f.width.value)||12, height: parseFloat(f.height.value)||18, depth: parseFloat(f.depth.value)||10, unit:'cm' };
+      const dimensionValues = { width: parseFloat(f.width.value)||12, height: parseFloat(f.height.value)||18, depth: parseFloat(f.depth.value)||10, unit:'cm', model_url: f.model_url.value.trim() };
       const editingId = state.editingProduct ? state.editingProduct.id : null;
       const data = {
         name: f.name.value.trim(),
@@ -2416,7 +2421,7 @@ img{max-width:100%;}
         name: ep?.name || '', price: ep?.price ?? '', image: ep?.image || '',
         images: ep?.images || '', description: ep?.description || '', badge: ep?.badge || '',
         rating: ep?.rating ?? '', reviews_count: ep?.reviews_count ?? '',
-        width: ep?.width ?? 12, height: ep?.height ?? 18, depth: ep?.depth ?? 10,
+        width: ep?.width ?? 12, height: ep?.height ?? 18, depth: ep?.depth ?? 10, model_url: ep?.model_url ?? '',
       };
       state.productFormDraft = { _key: draftKey, ...vals };
     }
@@ -2429,6 +2434,7 @@ img{max-width:100%;}
             <div class="field"><label>${esc(t('fieldProductName'))}</label><input name="name" required value="${esc(vals.name)}"></div>
             <div class="field"><label>${esc(t('fieldPrice'))}</label><input name="price" type="number" step="0.01" min="0" required value="${esc(String(vals.price ?? ''))}"></div>
             <div class="field full"><label>${esc(t('fieldMainImage'))}</label><input name="image" type="url" placeholder="https://..." value="${esc(vals.image)}"></div>
+            <div class="field full"><label>${state.lang==='ar'?'رابط موديل 3D (GLB / GLTF)':'3D model URL (GLB / GLTF)'}</label><input name="model_url" type="url" placeholder="https://.../figure.glb" value="${esc(vals.model_url||'')}"><small class="field-help">${state.lang==='ar'?'ارفع الملف على استضافة تدعم CORS ثم ضع الرابط هنا.':'Host the file with CORS enabled, then paste the public URL here.'}</small></div>
             <div class="field full"><label>${esc(t('fieldGallery'))}</label><input name="images" placeholder="https://..., https://..." value="${esc(vals.images)}"></div>
             <div class="field full"><label>${esc(t('fieldDescription'))}</label><textarea name="description" rows="2">${esc(vals.description)}</textarea></div>
             <div class="field"><label>${esc(t('fieldBadge'))}</label><input name="badge" value="${esc(vals.badge)}"></div>
@@ -2507,6 +2513,7 @@ img{max-width:100%;}
     if(state.view === 'admin'){ app.innerHTML = renderAdmin(); }
     else if(state.view === 'product'){ app.innerHTML = renderProduct(); }
     else { app.innerHTML = renderStore(); }
+    queueMicrotask(()=>window.initThreeViewer?.());
   }
 
   // ---------- gallery keyboard + swipe (registered once, delegated) ----------
@@ -2590,6 +2597,50 @@ img{max-width:100%;}
 
   loadAll();
 })();
+</script>
+
+<script type="module">
+  import * as THREE from 'https://esm.sh/three@0.160.0';
+  import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+  import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+
+  const viewerStates = new WeakMap();
+  const loader = new GLTFLoader();
+  function disposeViewer(root){
+    const old=viewerStates.get(root); if(!old) return;
+    old.active=false; old.ro?.disconnect(); old.resizeRo?.disconnect(); old.controls?.dispose(); old.renderer?.dispose();
+    old.canvas?.remove(); viewerStates.delete(root);
+  }
+  function fitModel(model, camera){
+    const box=new THREE.Box3().setFromObject(model), size=box.getSize(new THREE.Vector3()), center=box.getCenter(new THREE.Vector3());
+    model.position.sub(center); model.position.y -= size.y*.03;
+    const max=Math.max(size.x,size.y,size.z)||1, distance=max*2.7;
+    camera.position.set(distance*.85,distance*.55,distance*1.15); camera.near=max/100; camera.far=max*20; camera.updateProjectionMatrix();
+  }
+  function createViewer(root){
+    if(!root) return;
+    disposeViewer(root);
+    const url=root.dataset.model?.trim(), host=root.querySelector('#threeViewerCanvas');
+    if(!url || !host) return;
+    const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'high-performance'});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5)); renderer.setClearColor(0,0); renderer.outputColorSpace=THREE.SRGBColorSpace;
+    renderer.domElement.className='three-canvas'; host.appendChild(renderer.domElement);
+    const scene=new THREE.Scene();
+    const camera=new THREE.PerspectiveCamera(34,1,.01,100);
+    scene.add(new THREE.HemisphereLight(0xffffff,0x202421,2.2));
+    const key=new THREE.DirectionalLight(0xffffff,2.8); key.position.set(3,5,4); scene.add(key);
+    const rim=new THREE.DirectionalLight(0xe5483f,1.2); rim.position.set(-4,2,-3); scene.add(rim);
+    const controls=new OrbitControls(camera,renderer.domElement); controls.enableDamping=true; controls.dampingFactor=.07; controls.enablePan=false; controls.minDistance=.4; controls.maxDistance=8; controls.target.set(0,0,0);
+    const state={active:true,renderer,camera,controls,canvas:renderer.domElement,model:null,ro:null,resizeRo:null,visible:true}; viewerStates.set(root,state);
+    const resize=()=>{const r=host.getBoundingClientRect(); if(!r.width||!r.height)return; renderer.setSize(r.width,r.height,false); camera.aspect=r.width/r.height; camera.updateProjectionMatrix();};
+    state.resizeRo=new ResizeObserver(resize); state.resizeRo.observe(host); resize();
+    const showFallback=()=>{host.classList.remove('is-ready'); root.classList.add('three-fallback');};
+    loader.load(url,gltf=>{if(!state.active)return; state.model=gltf.scene; state.model.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;}}); fitModel(state.model,camera); scene.add(state.model); root.classList.add('three-ready'); root.classList.remove('three-fallback');},undefined,showFallback);
+    const observer=new IntersectionObserver(entries=>{state.visible=entries[0]?.isIntersecting!==false;},{threshold:.05}); observer.observe(root); state.ro=observer;
+    const tick=()=>{if(!state.active)return; if(state.visible){controls.update(); renderer.render(scene,camera);} requestAnimationFrame(tick);}; requestAnimationFrame(tick);
+  }
+  window.initThreeViewer=()=>{const root=document.getElementById('dimensionViewer'); if(root?.dataset.model) createViewer(root);};
+  window.addEventListener('load',()=>setTimeout(()=>window.initThreeViewer?.(),0),{once:true});
 </script>
 </body>
 </html>
