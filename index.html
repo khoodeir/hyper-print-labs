@@ -973,6 +973,34 @@ body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;bac
 .hero::before{opacity:.30;}
 .custom-card,.dimension-section{box-shadow:0 20px 60px rgba(16,16,16,.15);}
 @media(max-width:760px){body::after{background-position:center top;opacity:.055}.hero{background-attachment:scroll;background-position:center top;}}
+
+/* ---------- customer reviews + checkout polish ---------- */
+.reviews-section{margin:76px 0 30px;padding:34px;border:1px solid #e1e1dc;border-radius:24px;background:rgba(255,255,255,.92);box-shadow:0 14px 45px rgba(0,0,0,.06)}.reviews-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;border-bottom:1px solid #e7e7e2;padding-bottom:24px}.reviews-head .eyebrow{color:#1d9a62!important;font:700 11px var(--font-mono)}.reviews-head h2{margin:9px 0 4px;font-size:28px}.reviews-head p{margin:0;color:#777;font-size:13px}.rating-summary{text-align:center;min-width:128px;padding:12px 16px;border-radius:14px;background:#111;color:#fff}.rating-summary strong{font:800 30px var(--font-mono);display:block}.rating-summary small{display:block;color:#999;font-size:10px;margin-top:4px}.review-stars{color:#e5483f;letter-spacing:1px;font-size:13px}.review-stars time{color:#999;font:10px var(--font-mono);margin-inline-start:8px}.review-star{color:#484a46}.review-star.on{color:#e5483f}.reviews-layout{display:grid;grid-template-columns:1.45fr .8fr;gap:25px;margin-top:24px}.reviews-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.review-card{padding:17px;border:1px solid #e7e7e2;border-radius:15px;background:#fff}.review-card-top{display:flex;align-items:center;gap:10px}.review-avatar{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#111;color:#fff;font:700 13px var(--font-mono)}.review-card b{font-size:13px}.review-card p{font-size:12.5px;line-height:1.7;color:#666;margin:13px 0 0}.review-form{padding:20px;border-radius:16px;background:#f1f1ed}.review-form h3{margin:0 0 13px;font-size:18px}.review-form input,.review-form select,.review-form textarea{width:100%;border:1px solid #dbdbd5;border-radius:9px;background:#fff;padding:10px 12px;font:inherit;font-size:12px;margin-bottom:9px}.review-form input:focus,.review-form select:focus,.review-form textarea:focus{outline:none;border-color:#111}.review-submit{width:100%;padding:11px 14px;border-radius:999px;background:#111;color:#fff;font-weight:700}.review-submit:hover{background:#e5483f}.reviews-empty{padding:30px 15px;border:1px dashed #d2d2cc;border-radius:14px;color:#777;font-size:13px;text-align:center}.drawer-head{display:flex!important;align-items:flex-start;justify-content:space-between;gap:12px}.drawer-head h3{margin:0}.checkout-progress{display:flex;align-items:center;gap:7px;margin-top:9px;color:#81817b;font:700 9px var(--font-mono)}.checkout-progress i{width:32px;height:1px;background:#4b4d49}.checkout-progress span.active{color:#e5483f}.checkout-intro{padding:4px 0 13px;border-bottom:1px solid #e8e8e3;margin-bottom:15px}.checkout-intro b{display:block;font-size:16px}.checkout-intro span{font-size:11px;color:#888}.checkout-mini-summary{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 16px}.checkout-mini-summary span{background:#f0f0ed;border-radius:999px;padding:5px 8px;font-size:10px;color:#666}.checkout-mini-summary strong{margin-inline-start:auto;font:700 12px var(--font-mono)}.drawer-foot{background:#fff;border-top:1px solid #e7e7e2}.cart-item img{filter:none!important}
+@media(max-width:760px){.reviews-section{padding:22px;margin-top:48px}.reviews-head{flex-direction:column}.rating-summary{align-self:flex-start}.reviews-layout{grid-template-columns:1fr}.reviews-list{grid-template-columns:1fr}}
+
+/* ---------- unified one-tone surface system ---------- */
+:root{--site-tone:#e6e5e1;--site-tone-deep:#deddd8;--site-ink:#111211;}
+html,body{background:var(--site-tone)!important;color:var(--site-ink);}
+body::before{opacity:.18;}
+.topbar,.hero,.hero-seam,main,footer,.trust-item,.product-card,.empty-state,.reviews-section,.review-card,.review-form,.admin-gate,.panel,.drawer,.drawer-foot,.pd-wrap,.pd-recommendations,.toolbar-search input,.toolbar-sort select,.field input,.field textarea,.muted-note{background-color:var(--site-tone)!important;}
+.topbar{background:rgba(230,229,225,.96)!important;border-bottom-color:rgba(17,18,17,.13)!important;}
+.hero{background-image:linear-gradient(90deg,rgba(230,229,225,.86) 0%,rgba(230,229,225,.95) 48%,rgba(230,229,225,.86) 100%),url('3d-figurines-hero-bg.png')!important;}
+.hero-seam{background:var(--site-tone)!important;}
+.trust-item,.product-card,.reviews-section,.review-card,.admin-gate,.panel{border-color:rgba(17,18,17,.16)!important;box-shadow:0 10px 26px rgba(17,18,17,.06)!important;}
+.product-card,.trust-item,.review-card{background:var(--site-tone)!important;}
+.custom-strip .custom-card,.dimension-section{background:#111211!important;}
+.product-body,.product-card .price-row{background:var(--site-tone)!important;}
+.products-toolbar .toolbar-search input,.products-toolbar .toolbar-sort select,.review-form input,.review-form select,.review-form textarea,.field input,.field textarea{background:var(--site-tone-deep)!important;border-color:rgba(17,18,17,.2)!important;}
+.tabs{background:var(--site-tone)!important;border-color:rgba(17,18,17,.16)!important;}
+.intro-overlay{background:#111211!important;}
+.success-box{background:#dcefe3!important;}
+.drawer-head{background:#111211!important;}
+@media(max-width:760px){.hero{background-image:linear-gradient(180deg,rgba(230,229,225,.9),rgba(230,229,225,.94)),url('3d-figurines-hero-bg.png')!important;}}
+
+/* final tone cleanup */
+.icon-btn,.admin-link{background:var(--site-tone)!important;color:var(--site-ink)!important;border-color:rgba(17,18,17,.18)!important;}
+.icon-btn:hover,.admin-link:hover{background:var(--site-tone-deep)!important;}
+.cart-count{box-shadow:0 0 0 3px var(--site-tone)!important;}
 </style>
 </head>
 <body class="intro-active">
@@ -1307,6 +1335,18 @@ body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;bac
     return `<div class="stars-row"><div class="stars">${stars}</div>${ratingText}${countText}</div>`;
   }
 
+  function loadReviews(){ try{return JSON.parse(localStorage.getItem('productReviews')||'{}')}catch(e){return {}} }
+  function reviewsFor(p){
+    const all=loadReviews(); const key=productMetaKeys(p)[0]||productMetaKeys(p)[1]||'unknown'; return Array.isArray(all[key])?all[key]:[];
+  }
+  function reviewStars(r){ let out=''; for(let i=1;i<=5;i++) out+=`<span class="review-star ${i<=Number(r)?'on':''}">★</span>`; return out; }
+  function reviewsSection(p){
+    const ar=state.lang==='ar', reviews=reviewsFor(p), avg=Number(p.rating)||0, count=reviews.length+(Number(p.reviews_count)||0);
+    const title=ar?'آراء العملاء':'Customer reviews', subtitle=ar?'شاركنا رأيك في المجسم بعد استلامه':'Tell other collectors what you think after receiving your piece';
+    const list=reviews.length?reviews.map(r=>`<article class="review-card"><div class="review-card-top"><div class="review-avatar">${esc((r.name||'C').slice(0,1).toUpperCase())}</div><div><b>${esc(r.name)}</b><div class="review-stars">${reviewStars(r.rating)} <time>${esc(r.date||'')}</time></div></div></div><p>${esc(r.text)}</p></article>`).join(''):`<div class="reviews-empty">${ar?'لسه مفيش تقييمات من العملاء. كن أول من يشارك تجربته!':'No reviews yet. Be the first collector to share your experience!'}</div>`;
+    return `<section class="reviews-section" id="reviews"><div class="reviews-head"><div><span class="eyebrow">${ar?'ثقة المجتمع':'Collector feedback'}</span><h2>${title}</h2><p>${subtitle}</p></div><div class="rating-summary"><strong>${avg?avg.toFixed(1):'—'}</strong><div>${reviewStars(Math.round(avg))}</div><small>${count} ${ar?'تقييم':'reviews'}</small></div></div><div class="reviews-layout"><div class="reviews-list">${list}</div><form class="review-form" onsubmit="__actions.submitReview(event,'${esc(String(p.id))}')"><h3>${ar?'أضف تقييمك':'Leave a review'}</h3><input name="reviewName" required placeholder="${ar?'اسمك':'Your name'}"><select name="reviewRating" required><option value="">${ar?'اختر التقييم':'Choose rating'}</option><option value="5">5 ★</option><option value="4">4 ★</option><option value="3">3 ★</option><option value="2">2 ★</option><option value="1">1 ★</option></select><textarea name="reviewText" required rows="3" placeholder="${ar?'اكتب تجربتك مع المجسم':'Write about your piece'}"></textarea><button class="review-submit" type="submit">${ar?'إرسال التقييم':'Submit review'}</button></form></div></section>`;
+  }
+
   function filteredSortedProducts(){
     let list = state.products.slice();
     const q = (state.searchQuery||'').trim().toLowerCase();
@@ -1558,6 +1598,12 @@ body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;bac
       delete state.cart[id];
       persistCart();
       render();
+    },
+    submitReview(ev,id){
+      ev.preventDefault(); const f=ev.target; const product=state.products.find(x=>String(x.id)===String(id)); if(!product) return;
+      const all=loadReviews(), key=productMetaKeys(product)[0]||productMetaKeys(product)[1]||'unknown';
+      (all[key]||(all[key]=[])).unshift({name:f.reviewName.value.trim(),rating:Number(f.reviewRating.value),text:f.reviewText.value.trim(),date:new Date().toLocaleDateString(state.lang==='ar'?'ar-EG':'en-US')});
+      localStorage.setItem('productReviews',JSON.stringify(all)); showToast(state.lang==='ar'?'تم نشر تقييمك':'Your review was published'); render();
     },
     setSort(val){ state.sortBy = val; render(); },
     setSearch(val){
@@ -2157,6 +2203,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;bac
           </div>
         </div>
         ${dimensionViewer(p)}
+        ${reviewsSection(p)}
         ${related.length ? `
           <section class="pd-recommendations">
             <div class="section-head" style="border-bottom:none;padding-bottom:0;">
@@ -2202,6 +2249,8 @@ body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;bac
         </div>`;
     } else if(state.checkoutStep === 'form'){
       body = `
+        <div class="checkout-intro"><b>${state.lang==='ar'?'بيانات التوصيل':'Delivery details'}</b><span>${state.lang==='ar'?'نراجع طلبك ونتواصل معك للتأكيد':'We will contact you to confirm your order'}</span></div>
+        <div class="checkout-mini-summary">${items.map(it=>`<span>${esc(it.name)} × ${it.qty}</span>`).join('')}<strong>${money(cartTotal())}</strong></div>
         <form onsubmit="__actions.submitOrder(event)" novalidate>
           <div class="field"><label>${esc(t('fieldName'))}</label><input name="name" required placeholder="${esc(t('placeholderName'))}"></div>
           <div class="field">
@@ -2237,7 +2286,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;bac
       <div class="overlay ${state.drawerOpen?'open':''}" onclick="__actions.closeDrawer()"></div>
       <aside class="drawer ${state.drawerOpen?'open':''}" role="dialog" aria-modal="true" aria-label="${esc(t('cartTitle'))}">
         <div class="drawer-head">
-          <h3>${esc(t('cartTitle'))}</h3>
+          <div><h3>${esc(t('cartTitle'))}</h3><div class="checkout-progress"><span class="${state.checkoutStep==='cart'?'active':''}">01 ${state.lang==='ar'?'السلة':'Cart'}</span><i></i><span class="${state.checkoutStep==='form'?'active':''}">02 ${state.lang==='ar'?'البيانات':'Details'}</span></div></div>
           <button class="close-x" type="button" onclick="__actions.closeDrawer()" aria-label="Close">✕</button>
         </div>
         <div class="drawer-body">${body}</div>
