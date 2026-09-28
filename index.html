@@ -959,6 +959,12 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
 .badge,.hero-scene::after{background:#e5483f!important;}
 .add-btn:hover,.cta-btn:hover,.pd-add-btn:hover,.checkout-btn:hover,.save-btn:hover{background:#e5483f!important;}
 .float-whatsapp{background:#1d9a62!important;}
+
+/* ---------- interactive dimensions + vivid product colors ---------- */
+.product-media img,.pd-main img,.pd-thumb img,.admin-product-row img{filter:none!important;mix-blend-mode:normal!important}.product-card:hover .product-media img{filter:none!important;transform:scale(1.06)}
+.dimension-section{display:grid;grid-template-columns:minmax(250px,.8fr) minmax(360px,1.2fr);gap:42px;align-items:center;margin:74px 0 28px;padding:34px;border-radius:24px;background:#111;color:#fff;overflow:hidden;position:relative}.dimension-section::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,rgba(229,72,63,.18),transparent 36%,rgba(29,154,98,.12));pointer-events:none}.dimension-copy{position:relative;z-index:1}.dimension-copy .eyebrow{color:#1d9a62!important;font:700 11px var(--font-mono)}.dimension-copy h2{font-size:30px;margin:10px 0 8px}.dimension-copy p{color:#a9aaa5;font-size:13px}.dimension-specs{display:flex;gap:8px;margin-top:24px}.dimension-specs div{min-width:82px;padding:12px 10px;border:1px solid #383a37;border-radius:10px;background:#181a18}.dimension-specs b{display:block;font:700 14px var(--font-mono);color:#fff}.dimension-specs span{display:block;color:#858681;font-size:10px;margin-top:5px}.dimension-note{margin-top:22px;color:#aaa;font-size:12px;line-height:1.6}.dimension-note span{color:#e5483f;margin-inline-end:6px}.viewer-3d-wrap{position:relative;min-height:350px;display:grid;place-items:center;perspective:1100px}.viewer-3d{position:relative;width:min(100%,540px);height:350px;cursor:grab;touch-action:none;user-select:none;outline:none}.viewer-3d:active{cursor:grabbing}.viewer-grid{position:absolute;inset:10% 3% 3%;background:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:28px 28px;transform:perspective(500px) rotateX(64deg) translateY(35px);mask-image:linear-gradient(to bottom,transparent,#000 38%)}.viewer-model{position:absolute;left:50%;top:48%;width:160px;height:215px;transform-style:preserve-3d;transform:translate(-50%,-50%) rotateX(var(--rx,-7deg)) rotateY(var(--ry,18deg)) scale(var(--zoom,1));transition:transform .12s ease-out}.viewer-face{position:absolute;display:grid;place-items:center;overflow:hidden;background:linear-gradient(145deg,#343633,#111);border:1px solid rgba(255,255,255,.28);backface-visibility:hidden}.viewer-front{width:160px;height:215px;transform:translateZ(34px);border-radius:20px;background:#242624}.viewer-front img{width:100%;height:100%;object-fit:contain;filter:none!important}.viewer-side{width:68px;height:215px;right:-34px;transform:rotateY(90deg);background:linear-gradient(90deg,#141514,#4b4e49)}.viewer-top{width:160px;height:68px;top:-34px;transform:rotateX(90deg);background:linear-gradient(135deg,#60635d,#151615)}.viewer-shadow{position:absolute;left:50%;bottom:23px;width:240px;height:26px;border-radius:50%;background:#000;opacity:.42;filter:blur(14px);transform:translateX(-50%)}.viewer-drag-label{position:absolute;right:12px;top:12px;border:1px solid #41433e;border-radius:999px;padding:6px 9px;color:#a9aaa5;font:700 10px var(--font-mono)}.measure{position:absolute;color:#bdbfba;font:600 10px var(--font-mono);display:flex;align-items:center;gap:7px}.measure i{display:block;background:#e5483f}.measure-height{left:3%;top:20%;writing-mode:vertical-rl}.measure-height i{width:1px;height:120px}.measure-width{left:34%;bottom:2%}.measure-width i{height:1px;width:130px}
+.admin-preview{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px;margin:18px 0;background:#111;border-radius:16px;color:#fff;overflow:hidden}.admin-preview h4{margin:7px 0 4px;font-size:20px}.admin-preview p{margin:0;color:#a9aaa5;font:600 11px var(--font-mono)}.admin-preview-stage{width:190px;height:150px;flex-shrink:0;display:grid;place-items:center;background:radial-gradient(circle,#30332f,#101110);border:1px solid #383b37;border-radius:12px;position:relative;overflow:hidden}.admin-preview-shape{width:75px;height:105px;border-radius:42% 42% 24% 24%;background:var(--preview-image,linear-gradient(135deg,#e5483f,#1d9a62));background-size:cover;background-position:center;box-shadow:inset -14px -9px 0 rgba(0,0,0,.26),0 12px 20px rgba(0,0,0,.4);transform:perspective(300px) rotateY(-18deg);transition:background .2s}.dimension-field input{font-family:var(--font-mono)}
+@media(max-width:760px){.dimension-section{grid-template-columns:1fr;padding:24px;gap:10px}.viewer-3d-wrap{min-height:290px}.admin-preview{align-items:flex-start;flex-direction:column}.admin-preview-stage{width:100%;height:160px}.dimension-specs{gap:5px}.dimension-specs div{min-width:72px}}
 </style>
 </head>
 <body class="intro-active">
@@ -1265,12 +1271,13 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
       return key ? {...p, ...meta[key]} : p;
     });
   }
-  function saveLocalProductMeta(product, rating, reviewsCount){
+  function saveLocalProductMeta(product, rating, reviewsCount, dimensions){
     if(!product) return;
     const meta = loadProductMeta();
     const values = {};
     if(rating !== '') values.rating = rating ? parseFloat(rating) : null;
     if(reviewsCount !== '') values.reviews_count = reviewsCount ? parseInt(reviewsCount,10) : null;
+    if(dimensions) Object.assign(values, dimensions);
     if(!Object.keys(values).length) return;
     productMetaKeys(product).forEach(key=>{ meta[key] = {...(meta[key]||{}), ...values}; });
     try{ localStorage.setItem('productMeta', JSON.stringify(meta)); }catch(e){}
@@ -1314,6 +1321,41 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
     const list = [p.image];
     if(p.images){ list.push(...String(p.images).split(',').map(s=>s.trim())); }
     return list.map(s=>s&&s.trim()).filter(Boolean);
+  }
+
+  function productDimensions(p){
+    return { width: Number(p?.width)||12, height: Number(p?.height)||18, depth: Number(p?.depth)||10, unit: p?.unit || 'cm' };
+  }
+  function dimensionViewer(p){
+    const d = productDimensions(p), image = p.image || '';
+    const ar = state.lang==='ar';
+    const title = ar ? 'استكشف المجسم ثلاثي الأبعاد' : 'Explore in 3D';
+    const hint = ar ? 'اسحب للتدوير · استخدم العجلة للتكبير' : 'Drag to rotate · Wheel to zoom';
+    const size = ar ? 'الأبعاد' : 'Dimensions';
+    return `
+      <section class="dimension-section" aria-label="${title}">
+        <div class="dimension-copy">
+          <span class="eyebrow">${ar?'تفاصيل القطعة':'Piece details'}</span>
+          <h2>${title}</h2>
+          <p>${hint}</p>
+          <div class="dimension-specs">
+            <div><b>${d.height} ${d.unit}</b><span>${ar?'الارتفاع':'Height'}</span></div>
+            <div><b>${d.width} ${d.unit}</b><span>${ar?'العرض':'Width'}</span></div>
+            <div><b>${d.depth} ${d.unit}</b><span>${ar?'العمق':'Depth'}</span></div>
+          </div>
+          <div class="dimension-note"><span>✦</span>${ar?'مصمم للطباعة بدقة عالية ومناسب للعرض والاقتناء.':'Precision printed and finished for display and collecting.'}</div>
+        </div>
+        <div class="viewer-3d-wrap">
+          <div class="viewer-3d" id="dimensionViewer" data-zoom="1" style="--viewer-image:url(\'${esc(image)}\')" tabindex="0" aria-label="${title}">
+            <div class="viewer-grid"></div><div class="viewer-model">
+              <div class="viewer-face viewer-front">${image?`<img src="${esc(image)}" alt="${esc(p.name)}" onerror="this.style.display='none'">`:printPlaceholderIcon()}</div>
+              <div class="viewer-face viewer-side"></div><div class="viewer-face viewer-top"></div>
+            </div>
+            <div class="viewer-shadow"></div><span class="viewer-drag-label">360°</span>
+            <span class="measure measure-height"><i></i>${d.height} ${d.unit}</span><span class="measure measure-width"><i></i>${d.width} ${d.unit}</span>
+          </div>
+        </div>
+      </section>`;
   }
 
   async function refreshProducts(){
@@ -1652,8 +1694,12 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
         badge: form.badge.value,
         rating: form.rating.value,
         reviews_count: form.reviews_count.value,
+        width: form.width.value,
+        height: form.height.value,
+        depth: form.depth.value,
       };
       state.productFormDraft = draft;
+      updateAdminLivePreview(draft);
       try{ localStorage.setItem('productFormDraft', JSON.stringify(draft)); }catch(e){}
     },
     clearProductDraft(){
@@ -1679,6 +1725,7 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
       // Do not send optional rating fields to Supabase; save them in localStorage instead.
       const ratingValue = f.rating.value.trim();
       const reviewsCountValue = f.reviews_count.value.trim();
+      const dimensionValues = { width: parseFloat(f.width.value)||12, height: parseFloat(f.height.value)||18, depth: parseFloat(f.depth.value)||10, unit:'cm' };
       const editingId = state.editingProduct ? state.editingProduct.id : null;
       const data = {
         name: f.name.value.trim(),
@@ -1706,7 +1753,7 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
       const savedProduct = editingId != null
         ? state.products.find(p=>String(p.id)===String(editingId))
         : state.products.find(p=>String(p.name).trim()===data.name);
-      saveLocalProductMeta(savedProduct || {id: editingId, name: data.name}, ratingValue, reviewsCountValue);
+      saveLocalProductMeta(savedProduct || {id: editingId, name: data.name}, ratingValue, reviewsCountValue, dimensionValues);
       state.products = applyLocalProductMeta(state.products);
       this.clearProductDraft();
       f.reset();
@@ -2101,6 +2148,7 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
             </button>
           </div>
         </div>
+        ${dimensionViewer(p)}
         ${related.length ? `
           <section class="pd-recommendations">
             <div class="section-head" style="border-bottom:none;padding-bottom:0;">
@@ -2236,6 +2284,17 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
     `;
   }
 
+  function updateAdminLivePreview(draft){
+    const stage = document.getElementById('adminPreviewStage');
+    if(!stage) return;
+    const image = (draft.image||'').trim();
+    stage.style.setProperty('--preview-image', image ? `url(\"${image.replace(/\"/g,'')}\")` : 'none');
+    const name = document.getElementById('adminPreviewName');
+    const dims = document.getElementById('adminPreviewDims');
+    if(name) name.textContent = draft.name || (state.lang==='ar'?'اسم المجسم':'Your figure name');
+    if(dims) dims.textContent = `${draft.width||12} × ${draft.depth||10} × ${draft.height||18} cm`;
+  }
+
   function renderAdminProducts(){
     const ep = state.editingProduct;
     const draftKey = ep ? String(ep.id) : 'new';
@@ -2247,6 +2306,7 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
         name: ep?.name || '', price: ep?.price ?? '', image: ep?.image || '',
         images: ep?.images || '', description: ep?.description || '', badge: ep?.badge || '',
         rating: ep?.rating ?? '', reviews_count: ep?.reviews_count ?? '',
+        width: ep?.width ?? 12, height: ep?.height ?? 18, depth: ep?.depth ?? 10,
       };
       state.productFormDraft = { _key: draftKey, ...vals };
     }
@@ -2264,7 +2324,11 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
             <div class="field"><label>${esc(t('fieldBadge'))}</label><input name="badge" value="${esc(vals.badge)}"></div>
             <div class="field"><label>${esc(t('fieldRating'))}</label><input name="rating" type="number" min="0" max="5" step="0.1" placeholder="4.5" value="${esc(String(vals.rating ?? ''))}"></div>
             <div class="field"><label>${esc(t('fieldReviewsCount'))}</label><input name="reviews_count" type="number" min="0" step="1" placeholder="12" value="${esc(String(vals.reviews_count ?? ''))}"></div>
+            <div class="field dimension-field"><label>${state.lang==='ar'?'العرض (سم)':'Width (cm)'}</label><input name="width" type="number" min="1" step="0.1" value="${esc(String(vals.width ?? 12))}"></div>
+            <div class="field dimension-field"><label>${state.lang==='ar'?'الارتفاع (سم)':'Height (cm)'}</label><input name="height" type="number" min="1" step="0.1" value="${esc(String(vals.height ?? 18))}"></div>
+            <div class="field dimension-field"><label>${state.lang==='ar'?'العمق (سم)':'Depth (cm)'}</label><input name="depth" type="number" min="1" step="0.1" value="${esc(String(vals.depth ?? 10))}"></div>
           </div>
+          <div class="admin-preview"><div><span class="eyebrow">${state.lang==='ar'?'معاينة مباشرة':'Live preview'}</span><h4 id="adminPreviewName">${esc(vals.name || (state.lang==='ar'?'اسم المجسم':'Your figure name'))}</h4><p id="adminPreviewDims">${vals.width||12} × ${vals.depth||10} × ${vals.height||18} cm</p></div><div class="admin-preview-stage" id="adminPreviewStage" style="--preview-image:${vals.image?`url('\${esc(vals.image)}\')`:'none'}"><div class="admin-preview-shape"></div></div></div>
           <button type="submit" class="save-btn">${ep ? esc(t('saveChanges')) : esc(t('addProductBtn'))}</button>
           ${ep ? `<button type="button" class="mini-btn" style="margin-inline-start:10px;" onclick="__actions.cancelEdit()">${esc(t('cancel'))}</button>` : ''}
         </form>
@@ -2406,6 +2470,13 @@ main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
       smoke.style.setProperty('--smoke-y','0px');
     }
   });
+
+  // Interactive 3D dimensions viewer: pointer drag + wheel zoom, no external library required.
+  let viewerDrag = null;
+  document.addEventListener('pointerdown', e=>{ const v=e.target.closest('#dimensionViewer'); if(!v) return; viewerDrag={v,x:e.clientX,y:e.clientY,rx:parseFloat(v.style.getPropertyValue('--rx'))||-7,ry:parseFloat(v.style.getPropertyValue('--ry'))||18}; v.setPointerCapture?.(e.pointerId); });
+  document.addEventListener('pointermove', e=>{ if(!viewerDrag) return; const d=viewerDrag; d.ry += (e.clientX-d.x)*.55; d.rx -= (e.clientY-d.y)*.35; d.rx=Math.max(-35,Math.min(35,d.rx)); d.v.style.setProperty('--rx',d.rx+'deg'); d.v.style.setProperty('--ry',d.ry+'deg'); d.x=e.clientX; d.y=e.clientY; });
+  document.addEventListener('pointerup',()=>{ viewerDrag=null; });
+  document.addEventListener('wheel',e=>{ const v=e.target.closest('#dimensionViewer'); if(!v) return; e.preventDefault(); const z=parseFloat(v.dataset.zoom||'1'); v.dataset.zoom=Math.max(.72,Math.min(1.45,z+(e.deltaY<0?.07:-.07))); v.style.setProperty('--zoom',v.dataset.zoom); },{passive:false});
 
   loadAll();
 })();
