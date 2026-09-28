@@ -1058,6 +1058,8 @@ img{max-width:100%;}
 /* ---------- Three.js GLB/GLTF viewer ---------- */
 .three-viewer-canvas{position:absolute;inset:0;z-index:4;opacity:0;transition:opacity .25s ease;pointer-events:none}.three-viewer-canvas .three-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;pointer-events:auto}.three-viewer-canvas .three-canvas:active{cursor:grabbing}.viewer-3d.three-ready .three-viewer-canvas{opacity:1}.viewer-3d.three-ready .viewer-model,.viewer-3d.three-ready .viewer-grid{opacity:0;pointer-events:none}.viewer-3d.three-ready .viewer-drag-label::after{content:' · GLB';color:#1d9a62}.field-help{display:block;margin-top:6px;color:#777;font-size:11px}.three-fallback .viewer-drag-label::after{content:' · image mode';color:#e5483f}
 @media(max-width:760px){.three-viewer-canvas .three-canvas{touch-action:none}.viewer-3d.three-ready .viewer-model{display:none}}
+
+.dimension-help{margin-top:-6px}.dimension-field input:invalid{border-color:#e5483f}
 </style>
 </head>
 <body class="intro-active">
@@ -1295,7 +1297,7 @@ img{max-width:100%;}
     pdQty: 1,
     pdGalleryIndex: 0,
     productFormDraft: null,
-    lang: 'ar',
+    lang: 'en',
     sortBy: 'default',
     searchQuery: '',
     openFaqIndex: null,
@@ -1428,10 +1430,15 @@ img{max-width:100%;}
     return list.map(s=>s&&s.trim()).filter(Boolean);
   }
 
+  function hasComplete3D(p){
+    const values=[p?.width,p?.height,p?.depth];
+    return Boolean(p?.model_url && values.every(v=>v!==null && v!==undefined && String(v).trim()!=='' && Number(v)>0));
+  }
   function productDimensions(p){
-    return { width: Number(p?.width)||12, height: Number(p?.height)||18, depth: Number(p?.depth)||10, unit: p?.unit || 'cm' };
+    return { width: Number(p.width), height: Number(p.height), depth: Number(p.depth), unit: p.unit || 'cm' };
   }
   function dimensionViewer(p){
+    if(!hasComplete3D(p)) return '';
     const d = productDimensions(p), image = p.image || '';
     const ar = state.lang==='ar';
     const title = ar ? 'استكشف المجسم ثلاثي الأبعاد' : 'Explore in 3D';
@@ -1837,7 +1844,7 @@ img{max-width:100%;}
       // Do not send optional rating fields to Supabase; save them in localStorage instead.
       const ratingValue = f.rating.value.trim();
       const reviewsCountValue = f.reviews_count.value.trim();
-      const dimensionValues = { width: parseFloat(f.width.value)||12, height: parseFloat(f.height.value)||18, depth: parseFloat(f.depth.value)||10, unit:'cm', model_url: f.model_url.value.trim() };
+      const dimensionValues = { width: f.width.value.trim() ? parseFloat(f.width.value) : null, height: f.height.value.trim() ? parseFloat(f.height.value) : null, depth: f.depth.value.trim() ? parseFloat(f.depth.value) : null, unit:'cm', model_url: f.model_url.value.trim() };
       const editingId = state.editingProduct ? state.editingProduct.id : null;
       const data = {
         name: f.name.value.trim(),
@@ -2260,7 +2267,7 @@ img{max-width:100%;}
             </button>
           </div>
         </div>
-        ${dimensionViewer(p)}
+        ${hasComplete3D(p) ? dimensionViewer(p) : ''}
         ${reviewsSection(p)}
         ${related.length ? `
           <section class="pd-recommendations">
@@ -2407,7 +2414,7 @@ img{max-width:100%;}
     const name = document.getElementById('adminPreviewName');
     const dims = document.getElementById('adminPreviewDims');
     if(name) name.textContent = draft.name || (state.lang==='ar'?'اسم المجسم':'Your figure name');
-    if(dims) dims.textContent = `${draft.width||12} × ${draft.depth||10} × ${draft.height||18} cm`;
+    if(dims) dims.textContent = `${draft.width||'—'} × ${draft.depth||'—'} × ${draft.height||'—'} cm`;
   }
 
   function renderAdminProducts(){
@@ -2421,7 +2428,7 @@ img{max-width:100%;}
         name: ep?.name || '', price: ep?.price ?? '', image: ep?.image || '',
         images: ep?.images || '', description: ep?.description || '', badge: ep?.badge || '',
         rating: ep?.rating ?? '', reviews_count: ep?.reviews_count ?? '',
-        width: ep?.width ?? 12, height: ep?.height ?? 18, depth: ep?.depth ?? 10, model_url: ep?.model_url ?? '',
+        width: ep?.width ?? '', height: ep?.height ?? '', depth: ep?.depth ?? '', model_url: ep?.model_url ?? '',
       };
       state.productFormDraft = { _key: draftKey, ...vals };
     }
@@ -2440,11 +2447,12 @@ img{max-width:100%;}
             <div class="field"><label>${esc(t('fieldBadge'))}</label><input name="badge" value="${esc(vals.badge)}"></div>
             <div class="field"><label>${esc(t('fieldRating'))}</label><input name="rating" type="number" min="0" max="5" step="0.1" placeholder="4.5" value="${esc(String(vals.rating ?? ''))}"></div>
             <div class="field"><label>${esc(t('fieldReviewsCount'))}</label><input name="reviews_count" type="number" min="0" step="1" placeholder="12" value="${esc(String(vals.reviews_count ?? ''))}"></div>
-            <div class="field dimension-field"><label>${state.lang==='ar'?'العرض (سم)':'Width (cm)'}</label><input name="width" type="number" min="1" step="0.1" value="${esc(String(vals.width ?? 12))}"></div>
-            <div class="field dimension-field"><label>${state.lang==='ar'?'الارتفاع (سم)':'Height (cm)'}</label><input name="height" type="number" min="1" step="0.1" value="${esc(String(vals.height ?? 18))}"></div>
-            <div class="field dimension-field"><label>${state.lang==='ar'?'العمق (سم)':'Depth (cm)'}</label><input name="depth" type="number" min="1" step="0.1" value="${esc(String(vals.depth ?? 10))}"></div>
+            <div class="field dimension-field"><label>${state.lang==='ar'?'العرض (سم)':'Width (cm)'}</label><input name="width" type="number" min="1" step="0.1" value="${esc(String(vals.width ?? ''))}"></div>
+            <div class="field dimension-field"><label>${state.lang==='ar'?'الارتفاع (سم)':'Height (cm)'}</label><input name="height" type="number" min="1" step="0.1" value="${esc(String(vals.height ?? ''))}"></div>
+            <div class="field dimension-field"><label>${state.lang==='ar'?'العمق (سم)':'Depth (cm)'}</label><input name="depth" type="number" min="1" step="0.1" value="${esc(String(vals.depth ?? ''))}"></div>
+            <div class="field full dimension-help"><small class="field-help">${state.lang==='ar'?'لن يظهر قسم 3D إلا بعد إدخال العرض والارتفاع والعمق ورابط الموديل معًا.':'The 3D section appears only when width, height, depth, and a model URL are all provided.'}</small></div>
           </div>
-          <div class="admin-preview"><div><span class="eyebrow">${state.lang==='ar'?'معاينة مباشرة':'Live preview'}</span><h4 id="adminPreviewName">${esc(vals.name || (state.lang==='ar'?'اسم المجسم':'Your figure name'))}</h4><p id="adminPreviewDims">${vals.width||12} × ${vals.depth||10} × ${vals.height||18} cm</p></div><div class="admin-preview-stage" id="adminPreviewStage" style="--preview-image:${vals.image?`url('\${esc(vals.image)}\')`:'none'}"><div class="admin-preview-shape"></div></div></div>
+          <div class="admin-preview"><div><span class="eyebrow">${state.lang==='ar'?'معاينة مباشرة':'Live preview'}</span><h4 id="adminPreviewName">${esc(vals.name || (state.lang==='ar'?'اسم المجسم':'Your figure name'))}</h4><p id="adminPreviewDims">${vals.width||'—'} × ${vals.depth||'—'} × ${vals.height||'—'} cm</p></div><div class="admin-preview-stage" id="adminPreviewStage" style="--preview-image:${vals.image?`url('\${esc(vals.image)}\')`:'none'}"><div class="admin-preview-shape"></div></div></div>
           <button type="submit" class="save-btn">${ep ? esc(t('saveChanges')) : esc(t('addProductBtn'))}</button>
           ${ep ? `<button type="button" class="mini-btn" style="margin-inline-start:10px;" onclick="__actions.cancelEdit()">${esc(t('cancel'))}</button>` : ''}
         </form>
