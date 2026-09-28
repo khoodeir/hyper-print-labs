@@ -869,6 +869,96 @@
   @media(max-width:640px){
     .back-to-top{width:40px;height:40px;bottom:16px;inset-inline-start:16px;}
   }
+\n\n/* ================================================================
+   HPL EDITORIAL REDESIGN
+   White / black foundation with controlled signal red + green accents
+   ================================================================ */
+:root{
+  --graphite:#0b0b0b; --graphite-2:#161616; --graphite-3:#242424;
+  --paper:#ffffff; --paper-soft:#f5f5f3; --ink:#101010; --ink-soft:#70706d;
+  --ember:#e5483f; --ember-deep:#b92f2a; --ember-dark:#7c201d;
+  --signal:#1d9a62; --signal-deep:#117044;
+  --line:#e6e6e2; --line-dark:rgba(16,16,16,.14);
+  --radius:14px; --radius-lg:24px;
+  --shadow:0 20px 60px rgba(16,16,16,.12); --shadow-soft:0 8px 24px rgba(16,16,16,.07);
+  --font-display:'Cairo',sans-serif;
+  --font-body:'IBM Plex Sans Arabic',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+body{background:#f7f7f5;color:var(--ink);}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.28;background-image:radial-gradient(#bcbcb6 .7px,transparent .7px);background-size:16px 16px;}
+.topbar{position:sticky;top:0;background:rgba(255,255,255,.94);color:var(--ink);border-bottom:1px solid #e5e5e1;padding:17px clamp(18px,4vw,56px);backdrop-filter:blur(16px);}
+.brand{gap:12px}.logo-mark{width:42px;height:42px;filter:grayscale(1);}.brand-name{color:var(--ink);font-family:var(--font-body);font-size:18px;letter-spacing:0;font-weight:900;}
+.topbar-actions{gap:9px}.icon-btn,.admin-link{background:#fff;color:var(--ink);border:1px solid #deded9;border-radius:999px;box-shadow:none;}
+.icon-btn:hover,.admin-link:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-2px);}
+.lang-btn{font-family:var(--font-body);font-size:12px}.cart-count{background:var(--ember);color:white;box-shadow:0 0 0 3px #fff;}
+.hero{background:#fff;color:var(--ink);padding:clamp(42px,7vw,88px) clamp(18px,5vw,64px) 0;overflow:hidden;animation:none;}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 0 58%,rgba(0,0,0,.025) 58% 58.2%,transparent 58.2%),linear-gradient(#eeeeea 1px,transparent 1px),linear-gradient(90deg,#eeeeea 1px,transparent 1px);background-size:auto,38px 38px,38px 38px;opacity:.42;mask-image:linear-gradient(90deg,black,transparent 86%);}
+.hero-smoke{opacity:.55;filter:blur(32px) grayscale(1);background:radial-gradient(ellipse 24% 42% at 9% 58%,rgba(0,0,0,.08),transparent 78%),radial-gradient(ellipse 25% 42% at 90% 38%,rgba(229,72,63,.13),transparent 78%);}
+.hero-texture{opacity:.18;filter:grayscale(1);}
+.hero-inner{max-width:1260px;min-height:470px;gap:clamp(24px,7vw,108px);align-items:center;padding:0 0 45px;}
+.hero-copy{max-width:570px;flex:1 1 500px;position:relative;}
+.hero-copy::before{content:'HPL / 014';display:block;color:var(--ink);font:600 11px var(--font-mono);letter-spacing:1px;margin-bottom:19px;border-inline-start:3px solid var(--ember);padding-inline-start:10px;}
+.hero-eyebrow{color:var(--signal);font:700 12px var(--font-mono);margin-bottom:13px;}.hero-eyebrow .dot{background:var(--signal);box-shadow:0 0 0 5px rgba(29,154,98,.13);}
+.hero h1{font-size:clamp(38px,6vw,72px);line-height:1.02;color:var(--ink);font-weight:900;margin-bottom:20px;letter-spacing:-1px;}
+.hero p{color:#575752;font-size:16px;line-height:1.9;max-width:470px;margin-bottom:31px;}
+.cta-btn{background:var(--ink);color:#fff;border-radius:999px;padding:15px 25px;box-shadow:0 12px 25px rgba(0,0,0,.18);font-size:14px;}.cta-btn:hover{background:var(--ember);box-shadow:0 15px 28px rgba(229,72,63,.25);}
+.hero-scene{flex:1 1 410px;max-width:520px;min-height:330px;position:relative;}
+.hero-scene::before{content:'NEW\A DROP';white-space:pre;position:absolute;inset-inline-end:3%;inset-block-start:10%;z-index:3;font:900 clamp(32px,5vw,58px)/.84 var(--font-display);color:var(--ink);letter-spacing:-2px;text-align:end;}
+.hero-scene::after{content:'LIMITED SERIES';position:absolute;inset-inline-end:5%;inset-block-end:10%;z-index:3;background:var(--ember);color:#fff;font:700 10px var(--font-mono);padding:8px 11px;letter-spacing:1px;}
+.hero-scene svg{max-width:480px;filter:drop-shadow(18px 22px 0 rgba(0,0,0,.06));}
+.hero-seam{height:46px;margin-top:0;background:#fff;}.hero-seam::before{background:linear-gradient(90deg,transparent,var(--ink) 22%,var(--ink) 78%,transparent);height:2px}.hero-seam::after{background:var(--ember);box-shadow:0 0 0 7px #fff;}
+main{max-width:1260px;padding:62px clamp(18px,5vw,64px) 100px;}
+.custom-strip,.trust-strip{max-width:1260px;padding-inline:clamp(18px,5vw,64px);}.custom-strip{padding-top:34px;}
+.custom-card{border-radius:var(--radius-lg);background:var(--ink);box-shadow:var(--shadow);padding:30px 34px;min-height:150px;}.custom-card::before{opacity:.45;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);}
+.custom-card-copy .eyebrow{color:#fff;border-inline-start:3px solid var(--ember);padding-inline-start:9px}.custom-card-copy h3{font-size:24px;font-weight:900}.custom-card-copy p{color:#bdbdb8}.custom-btn{border-radius:999px;padding:13px 19px}.custom-btn-maker{background:var(--ember);color:#fff;box-shadow:none}.custom-btn-maker:hover{background:#f05b52}.custom-btn-whatsapp{background:var(--signal);color:#fff;box-shadow:none}.custom-btn-whatsapp:hover{background:#27ae72}
+.trust-strip{padding-top:26px}.trust-row{gap:12px}.trust-item{border:1px solid #e2e2de;border-radius:var(--radius);background:#fff;padding:16px;box-shadow:var(--shadow-soft)}.trust-item .ic{background:#f0f0ed;color:var(--ink);border-radius:10px}.trust-item:nth-child(2) .ic{color:var(--signal)}.trust-item:nth-child(3) .ic{color:var(--ember)}
+.section-head{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:27px}.section-head .eyebrow{color:var(--signal);font-family:var(--font-mono)}.section-head h2{font-size:30px;font-weight:900}.section-count{color:#85857f}.products-toolbar{margin-bottom:25px}.toolbar-search input,.toolbar-sort select{border:1px solid #d8d8d3;border-radius:999px;background:#fff;padding-top:12px;padding-bottom:12px}.toolbar-search input:focus,.toolbar-sort select:focus{border-color:var(--ink)}
+.grid{grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:18px}.product-card{border:1px solid #e2e2de;border-radius:18px;box-shadow:none;background:#fff;overflow:hidden;transition:transform .22s cubic-bezier(.23,1,.32,1),box-shadow .22s,border-color .22s}.product-card:hover{transform:translateY(-8px);border-color:var(--ink);box-shadow:0 20px 36px rgba(0,0,0,.12)}
+.product-media{aspect-ratio:1/1;background:linear-gradient(145deg,#242424,#080808);}.product-media::after{background:linear-gradient(145deg,rgba(255,255,255,.18),transparent 46%,rgba(229,72,63,.16));}.product-media img{filter:grayscale(.92) contrast(1.05)}.product-card:hover .product-media img{filter:grayscale(.35) contrast(1.06)}.badge{background:var(--ember);color:#fff;border-radius:4px;box-shadow:none;padding:7px 10px;font-size:10px}.product-body{padding:18px 17px 16px}.product-body h3{font-size:17px;font-weight:800}.product-desc{color:#777771}.stars-row .star-filled{color:var(--ember)}.price-row{border-top:1px solid #ededE9;padding-top:14px}.price{color:var(--ink);font-size:16px}.add-btn{border-radius:999px;background:var(--ink);color:#fff;padding:9px 13px;font-size:12px}.add-btn:hover{background:var(--ember)}
+.faq-section{max-width:900px;margin-top:84px}.faq-q{font-size:15px;padding:21px 2px}.faq-q .chev{color:var(--ember)}
+.float-whatsapp{background:var(--signal);box-shadow:0 10px 25px rgba(29,154,98,.27)}.back-to-top{background:var(--ink);border:none}
+/* Product detail, drawer and admin inherit the same visual system */
+.pd-wrap,.admin-wrap{max-width:1260px;padding-inline:clamp(18px,5vw,64px)}.pd-back{color:var(--ink);font-weight:700}.pd-main{border-radius:18px;background:#111;border:1px solid #222}.pd-title{font-weight:900}.pd-price{color:var(--ember);font-family:var(--font-mono);font-weight:800}.pd-add-btn,.checkout-btn,.save-btn{background:var(--ink);color:#fff;border-radius:999px}.pd-add-btn:hover,.checkout-btn:hover,.save-btn:hover{background:var(--ember)}.drawer{background:#fff}.drawer-head{background:var(--ink);color:#fff}.overlay{background:rgba(0,0,0,.5)}.cart-item{border-bottom-color:#e8e8e3}.qty-btn{border-color:#d8d8d2}.success-box{background:#edf8f1;border-color:#b6e2c7}.toast{background:var(--ink);border-left:4px solid var(--signal)}
+.admin-gate,.panel{border:1px solid #e3e3de;border-radius:18px;box-shadow:var(--shadow-soft);background:#fff}.tabs{border-bottom-color:#ddd}.tab-btn.active{color:var(--ink);border-bottom-color:var(--ember)}.mini-btn{border-radius:999px;border-color:#ddd}.mini-btn.danger{color:var(--ember-deep);border-color:#f0c3bf}.field input,.field textarea,.field select{border-color:#ddd;border-radius:10px}.field input:focus,.field textarea:focus{outline:none;border-color:var(--ink)}
+.intro-overlay{background:#fff;color:var(--ink)}.intro-rig{filter:grayscale(1)}.intro-percent{color:var(--ember)}.intro-caption{color:#777}.intro-underline{background:var(--ink)}
+@media(max-width:720px){.topbar{padding-inline:16px}.brand-name{font-size:15px}.admin-link{display:none}.hero-inner{min-height:0;padding-bottom:22px}.hero-scene{min-height:270px;order:-1}.hero-scene::before{font-size:36px;inset-block-start:7%}.hero-scene::after{inset-block-end:0}.hero h1{font-size:43px}.hero p{font-size:15px}.custom-card{padding:25px 22px}.section-head h2{font-size:25px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product-body{padding:14px 12px}.product-body h3{font-size:14px;min-height:40px}.product-desc{font-size:12px}.price{font-size:13px}.add-btn{font-size:10px;padding:8px 10px}.trust-row{grid-template-columns:repeat(2,minmax(0,1fr))}.trust-item{align-items:flex-start;flex-direction:column}.trust-item .tx .h{font-size:12px}.trust-item .tx .s{font-size:11px}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.hero-scene{transform:scale(.92);transform-origin:center}.topbar-actions{gap:5px}.icon-btn{width:36px;height:36px}}
+@media(prefers-reduced-motion:reduce){.product-card,.cta-btn,.custom-btn,.add-btn{transition:none!important}}
+
+
+/* ---------- HPL collection reveal overhaul ---------- */
+.intro-overlay{background:#0a0a0a;color:#fff;overflow:hidden;}
+.intro-overlay::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.9%,rgba(255,255,255,.07) 50%,transparent 50.1%),linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:auto,52px 52px,52px 52px;mask-image:radial-gradient(circle at center,#000,transparent 78%);}
+.boot-shell{position:relative;width:min(680px,88vw);z-index:1;}
+.boot-topline{display:flex;justify-content:space-between;color:#777;font:600 10px var(--font-mono);letter-spacing:1.2px;border-bottom:1px solid #292929;padding-bottom:12px;animation:bootFade .5s both;}
+.boot-brand{display:flex;align-items:center;gap:11px;margin:24px 0 13px;font:900 15px var(--font-mono);letter-spacing:1px;animation:bootFade .6s .08s both;}.boot-symbol{display:grid;place-items:center;width:30px;height:30px;color:#fff;background:#e5483f;border-radius:8px;font-size:18px;box-shadow:0 0 24px rgba(229,72,63,.3);}
+.boot-stage{position:relative;height:300px;border:1px solid #292929;background:radial-gradient(circle at 50% 48%,#242424 0,#111 36%,#0a0a0a 72%);overflow:hidden;display:grid;place-items:center;animation:bootFade .7s .16s both;}
+.boot-stage::after{content:'FIGURE 01 / LIMITED RUN';position:absolute;bottom:14px;left:17px;color:#61615d;font:600 9px var(--font-mono);letter-spacing:1px;}
+.boot-aura{position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(229,72,63,.12);filter:blur(20px);animation:auraPulse 2.4s ease-in-out infinite;}
+.boot-ring{position:absolute;border:1px solid #42423e;border-radius:50%;}.boot-ring-one{width:180px;height:180px;border-top-color:#e5483f;border-right-color:#e5483f;animation:ringSpin 4s linear infinite;}.boot-ring-two{width:245px;height:100px;border-left-color:#1d9a62;border-bottom-color:#1d9a62;transform:rotate(-22deg);animation:ringSpinReverse 5.5s linear infinite;}
+.boot-sculpture{position:relative;width:96px;height:160px;filter:drop-shadow(0 14px 10px rgba(0,0,0,.7));animation:sculptureFloat 2.4s ease-in-out infinite;}.boot-sculpture::before{content:'';position:absolute;top:25px;left:23px;width:50px;height:62px;border-radius:42% 42% 35% 35%;background:linear-gradient(135deg,#f1f1ee,#60605c 55%,#181818);box-shadow:inset -10px -4px 0 #222;}.boot-sculpture::after{content:'';position:absolute;left:8px;bottom:4px;width:80px;height:22px;background:#151515;clip-path:polygon(20% 0,80% 0,100% 100%,0 100%);border-bottom:3px solid #e5483f;}.boot-sculpture span{position:absolute;z-index:2;top:49px;left:31px;width:35px;height:15px;background:#0c0c0c;border-left:10px solid #1d9a62;border-right:10px solid #1d9a62;}.boot-sculpture i{position:absolute;top:6px;left:38px;width:20px;height:34px;background:#252525;clip-path:polygon(50% 0,100% 100%,0 100%);border-top:5px solid #e5483f;}.boot-sculpture b{position:absolute;z-index:1;left:14px;bottom:22px;width:68px;height:60px;background:linear-gradient(90deg,#e5483f 0 22%,transparent 22% 78%,#1d9a62 78%);clip-path:polygon(30% 0,70% 0,100% 100%,0 100%);opacity:.8;}
+.boot-scan{position:absolute;left:12%;right:12%;height:2px;background:#fff;box-shadow:0 0 18px #fff,0 0 7px #1d9a62;opacity:.75;animation:scanTravel 2.6s ease-in-out infinite;}
+.boot-meta{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px 0 9px;animation:bootFade .7s .24s both;}.boot-status{display:flex;align-items:center;gap:8px;color:#9b9b96;font-size:12px}.boot-pulse{width:7px;height:7px;border-radius:50%;background:#1d9a62;box-shadow:0 0 0 5px rgba(29,154,98,.14);animation:statusPulse 1.3s ease-in-out infinite;}.boot-readout{display:flex;align-items:baseline;gap:9px;font-family:var(--font-mono);}.boot-readout strong{font-size:28px;color:#fff;min-width:50px;text-align:right;}.boot-readout span{color:#777;font-size:10px;letter-spacing:.4px;}.boot-progress{height:3px;background:#292929;overflow:hidden;animation:bootFade .7s .28s both}.boot-progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,#e5483f,#1d9a62);box-shadow:0 0 14px #e5483f;transition:width .12s linear;}.boot-shell .intro-result{align-items:flex-start;margin-top:18px;gap:7px;animation:bootFade .7s .34s both}.boot-shell .intro-name{font:800 18px var(--font-mono);color:#fff;letter-spacing:1px}.boot-shell .intro-underline{background:#e5483f}.boot-shell .intro-caption{display:none;}
+@keyframes bootFade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}@keyframes ringSpin{to{transform:rotate(360deg)}}@keyframes ringSpinReverse{to{transform:rotate(-382deg)}}@keyframes auraPulse{0%,100%{transform:scale(.85);opacity:.4}50%{transform:scale(1.15);opacity:.8}}@keyframes sculptureFloat{0%,100%{transform:translateY(4px) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}@keyframes scanTravel{0%{top:14%;opacity:0}18%{opacity:.8}50%{top:76%;opacity:.8}82%{opacity:.8}100%{top:14%;opacity:0}}@keyframes statusPulse{50%{transform:scale(1.5);opacity:.55}}
+.hero-collectible{width:100%;height:auto;max-width:520px;overflow:visible}.hero-figure{transform-origin:260px 330px;animation:figureBreathe 4s ease-in-out infinite}.hero-orbit-a{transform-origin:260px 236px;animation:orbitFloat 8s linear infinite}.hero-orbit-b{transform-origin:260px 236px;animation:orbitFloatReverse 10s linear infinite}.hero-scan{animation:figureScan 3.4s ease-in-out infinite}.figure-cape{animation:capeSway 3.2s ease-in-out infinite;transform-origin:200px 330px}.hero-scene::before{content:'COLLECT\A OR KEEP';font-size:clamp(27px,4.2vw,50px);line-height:.86;letter-spacing:-1px;}.hero-scene::after{content:'FIGURE 01 · LIMITED RUN';background:#e5483f}.hero-scene{isolation:isolate}.hero-scene::before,.hero-scene::after{z-index:5}.hero-scene svg{position:relative;z-index:2;filter:drop-shadow(18px 22px 0 rgba(0,0,0,.06));}
+@keyframes figureBreathe{0%,100%{transform:translateY(3px) rotate(-.5deg)}50%{transform:translateY(-5px) rotate(.5deg)}}@keyframes orbitFloat{to{transform:rotate(360deg)}}@keyframes orbitFloatReverse{to{transform:rotate(-360deg)}}@keyframes figureScan{0%,100%{transform:translateY(-40px);opacity:0}20%{opacity:.7}55%{transform:translateY(130px);opacity:.5}80%{opacity:0}}@keyframes capeSway{50%{transform:skewX(-2deg) translateX(-3px)}}
+@media(max-width:720px){.boot-shell{width:calc(100vw - 34px)}.boot-stage{height:245px}.boot-topline{font-size:8px}.boot-brand{font-size:12px}.hero-scene::before{font-size:29px}.hero-collectible{transform:scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.boot-ring,.boot-aura,.boot-sculpture,.boot-scan,.boot-pulse,.hero-figure,.hero-orbit-a,.hero-orbit-b,.hero-scan,.figure-cape{animation:none}.boot-progress i{width:100%!important}}
+
+/* final visual lock */
+:root{--ember:#e5483f!important;--ember-deep:#b92f2a!important;--signal:#1d9a62!important;--signal-deep:#117044!important;}
+.intro-overlay{z-index:2000!important;}
+.boot-shell .intro-name{clip-path:none!important;animation:none!important;white-space:normal;}
+.custom-btn-maker{background:#e5483f!important;color:#fff!important;}
+.custom-btn-whatsapp{background:#1d9a62!important;color:#fff!important;}
+.hero-eyebrow,.section-head .eyebrow{color:#1d9a62!important;}
+.hero-eyebrow .dot{background:#1d9a62!important;}
+.trust-item:nth-child(2) .ic{color:#1d9a62!important;}
+.trust-item:nth-child(3) .ic{color:#e5483f!important;}
+.badge,.hero-scene::after{background:#e5483f!important;}
+.add-btn:hover,.cta-btn:hover,.pd-add-btn:hover,.checkout-btn:hover,.save-btn:hover{background:#e5483f!important;}
+.float-whatsapp{background:#1d9a62!important;}
 </style>
 </head>
 <body class="intro-active">
@@ -883,42 +973,22 @@
 </button>
 
 <div id="introOverlay" class="intro-overlay" aria-hidden="true">
-  <div class="intro-scene">
-    <svg class="intro-rig" viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="introHeadGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#E4C567"/>
-          <stop offset="1" stop-color="#8B6508"/>
-        </linearGradient>
-      </defs>
-      <line x1="18" y1="18" x2="202" y2="18" stroke="#4A463C" stroke-width="2"/>
-      <circle cx="18" cy="18" r="3" fill="#4A463C"/>
-      <circle cx="202" cy="18" r="3" fill="#4A463C"/>
-      <g class="intro-head">
-        <rect x="99" y="14" width="22" height="14" rx="3" fill="url(#introHeadGrad)"/>
-        <path d="M106 28 L114 28 L110 38 Z" fill="url(#introHeadGrad)"/>
-      </g>
-      <g class="intro-layers">
-        <rect x="70" y="94" width="80" height="9" rx="1.5" fill="#3A362E"/>
-        <rect x="74" y="85" width="72" height="9" rx="1.5" fill="#4A4438"/>
-        <rect x="78" y="76" width="64" height="9" rx="1.5" fill="#5A5344"/>
-        <rect x="82" y="67" width="56" height="9" rx="1.5" fill="#6E6650"/>
-        <rect x="86" y="58" width="48" height="9" rx="1.5" fill="#8A7D5E"/>
-        <rect x="90" y="49" width="40" height="9" rx="1.5" fill="#B08C56"/>
-        <rect x="94" y="40" width="32" height="9" rx="1.5" fill="#C9A227"/>
-      </g>
-      <rect x="30" y="103" width="160" height="4" rx="2" fill="#262626"/>
-    </svg>
-    <div class="intro-readout">
-      <span class="intro-percent" id="introPercent">0</span>
-      <span class="intro-layer-count" id="introLayerCount">layer 0/60</span>
+  <div class="boot-shell">
+    <div class="boot-topline"><span>HPL / STUDIO 014</span><span>COLLECTION LOADING</span></div>
+    <div class="boot-brand"><span class="boot-symbol">✦</span><span>HYPER PRINT LABS</span></div>
+    <div class="boot-stage">
+      <div class="boot-aura"></div>
+      <div class="boot-ring boot-ring-one"></div><div class="boot-ring boot-ring-two"></div>
+      <div class="boot-sculpture"><span></span><i></i><b></b></div>
+      <div class="boot-scan"></div>
     </div>
-    <div class="intro-result">
-      <div class="intro-name" id="introStoreName">Store</div>
-      <div class="intro-underline"></div>
+    <div class="boot-meta">
+      <div class="boot-status"><span class="boot-pulse"></span><span id="introCaption">Preparing the collection…</span></div>
+      <div class="boot-readout"><strong id="introPercent">0</strong><span id="introLayerCount">collection 0/60</span></div>
     </div>
+    <div class="boot-progress"><i id="introBar"></i></div>
+    <div class="intro-result"><div class="intro-name" id="introStoreName">Hyper Print Labs</div><div class="intro-underline"></div></div>
   </div>
-  <div class="intro-caption" id="introCaption">Calibrating your print…</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1281,7 +1351,7 @@
       const frac = Math.min(1, Math.max(0, (now - startedAt) / durationMs));
       const pct = Math.round(frac * 100);
       const layer = Math.round(frac * totalLayers);
-      if(pct !== lastPct && pctEl){ pctEl.textContent = String(pct); lastPct = pct; }
+      if(pct !== lastPct && pctEl){ pctEl.textContent = String(pct); const bar=document.getElementById('introBar'); if(bar) bar.style.width=pct+'%'; lastPct = pct; }
       if(layer !== lastLayer && layerEl){ layerEl.textContent = 'layer ' + layer + '/' + totalLayers; lastLayer = layer; }
       if(frac < 1) introFrame = requestAnimationFrame(tick);
       else introFrame = null;
@@ -1681,76 +1751,37 @@
 
   function heroScene(){
     return `
-      <svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <svg class="hero-collectible" viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <linearGradient id="heroPartGrad" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0" stop-color="#5C4300"/>
-            <stop offset=".5" stop-color="#8B6508"/>
-            <stop offset="1" stop-color="#ECD48F"/>
-          </linearGradient>
-          <linearGradient id="vaseFacetGrad" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0" stop-color="#3A362E"/>
-            <stop offset=".28" stop-color="#6E6650"/>
-            <stop offset=".55" stop-color="#9A8256"/>
-            <stop offset=".8" stop-color="#C9A227"/>
-            <stop offset="1" stop-color="#F5E7B8"/>
-          </linearGradient>
-          <clipPath id="vaseClip">
-            <path d="M216,244 L210,224 L200,205 L192,185 L204,160 L214,135 L208,110 L196,90 L190,70 L196,50 L144,50 L150,70 L144,90 L132,110 L126,135 L136,160 L148,185 L140,205 L130,224 L124,244 Z"/>
-          </clipPath>
-          <mask id="vaseRevealMask">
-            <rect class="reveal-rect" x="60" y="50" width="220" height="194" fill="#fff"/>
-          </mask>
+          <linearGradient id="figureShell" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fafafa"/><stop offset=".46" stop-color="#9b9b98"/><stop offset="1" stop-color="#242424"/></linearGradient>
+          <linearGradient id="figureDark" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#484845"/><stop offset="1" stop-color="#0b0b0b"/></linearGradient>
+          <linearGradient id="figureRed" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff786d"/><stop offset=".45" stop-color="#e5483f"/><stop offset="1" stop-color="#781d1a"/></linearGradient>
+          <linearGradient id="figureGreen" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#86e7ad"/><stop offset=".5" stop-color="#1d9a62"/><stop offset="1" stop-color="#075334"/></linearGradient>
+          <filter id="figureShadow"><feGaussianBlur stdDeviation="10"/></filter>
+          <filter id="figureGlow"><feGaussianBlur stdDeviation="5"/></filter>
         </defs>
-
-        <!-- gantry rail -->
-        <line x1="20" y1="30" x2="320" y2="30" stroke="#4A463C" stroke-width="2"/>
-        <circle cx="20" cy="30" r="4" fill="#4A463C"/>
-        <circle cx="320" cy="30" r="4" fill="#4A463C"/>
-
-        <!-- nozzle sweeping above the print -->
-        <g class="live-head">
-          <rect x="155" y="26" width="30" height="18" rx="4" fill="#59544A"/>
-          <path d="M163 44 L177 44 L170 58 Z" fill="#59544A"/>
+        <ellipse cx="260" cy="435" rx="174" ry="18" fill="#0b0b0b" opacity=".12" filter="url(#figureShadow)"/>
+        <g class="hero-orbit hero-orbit-a"><ellipse cx="260" cy="236" rx="188" ry="200" fill="none" stroke="#e5483f" stroke-width="1.5" stroke-dasharray="3 15" opacity=".65"/><circle cx="73" cy="236" r="5" fill="#e5483f"/></g>
+        <g class="hero-orbit hero-orbit-b"><ellipse cx="260" cy="236" rx="222" ry="126" fill="none" stroke="#1d9a62" stroke-width="1.5" stroke-dasharray="2 18" opacity=".65"/><circle cx="260" cy="110" r="5" fill="#1d9a62"/></g>
+        <g class="hero-figure">
+          <path class="figure-cape" d="M174 278 C134 317 113 357 107 409 L206 409 C217 372 221 323 207 281 Z" fill="url(#figureRed)"/>
+          <path d="M209 277 C192 319 190 370 202 410 L317 410 C326 362 318 315 292 275 Z" fill="url(#figureDark)"/>
+          <path d="M205 268 L228 238 L295 238 L314 268 L298 290 L220 290 Z" fill="url(#figureShell)"/>
+          <path d="M218 197 L218 252 Q258 276 300 252 L297 197 Z" fill="url(#figureShell)"/>
+          <path d="M222 189 Q257 164 293 189 L300 226 Q260 250 215 226 Z" fill="#cfcfca"/>
+          <path d="M229 195 Q259 179 288 195 L289 218 Q258 230 226 218 Z" fill="#111"/>
+          <path d="M237 204 L251 201 L251 215 L236 217 Z M267 201 L281 204 L282 217 L267 215 Z" fill="url(#figureGreen)"/>
+          <path d="M250 226 L267 226 L259 234 Z" fill="#e5483f"/>
+          <path d="M244 158 L258 134 L272 158 L293 170 L285 196 L230 196 L223 170 Z" fill="url(#figureDark)"/>
+          <path d="M248 147 L258 123 L268 147" fill="none" stroke="#e5483f" stroke-width="6" stroke-linecap="round"/>
+          <path d="M219 286 L189 329 L218 349 L240 303 Z" fill="url(#figureShell)"/><path d="M297 286 L328 329 L299 349 L276 303 Z" fill="url(#figureShell)"/>
+          <circle cx="190" cy="330" r="12" fill="url(#figureRed)"/><circle cx="328" cy="330" r="12" fill="url(#figureGreen)"/>
+          <path d="M229 290 L221 402 M287 290 L296 402" stroke="#fff" stroke-opacity=".3" stroke-width="2"/>
+          <path d="M204 410 L316 410 L334 426 L186 426 Z" fill="#0b0b0b"/><path d="M190 426 L330 426" stroke="#e5483f" stroke-width="3"/>
         </g>
-        <circle class="live-spark" cx="170" cy="58" r="2.4" fill="#F0DFAF"/>
-
-        <!-- the model itself: a faceted vase that prints from the plate upward -->
-        <g mask="url(#vaseRevealMask)">
-          <g clip-path="url(#vaseClip)">
-            <rect x="60" y="50" width="220" height="200" fill="url(#vaseFacetGrad)"/>
-            <g stroke="rgba(16,16,16,.3)" stroke-width="1">
-              <line x1="124" y1="244" x2="216" y2="244"/>
-              <line x1="130" y1="224" x2="210" y2="224"/>
-              <line x1="140" y1="205" x2="200" y2="205"/>
-              <line x1="148" y1="185" x2="192" y2="185"/>
-              <line x1="136" y1="160" x2="204" y2="160"/>
-              <line x1="126" y1="135" x2="214" y2="135"/>
-              <line x1="132" y1="110" x2="208" y2="110"/>
-              <line x1="144" y1="90" x2="196" y2="90"/>
-              <line x1="150" y1="70" x2="190" y2="70"/>
-            </g>
-            <line x1="170" y1="50" x2="170" y2="244" stroke="rgba(255,255,255,.14)" stroke-width="1"/>
-          </g>
-        </g>
-
-        <!-- soft finished-piece highlight at the rim once the print completes -->
-        <g class="vase-finish-glow">
-          <ellipse cx="170" cy="50" rx="30" ry="7" fill="#F5E7B8" opacity="0"/>
-        </g>
-
-        <ellipse cx="170" cy="248" rx="118" ry="9" fill="#000" opacity=".2"/>
-        <rect x="45" y="244" width="250" height="6" rx="3" fill="#262626"/>
-        <g stroke="#C9A227" stroke-width="1" opacity=".4">
-          <line x1="80" y1="50" x2="80" y2="244"/>
-          <line x1="110" y1="50" x2="110" y2="244"/>
-          <line x1="230" y1="50" x2="230" y2="244"/>
-          <line x1="260" y1="50" x2="260" y2="244"/>
-        </g>
-      </svg>
-    `;
+        <g class="hero-scan"><path d="M142 180 H378" stroke="#fff" stroke-opacity=".55" stroke-width="2"/><path d="M142 180 H378" stroke="#1d9a62" stroke-width="7" opacity=".3" filter="url(#figureGlow)"/></g>
+      </svg>`;
   }
-
   function emptyBedIcon(){
     return `
       <svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
